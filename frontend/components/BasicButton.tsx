@@ -43,6 +43,8 @@ const styles = {
   container: {
     flex: 1,
     width: '100%',
+    paddingTop: 8,
+    paddingBottom: 8,
   },
 };
 
