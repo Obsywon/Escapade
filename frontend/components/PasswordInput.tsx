@@ -3,11 +3,12 @@ import {View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 
 interface PasswordInputProps {
+  label?: string | undefined;
   value: string | undefined;
   setPassword(password: string): void;
 }
 
-const PasswordInput = ({value, setPassword}: PasswordInputProps) => {
+const PasswordInput = ({label, value, setPassword}: PasswordInputProps) => {
   const [isSecured, setSecured] = useState<boolean>(true);
 
   function toggleSecure() {
@@ -19,7 +20,7 @@ const PasswordInput = ({value, setPassword}: PasswordInputProps) => {
       <TextInput
         placeholder="*******"
         mode="outlined"
-        label="Mot de passe"
+        label={label != null ? label : 'Mot de passe'}
         value={value}
         onChangeText={setPassword}
         style={styles.textInput}

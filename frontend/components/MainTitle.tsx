@@ -17,6 +17,7 @@ const styles = {
   title: {
     padding: 16,
     flex: 1,
+    textAlign: 'center',
   },
 };
 
