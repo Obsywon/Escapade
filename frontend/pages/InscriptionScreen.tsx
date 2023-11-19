@@ -1,42 +1,65 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, ScrollView, Keyboard} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {Surface} from 'react-native-paper';
 import MainTitle from '../components/MainTitle';
-import PasswordInput from '../components/PasswordInput';
-import BasicTextInput from '../components/BasicTextInput';
-import BasicButton from '../components/BasicButton';
+import BasicTextInput from '../components/forms/BasicTextInput';
+import BasicButton from '../components/forms/BasicButton';
 import AppTitle from '../components/AppTitle';
 import FormLayout from '../layouts/FormLayout';
+import DatePicker from '../components/forms/DatePicker';
+import VerifyPassword from '../components/forms/VerifyPassword';
 
 function InscriptionScreen(): JSX.Element {
   const [password, setPassword] = useState<string | undefined>();
   const [email, setEmail] = useState<string | undefined>();
+  const [date, setDate] = useState<Date | undefined>();
+  const [prenom, setPrenom] = useState<string | undefined>();
+  const [nom, setNom] = useState<string | undefined>();
+  const [formValid, setFormValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      password == null ||
+      email == null ||
+      date == null ||
+      prenom == null ||
+      nom == null ||
+      prenom.length < 3 ||
+      nom.length < 3 ||
+      email.length < 3
+    ) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+
+  }, [password, email, date, prenom, nom]);
 
   return (
     <FormLayout>
       <Surface style={styles.formContainer} elevation={2}>
-        <View style={styles.titles}>
-          <AppTitle title="Escapade" />
-          <MainTitle title="Inscription" />
-        </View>
         <ScrollView
           maximumZoomScale={1}
           minimumZoomScale={1}
           automaticallyAdjustContentInsets={true}
           pagingEnabled={true}
           contentContainerStyle={styles.scrollViewContent}>
-          <BasicTextInput value={email} setValue={setEmail} label="E-mail" />
-          <PasswordInput value={password} setPassword={setPassword} />
-          <PasswordInput
-            label="Vérification mot de passe"
-            value={password}
-            setPassword={setPassword}
-          />
-          <View style={styles.linedInputs}>
-            <BasicTextInput value={email} setValue={setEmail} label="Prénom" />
-            <BasicTextInput value={email} setValue={setEmail} label="Nom" />
+          <View style={styles.titles}>
+            <AppTitle title="Escapade" />
+            <MainTitle title="Inscription" />
           </View>
-          <BasicButton label="Inscription" disabled={true} />
+          <BasicTextInput value={email} setValue={setEmail} label="E-mail" />
+          <VerifyPassword setRealPassword={setPassword} />
+          <View style={styles.linedInputs}>
+            <BasicTextInput
+              value={prenom}
+              setValue={setPrenom}
+              label="Prénom"
+            />
+            <BasicTextInput value={nom} setValue={setNom} label="Nom" />
+          </View>
+          <DatePicker date={date} setDate={setDate} label="Date de naissance" />
+          <BasicButton label="Inscription" disabled={!formValid} />
         </ScrollView>
       </Surface>
     </FormLayout>
