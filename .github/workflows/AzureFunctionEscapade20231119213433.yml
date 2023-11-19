@@ -1,10 +1,10 @@
-name: Générer et déployer une application .NET Core sur l'application de fonction EscapadeM2 avec le service Gestion des API EscapadeM2Api-AzureFunctionEscapade
+name: Générer et déployer une application .NET Core sur l'application de fonction AzureFunctionEscapade20231119213433 avec le service Gestion des API EscapadeM2Api-AzureFunctionEscapade
 on:
   push:
     branches:
     - 3-création-utilisateur-en-back
 env:
-  AZURE_FUNCTIONAPP_NAME: EscapadeM2
+  AZURE_FUNCTIONAPP_NAME: AzureFunctionEscapade20231119213433
   AZURE_FUNCTIONAPP_PACKAGE_PATH: .\.
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
@@ -47,7 +47,7 @@ jobs:
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        publish-profile: ${{ secrets.EscapadeM2_8F38 }}
+        publish-profile: ${{ secrets.AzureFunctionEscapade20231119213433_A0D6 }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
     - name: Azure Login
       uses: azure/login@v1
