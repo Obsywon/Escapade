@@ -1,5 +1,5 @@
 import React from 'react';
-import {GestureResponderEvent, View} from 'react-native';
+import {GestureResponderEvent, View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
 
 interface BasicButtonProps {
@@ -35,7 +35,7 @@ const BasicButton = ({
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   button: {
     width: '100%',
     padding: 8,
@@ -46,6 +46,6 @@ const styles = {
     paddingTop: 8,
     paddingBottom: 8,
   },
-};
+});
 
 export default BasicButton;

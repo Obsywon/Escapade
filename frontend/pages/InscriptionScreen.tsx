@@ -8,6 +8,7 @@ import AppTitle from '../components/AppTitle';
 import FormLayout from '../layouts/FormLayout';
 import DatePicker from '../components/forms/DatePicker';
 import VerifyPassword from '../components/forms/VerifyPassword';
+import EmailInput from '../components/forms/EmailInput';
 
 function InscriptionScreen(): JSX.Element {
   const [password, setPassword] = useState<string | undefined>();
@@ -32,7 +33,6 @@ function InscriptionScreen(): JSX.Element {
     } else {
       setFormValid(true);
     }
-
   }, [password, email, date, prenom, nom]);
 
   return (
@@ -48,7 +48,7 @@ function InscriptionScreen(): JSX.Element {
             <AppTitle title="Escapade" />
             <MainTitle title="Inscription" />
           </View>
-          <BasicTextInput value={email} setValue={setEmail} label="E-mail" />
+          <EmailInput setActualEmail={setEmail} />
           <VerifyPassword setRealPassword={setPassword} />
           <View style={styles.linedInputs}>
             <BasicTextInput

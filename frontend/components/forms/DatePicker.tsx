@@ -4,7 +4,7 @@ import DateTimePicker, {
 import React, {useState} from 'react';
 import BasicTextInput from './BasicTextInput';
 import {GestureHandlerEvent} from 'react-native-reanimated/lib/typescript/reanimated2/hook';
-import {Text, TouchableRipple} from 'react-native-paper';
+
 
 interface DatePickerProps {
   date: Date | undefined;
