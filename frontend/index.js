@@ -17,6 +17,6 @@ export default function Main() {
         </NavigationContainer>
       </PaperProvider>
     );
-  } 
+  }
 
 AppRegistry.registerComponent(appName, () => Main);
