@@ -3,9 +3,6 @@
     "appInsights1": {
       "type": "appInsights"
     },
-    "apis1": {
-      "type": "apis"
-    },
     "appInsights2": {
       "type": "appInsights",
       "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
