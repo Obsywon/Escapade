@@ -2,10 +2,10 @@
 #
 .DS_Store
 
-Escapade/.vs/*
-Escapade/bin/*
-Escapade/obj/*
-Escapade/Properties/*
+Escapade/.vs/
+Escapade/bin/
+Escapade/obj/
+Escapade/Properties/
 Escapade/AzureFunctionEscapade.csproj.user
 
 # Xcode
