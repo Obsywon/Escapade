@@ -7,6 +7,41 @@ interface PasswordInputState {
   isValid: boolean; // Utiliser pour montrer qu'un des mots de passe n'est pas bon
 }
 
+interface PasswordValidation {
+  isValid: boolean;
+  errors: Array<string>;
+}
+
+function validatePassword(value: string): PasswordValidation {
+  const res: PasswordValidation = {
+    isValid: false,
+    errors: [],
+  };
+  if (value.length === 0) {
+    res.isValid = false;
+    return res;
+  }
+  if (value.length < MINIMAL_LENGTH) {
+    res.errors.push('Au moins 8 caractères.');
+  }
+  if (value.search(/[a-z]/) < 0) {
+    res.errors.push('Au moins 1 caractère minuscule.');
+  }
+  if (value.search(/[A-Z]/) < 0) {
+    res.errors.push('Au moins 1 caractère majuscule.');
+  }
+  if (value.search(/[0-9]/) < 0) {
+    res.errors.push('Au moins 1 chiffre.');
+  }
+  if (res.errors.length === 0) {
+    res.isValid = false;
+  } else {
+    res.isValid = true;
+  }
+  console.log(res.errors);
+  return res;
+}
+
 export default function useVerifiedPasswordInputs(): [
   PasswordInputState,
   PasswordInputState,
@@ -28,32 +63,27 @@ export default function useVerifiedPasswordInputs(): [
   const [passwordIsVerified, setVerifiedPassword] = useState<boolean>(false);
   const [passwordErrorMessage, setErrorMessage] = useState<string>('');
 
-  /**
-   * Vérifie si un mot de passe satisfait les conditions d'admission de celui-ci
-   * @param value string du mot de passe
-   * @returns si le mot de passe entrée satisfait (seul) les conditions
-   */
-  function setValid(value: string): boolean {
-    return !(value.length >= 0 && value.length <= MINIMAL_LENGTH);
-  }
 
   function setPassword(value: string) {
+    const res = validatePassword(value);
     setPasswordState({
       value: value,
-      isValid: setValid(value),
+      isValid: res.isValid,
     });
   }
 
   function setSecondPassword(value: string) {
+    const res = validatePassword(value);
     setSecondPasswordState({
       value: value,
-      isValid: setValid(value),
+      isValid: res.isValid,
     });
   }
 
   useEffect(() => {
     if (password.value === secondPassword.value) {
-      if (password.value.length >= MINIMAL_LENGTH) {
+      const resValid = validatePassword(password.value);
+      if (resValid.errors.length === 0) {
         setVerifiedPassword(true);
         setErrorMessage('');
       } else {
@@ -61,7 +91,9 @@ export default function useVerifiedPasswordInputs(): [
         if (password.value.length === 0) {
           setErrorMessage('');
         } else {
-          setErrorMessage('Mot de passe trop court.');
+          setErrorMessage(
+            'Le mot de passe doit contenir 8 caractères avec au moins 1 majuscule, 1 minuscule et 1 chiffre.',
+          );
         }
       }
     } else {

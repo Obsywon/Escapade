@@ -19,6 +19,14 @@ const PasswordInput = ({
   function toggleSecure(): void {
     setSecured(s => !s);
   }
+  function setPasswordTrimmed(value: string): void {
+    const result = value.trim();
+    setPassword(result);
+  }
+
+  function onLostFocus(): void {
+    setSecured(true);
+  }
 
   return (
     <View style={styles.container}>
@@ -26,11 +34,12 @@ const PasswordInput = ({
         mode="outlined"
         label={label != null ? label : 'Mot de passe'}
         value={value}
-        onChangeText={setPassword}
+        onChangeText={setPasswordTrimmed}
         style={styles.textInput}
         secureTextEntry={isSecured}
         right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
         error={isValid}
+        onBlur={onLostFocus}
       />
     </View>
   );

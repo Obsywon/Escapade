@@ -11,13 +11,17 @@ interface EmailInputProps {
 }
 
 const EmailInput = ({email, setEmail, errorMsg, isValid}: EmailInputProps) => {
+  function setEmailTrimmed(value: string): void {
+    const result = value.trim();
+    setEmail(result);
+  }
   return (
     <View style={styles.container}>
       <TextInput
         mode="outlined"
         label="E-mail"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={setEmailTrimmed}
         style={styles.textInput}
         error={!isValid}
       />
