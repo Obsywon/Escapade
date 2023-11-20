@@ -4,9 +4,6 @@ on:
     push:
         branches: 
             - '1-creation-compte-form-frontend'
-    pull-request:
-        branches: 
-            - 'dev'
 
 jobs:
     tests:
