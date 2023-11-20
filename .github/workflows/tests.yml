@@ -1,1 +1,16 @@
+name: Unit tests
 
+on:
+    push:
+        branches: 
+            - '1-creation-compte-form-frontend'
+    pull-request:
+        branches: 
+            - 'dev'
+
+jobs:
+    tests:
+        run-on: windows-latest
+        steps:
+            - name: Hello step
+            run: echo "Hello world"
