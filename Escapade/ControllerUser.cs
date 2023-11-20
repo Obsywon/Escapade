@@ -42,9 +42,23 @@ namespace AzureFunctionEscapade
             {
                 var user = JsonConvert.DeserializeObject<User>(userJson);
 
+                if (!_userService.IsEmailFormatValid(user))
+                    return new ConflictObjectResult($"Invalid email : \"{user.Email}\"");
+
                 if (await _userService.CheckForConflictingUser(user))
-                {
                     return new ConflictObjectResult($"User with matching email exists : \"{user.Email}\"");
+
+                if (_userService.IsNameOrLastNameValid(user))
+                    return new ConflictObjectResult($"Invalid name or lastname : \"{user.Name} {user.LastName}\"");
+
+                if (!_userService.IsPasswordSecure(user))
+                {
+                    string msg = "Password must be at least :";
+                    msg += "\n 8 characters";
+                    msg += "\n 1 capital letter";
+                    msg += "\n 1 lowercase letter";
+                    msg += "\n 1 digit";
+                    return new ConflictObjectResult(msg);
                 }
 
                 user.Password = await _userService.EncryptPassword(user);
