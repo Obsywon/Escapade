@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace AzureFunctionEscapade.Services
 {
@@ -44,6 +45,17 @@ namespace AzureFunctionEscapade.Services
                     return builder.ToString();
                 }
             }
+        }
+
+
+        public bool IsEmailFormatValid(string email)
+        {
+            // Utiliser une expression régulière pour valider le format de l'e-mail
+            string emailPattern = @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
+            Regex regex = new Regex(emailPattern);
+
+            // Vérifier si l'e-mail correspond au format attendu
+            return regex.IsMatch(email);
         }
     }
 }
