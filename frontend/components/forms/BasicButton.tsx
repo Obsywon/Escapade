@@ -3,7 +3,7 @@ import {GestureResponderEvent, View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
 
 interface BasicButtonProps {
-  handlePress?: (e: GestureResponderEvent) => void;
+  onPress?: (e: GestureResponderEvent) => void;
   handleLongPress?: (e: GestureResponderEvent) => void;
   disabled?: boolean;
   loading?: boolean;
@@ -13,7 +13,7 @@ interface BasicButtonProps {
 
 const BasicButton = ({
   label = '',
-  handlePress,
+  onPress,
   handleLongPress,
   disabled = false,
   loading = false,
@@ -25,7 +25,7 @@ const BasicButton = ({
         mode="contained"
         disabled={disabled}
         loading={loading}
-        onPress={handlePress}
+        onPress={onPress}
         onLongPress={handleLongPress}
         style={styles.button}
         uppercase={uppercase}>

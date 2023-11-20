@@ -12,6 +12,7 @@ import useVerifiedPasswordInputs from '../hooks/useVerifiedPasswordInputs';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
 import useEmailInput from '../hooks/useEmailInput';
+import createUser from './UserService/InscriptionService';
 
 function InscriptionScreen(): JSX.Element {
   const [
@@ -29,6 +30,17 @@ function InscriptionScreen(): JSX.Element {
   const [prenom, setPrenom] = useState<string | undefined>();
   const [nom, setNom] = useState<string | undefined>();
   const [formValid, setFormValid] = useState<boolean>(false);
+
+  async function sendData() : Promise<any> {
+    await createUser({
+      email,
+      nom: nom != null ? nom : '',
+      prenom: prenom != null ? prenom : '',
+      mot_de_passe: password.value,
+      date_de_naissance: date != null ? date : '',
+      genre: 'male',
+    });
+  }
 
   useEffect(() => {
     if (
@@ -90,7 +102,10 @@ function InscriptionScreen(): JSX.Element {
             <BasicTextInput value={nom} setValue={setNom} label="Nom" />
           </View>
           <DatePicker date={date} setDate={setDate} label="Date de naissance" />
-          <BasicButton label="Inscription" disabled={!formValid} />
+          <BasicButton
+            label="Inscription"
+            disabled={!formValid}
+          />
         </ScrollView>
       </Surface>
     </FormLayout>
