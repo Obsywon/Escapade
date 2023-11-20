@@ -12,5 +12,5 @@ jobs:
     tests:
         run-on: windows-latest
         steps:
-            - name: Hello step
+          - name: Hello step
             run: echo "Hello world"
