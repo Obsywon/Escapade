@@ -19,7 +19,7 @@ namespace AzureFunctionEscapade.Services
 
         public async Task<bool> CheckForConflictingUser(User user)
         {
-            return (await _repository.GetByCondition(x => x.Name == user.Name && x.LastName == user.LastName)).Any();
+            return (await _repository.GetByCondition(x => x.Email == user.Email)).Any();
         }
 
         public async Task<string> EncryptPassword(User user)

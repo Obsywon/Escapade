@@ -44,7 +44,7 @@ namespace AzureFunctionEscapade
 
                 if (await _userService.CheckForConflictingUser(user))
                 {
-                    return new ConflictObjectResult($"User with matching name and last name already exists : \"{user.Name.ToLower()} {user.LastName.ToUpper()}\"");
+                    return new ConflictObjectResult($"User with matching email exists : \"{user.Email}\"");
                 }
 
                 user.Password = await _userService.EncryptPassword(user);
