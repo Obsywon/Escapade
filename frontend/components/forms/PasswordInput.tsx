@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import ErrorText from './ErrorText';
 
 interface PasswordInputProps {
   label?: string | undefined;
   value: string | undefined;
   setPassword(password: string): void;
-  errorMsg?: string;
-  isValid?(valid: boolean): void;
+  isValid: boolean;
 }
 
 const PasswordInput = ({
@@ -18,21 +16,8 @@ const PasswordInput = ({
   isValid,
 }: PasswordInputProps) => {
   const [isSecured, setSecured] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
   function toggleSecure(): void {
     setSecured(s => !s);
-  }
-
-  function onFocusLost(): void {
-    if (value != null && value.length < 8) {
-      setErrorMessage('Mot de passe trop court.');
-      isValid && isValid(false);
-    }
-    if (value == null || value.length === 0 || value.length >= 8) {
-      setErrorMessage('');
-      isValid && isValid(true);
-    }
   }
 
   return (
@@ -45,13 +30,8 @@ const PasswordInput = ({
         style={styles.textInput}
         secureTextEntry={isSecured}
         right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
-        onBlur={onFocusLost}
+        error={isValid}
       />
-      {errorMessage.length !== 0 ? (
-        <ErrorText>{errorMessage}</ErrorText>
-      ) : (
-        <></>
-      )}
     </View>
   );
 };

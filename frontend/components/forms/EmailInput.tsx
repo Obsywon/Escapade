@@ -1,37 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import ErrorText from './ErrorText';
-import Validator from 'validator';
 
 interface EmailInputProps {
-  setActualEmail(value: string): void;
+  email: string;
+  setEmail(value: string): void;
   errorMsg?: string;
-  isValid?(valid: boolean): void;
+  isValid: boolean;
 }
 
-const EmailInput = ({setActualEmail, isValid}: EmailInputProps) => {
-  const [email, setEmail] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  function onFocusLost(): void {
-    if (Validator.isEmail(email)) {
-      setErrorMessage('');
-      isValid && isValid(true);
-      setActualEmail(email);
-    } else {
-      setErrorMessage('E-mail invalide.');
-      isValid && isValid(false);
-      setActualEmail('');
-    }
-  }
-
-  /* useEffect(() => {
-    if (email == null || email.length < 8) {
-      console.log('Erreur e-mail');
-    }
-  }, [email]); */
-
+const EmailInput = ({email, setEmail, errorMsg, isValid}: EmailInputProps) => {
   return (
     <View style={styles.container}>
       <TextInput
@@ -40,13 +19,11 @@ const EmailInput = ({setActualEmail, isValid}: EmailInputProps) => {
         value={email}
         onChangeText={setEmail}
         style={styles.textInput}
-        onBlur={onFocusLost}
+        error={!isValid}
       />
-      {errorMessage.length !== 0 ? (
-        <ErrorText>{errorMessage}</ErrorText>
-      ) : (
-        <></>
-      )}
+      {errorMsg != null && errorMsg.length !== 0 ? (
+        <ErrorText>{errorMsg}</ErrorText>
+      ) : null}
     </View>
   );
 };

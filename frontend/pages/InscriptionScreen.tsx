@@ -7,12 +7,24 @@ import BasicButton from '../components/forms/BasicButton';
 import AppTitle from '../components/AppTitle';
 import FormLayout from '../layouts/FormLayout';
 import DatePicker from '../components/forms/DatePicker';
-import VerifyPassword from '../components/forms/VerifyPassword';
 import EmailInput from '../components/forms/EmailInput';
+import useVerifiedPasswordInputs from '../hooks/useVerifiedPasswordInputs';
+import PasswordInput from '../components/forms/PasswordInput';
+import ErrorText from '../components/forms/ErrorText';
+import useEmailInput from '../hooks/useEmailInput';
 
 function InscriptionScreen(): JSX.Element {
-  const [password, setPassword] = useState<string | undefined>();
-  const [email, setEmail] = useState<string | undefined>();
+  const [
+    password,
+    secondPassword,
+    setPassword,
+    setSecondPassword,
+    passwordErrorMessage,
+    passwordIsVerified,
+  ] = useVerifiedPasswordInputs();
+
+  const [email, setEmail, errorMessage, emailIsValid] = useEmailInput();
+
   const [date, setDate] = useState<Date | undefined>();
   const [prenom, setPrenom] = useState<string | undefined>();
   const [nom, setNom] = useState<string | undefined>();
@@ -20,20 +32,19 @@ function InscriptionScreen(): JSX.Element {
 
   useEffect(() => {
     if (
-      password == null ||
-      email == null ||
+      !passwordIsVerified ||
+      !emailIsValid ||
       date == null ||
       prenom == null ||
       nom == null ||
       prenom.length < 3 ||
-      nom.length < 3 ||
-      email.length < 3
+      nom.length < 3
     ) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-  }, [password, email, date, prenom, nom]);
+  }, [passwordIsVerified, emailIsValid, date, prenom, nom]);
 
   return (
     <FormLayout>
@@ -48,8 +59,28 @@ function InscriptionScreen(): JSX.Element {
             <AppTitle title="Escapade" />
             <MainTitle title="Inscription" />
           </View>
-          <EmailInput setActualEmail={setEmail} />
-          <VerifyPassword setRealPassword={setPassword} />
+          <EmailInput
+            setEmail={setEmail}
+            email={email}
+            errorMsg={errorMessage}
+            isValid={email.length === 0 ? true : emailIsValid}
+          />
+          <PasswordInput
+            label="Mot de passe"
+            value={password.value}
+            setPassword={setPassword}
+            isValid={password.isValid}
+          />
+          <PasswordInput
+            label="Vérification mot de passe"
+            value={secondPassword.value}
+            setPassword={setSecondPassword}
+            isValid={secondPassword.isValid}
+          />
+
+          {passwordErrorMessage != null && (
+            <ErrorText>{passwordErrorMessage}</ErrorText>
+          )}
           <View style={styles.linedInputs}>
             <BasicTextInput
               value={prenom}
