@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VtwVpCh7DN9zGGx6PW0Sy2+kSokUJpJ3Pcyoq6V+9DH/EIMWf9hu7ja+gg+k/AY+LONVwcf5MF76zvfSJqoaMw==",
+  "dgSpecHash": "lAktwmnyIXLILSPr+LtWxvfTcXJ3R/ctrOWo3L/+CsoDtWg2FEw2WYpJIJ5q8n4QPzJgkjQ9f31tI12Bbv047w==",
   "success": true,
-  "projectFilePath": "D:\\Coding\\M2\\EscapadeM2\\Escapade\\AzureFunctionEscapade.csproj",
+  "projectFilePath": "C:\\Users\\W0lle\\Documents\\MES_CODES\\M2\\DevMobile\\projet\\EscapadeM2\\Escapade\\AzureFunctionEscapade.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\W0lle\\.nuget\\packages\\azure.core\\1.3.0\\azure.core.1.3.0.nupkg.sha512",
     "C:\\Users\\W0lle\\.nuget\\packages\\microsoft.applicationinsights\\2.21.0\\microsoft.applicationinsights.2.21.0.nupkg.sha512",
@@ -205,10 +205,7 @@
     "C:\\Users\\W0lle\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\W0lle\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\W0lle\\.nuget\\packages\\windowsazure.storage\\9.3.1\\windowsazure.storage.9.3.1.nupkg.sha512",
-    "C:\\Users\\W0lle\\.nuget\\packages\\yamldotnet\\12.0.1\\yamldotnet.12.0.1.nupkg.sha512",
-    "C:\\Users\\W0lle\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
-    "C:\\Users\\W0lle\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
-    "C:\\Users\\W0lle\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512"
+    "C:\\Users\\W0lle\\.nuget\\packages\\yamldotnet\\12.0.1\\yamldotnet.12.0.1.nupkg.sha512"
   ],
   "logs": []
 }
