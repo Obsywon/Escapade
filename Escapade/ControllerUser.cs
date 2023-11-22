@@ -49,7 +49,7 @@ namespace AzureFunctionEscapade
                 if (await _userService.CheckForConflictingUser(user))
                     return new ConflictObjectResult($"User with matching email exists : \"{user.Email}\"");
 
-                if (_userService.IsNameOrLastNameValid(user))
+                if (!_userService.IsNameOrLastNameValid(user))
                     return new ConflictObjectResult($"Invalid name or lastname : \"{user.Name} {user.LastName}\"");
 
                 if (!_userService.IsPasswordSecure(user))

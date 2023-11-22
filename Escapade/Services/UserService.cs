@@ -75,8 +75,8 @@ namespace AzureFunctionEscapade.Services
 
         public bool IsNameOrLastNameValid(User user)
         {
-            // Vérifier si le champ a au moins 2 caractères alphabétiques
-            string namePattern = @"^[a-zA-Z]{2,}$";
+            // Vérifier si le champ a au moins 3 caractères alphabétiques
+            string namePattern = @"^[a-zA-Z]{3,}$";
             Regex regex = new Regex(namePattern);
 
             // Vérifier si le nom correspond au format attendu
