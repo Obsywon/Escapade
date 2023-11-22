@@ -56,13 +56,11 @@ export const useInscription = (): [
         },
         body: JSON.stringify(newUser),
       });
-      console.log(response);
-
+      console.table(response);
       const user = await response.json();
-      console.log(user);
       setData(user);
     } catch (err) {
-      let message = 'Erreur inscription';
+      let message = "Erreur lors de l'inscription";
       if (err instanceof Error) {
         message = err.message;
       }

@@ -104,8 +104,22 @@ function InscriptionScreen(): JSX.Element {
             />
             <BasicTextInput value={nom} setValue={setNom} label="Nom" />
           </View>
+          {nom != null && nom.length < 3 ? (
+            <ErrorText>Le nom doit fait au moins 3 caractères.</ErrorText>
+          ) : null}
+          {prenom != null && prenom.length < 3 ? (
+            <ErrorText>Le prénom doit fait au moins 3 caractères.</ErrorText>
+          ) : null}
           <DatePicker date={date} setDate={setDate} label="Date de naissance" />
-          <BasicButton label="Inscription" disabled={!formValid || loading} />
+          <BasicButton
+            label="Inscription"
+            disabled={!formValid || loading}
+            onPress={sendData}
+            loading={loading}
+          />
+          {error != null && error.length > 0 ? (
+            <ErrorText>{error}</ErrorText>
+          ) : null}
         </ScrollView>
       </Surface>
     </FormLayout>
