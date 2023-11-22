@@ -49,6 +49,7 @@ export default function useVerifiedPasswordInputs(): [
   (scdPswd: string) => void,
   string,
   boolean,
+  () => void,
 ] {
   const [password, setPasswordState] = useState<PasswordInputState>({
     value: '',
@@ -63,8 +64,12 @@ export default function useVerifiedPasswordInputs(): [
   const [passwordIsVerified, setVerifiedPassword] = useState<boolean>(false);
   const [passwordErrorMessage, setErrorMessage] = useState<string>('');
 
+  function resetPasswords(): void {
+    setPassword('');
+    setSecondPassword('');
+  }
 
-  function setPassword(value: string) {
+  function setPassword(value: string): void {
     const res = validatePassword(value);
     setPasswordState({
       value: value,
@@ -113,5 +118,6 @@ export default function useVerifiedPasswordInputs(): [
     setSecondPassword,
     passwordErrorMessage,
     passwordIsVerified,
+    resetPasswords,
   ];
 }

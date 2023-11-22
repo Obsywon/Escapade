@@ -22,6 +22,7 @@ function InscriptionScreen(): JSX.Element {
     setSecondPassword,
     passwordErrorMessage,
     passwordIsVerified,
+    resetPasswords,
   ] = useVerifiedPasswordInputs();
 
   const [email, setEmail, errorMessage, emailIsValid] = useEmailInput();
@@ -33,6 +34,14 @@ function InscriptionScreen(): JSX.Element {
 
   const [inscription, data, error, loading] = useInscription();
 
+  function resetForm(): void {
+    resetPasswords();
+    setEmail('');
+    setDate(undefined);
+    setPrenom('');
+    setNom('');
+  }
+
   async function sendData(): Promise<any> {
     await inscription({
       email,
@@ -40,9 +49,12 @@ function InscriptionScreen(): JSX.Element {
       prenom: prenom != null ? prenom : '',
       mot_de_passe: password.value,
       date_de_naissance: date != null ? date : '',
-      genre: 'male',
+      genre: '',
     });
     console.log(data);
+    if (!loading && error != null && error.length > 0 && data) {
+      resetForm();
+    }
   }
 
   useEffect(() => {
