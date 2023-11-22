@@ -8,7 +8,7 @@ interface UserInCreation {
   prenom: string;
   nom: string;
   date_de_naissance: Date | string;
-  genre?: string;
+  sexe?: string | undefined;
 }
 
 interface User extends UserInCreation {

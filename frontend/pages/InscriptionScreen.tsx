@@ -49,10 +49,10 @@ function InscriptionScreen(): JSX.Element {
       prenom: prenom != null ? prenom : '',
       mot_de_passe: password.value,
       date_de_naissance: date != null ? date : '',
-      genre: '',
+      sexe: undefined,
     });
-    console.log(data);
-    if (!loading && error != null && error.length > 0 && data) {
+    console.table(data);
+    if (!loading && data) {
       resetForm();
     }
   }
