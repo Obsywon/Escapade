@@ -70,3 +70,9 @@ yarn-error.log
 
 # testing
 /coverage
+
+# Fichiers de build
+/android/build/
+/android/app/build/
+/Escapade/bin/
+/Escapade/obj/
