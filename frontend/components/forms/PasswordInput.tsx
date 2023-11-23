@@ -38,7 +38,7 @@ const PasswordInput = ({
         style={styles.textInput}
         secureTextEntry={isSecured}
         right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
-        error={isValid}
+        error={!isValid}
         onBlur={onLostFocus}
       />
     </View>

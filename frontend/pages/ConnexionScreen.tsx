@@ -3,24 +3,35 @@ import {StyleSheet, View} from 'react-native';
 import {Surface} from 'react-native-paper';
 import AppTitle from '../components/AppTitle';
 import MainTitle from '../components/MainTitle';
-import BasicTextInput from '../components/forms/BasicTextInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import FormLayout from '../layouts/FormLayout';
 import BasicButton from '../components/forms/BasicButton';
+import useEmailInput from '../hooks/useEmailInput';
+import EmailInput from '../components/forms/EmailInput';
 
 export default function ConnexionScreen(): JSX.Element {
-  const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [sendable, setSendable] = useState<boolean>(false);
+  const [email, setEmail, errorMessage, emailIsValid] = useEmailInput();
+
+  function resetForm(): void {
+    setPassword(undefined);
+    setEmail('');
+  }
+
+  function sendForm(): void {
+    resetForm();
+  }
 
   useEffect(() => {
-    let canSend: boolean = false;
-    if (password != null && password.length >= 8) {
-      canSend = true;
-    }
+    // Test validité mot de passe (longueur uniquement)
+    let canSend: boolean; // = password != null && password.length >= 8;
 
+    // Test e-mail
+    //canSend = canSend && emailIsValid;
+    canSend = emailIsValid;
     setSendable(canSend);
-  }, [email, password]);
+  }, [emailIsValid, password]);
 
   return (
     <FormLayout>
@@ -29,13 +40,26 @@ export default function ConnexionScreen(): JSX.Element {
           <AppTitle title="Escapade" />
           <MainTitle title="Inscription" />
 
-          <BasicTextInput value={email} setValue={setEmail} label="E-mail" />
+          <EmailInput
+            email={email}
+            setEmail={setEmail}
+            isValid={emailIsValid}
+            errorMsg={errorMessage}
+          />
           <PasswordInput
             value={password}
             setPassword={setPassword}
             label="Mot de passe"
+            isValid={
+              //password == null || password.length === 0 || password.length >= 8
+              true
+            }
           />
-          <BasicButton label="Connexion" disabled={!sendable} />
+          <BasicButton
+            label="Connexion"
+            disabled={!sendable}
+            onPress={sendForm}
+          />
         </View>
       </Surface>
     </FormLayout>
@@ -50,7 +74,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   form: {
-    height: '70%',
+    height: '80%',
     minHeight: '60%',
     paddingHorizontal: 24,
   },

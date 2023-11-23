@@ -96,13 +96,13 @@ function InscriptionScreen(): JSX.Element {
             label="Mot de passe"
             value={password.value}
             setPassword={setPassword}
-            isValid={password.isValid}
+            isValid={!password.isValid}
           />
           <PasswordInput
             label="Vérification mot de passe"
             value={secondPassword.value}
             setPassword={setSecondPassword}
-            isValid={secondPassword.isValid}
+            isValid={!secondPassword.isValid}
           />
 
           {passwordErrorMessage != null && (
