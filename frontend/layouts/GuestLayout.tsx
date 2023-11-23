@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import InscriptionScreen from '../pages/InscriptionScreen';
+import ConnexionScreen from '../pages/ConnexionScreen';
 function GuestLayout(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -17,7 +17,7 @@ function GuestLayout(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <InscriptionScreen />
+      <ConnexionScreen />
     </SafeAreaView>
   );
 }
