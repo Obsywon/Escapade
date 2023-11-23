@@ -43,7 +43,7 @@ export default function ConnexionScreen(): JSX.Element {
           <EmailInput
             email={email}
             setEmail={setEmail}
-            isValid={emailIsValid}
+            isValid={email.length === 0 || emailIsValid}
             errorMsg={errorMessage}
           />
           <PasswordInput
