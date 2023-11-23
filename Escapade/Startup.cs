@@ -30,8 +30,13 @@ namespace AzureFunctionEscapade
                 .AddEnvironmentVariables()
                 .Build();
 
-            services.AddSingleton(new FunctionConfiguration(config));
-            services.AddDbContext<CosmosContext>();
+            services.AddSingleton(new FunctionConfiguration(config))
+            .AddDbContext<CosmosContext>()
+            .AddGraphQLFunction()
+            .AddGraphQLServer()
+            .RegisterDbContext<CosmosContext>()
+            .AddQueryType<Query>();
+            
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 

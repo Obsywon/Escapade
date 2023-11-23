@@ -14,11 +14,24 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using System.Net;
 using Swashbuckle.AspNetCore.Annotations;
+using HotChocolate.AzureFunctions;
 
 namespace AzureFunctionEscapade
 {
     public class ControllerUser
     {
+
+        [FunctionName("ControllerUser")]
+        public async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "graphql/{**slug}")] HttpRequest req,
+        [GraphQL] IGraphQLRequestExecutor executor,
+        ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            return await executor.ExecuteAsync(req);
+        }
+        /*
         private readonly IUserService _userService;
         public ControllerUser(IUserService userService)
         {
@@ -161,6 +174,7 @@ namespace AzureFunctionEscapade
                 return new InternalServerErrorResult();
             }
         }
+        */
 
     }
 }
