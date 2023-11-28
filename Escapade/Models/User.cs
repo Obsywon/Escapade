@@ -12,32 +12,36 @@ namespace AzureFunctionEscapade.Models
 {
     public class User : Entity
     {
-        [Column("prenom")] 
-        [Required]
-        [MinLength(3)]
+        [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
+        public string Id { get; set; }
+
+        [JsonProperty(PropertyName = "prenom", Required = Required.Always)]
         public string Name { get; set; }
 
-        [Column("nom")]
-        [Required]
-        [MinLength(3)]
+        [JsonProperty(PropertyName = "nom", Required = Required.Always)]
         public string LastName { get; set; }
 
-        [Column("genre")]
-        public string Genre { get; set; }
+        [JsonProperty(PropertyName = "sexe")]
+        public string Gender { get; set; }
 
-        [Column("email")]
-        [Required]
-        [EmailAddress]
+        [JsonProperty(PropertyName = "email", Required = Required.Always)]
         public string Email { get; set; }
 
-        [Column("mot_de_passe")]
-        [Required]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$")]
+        [JsonProperty(PropertyName = "mot_de_passe", Required = Required.Always)]
         public string Password { get; set; }
 
-        [Column("date_de_naissance")]
-        [Required]
+        [JsonProperty(PropertyName = "date_de_naissance", Required = Required.Always)]
         public string BirthDate { get; set; }
 
+        public User(string id, string name, string lastName, string gender, string email, string password, string birthDate)
+        {
+            Id = id;
+            Name = name;
+            LastName = lastName;
+            Gender = gender;
+            Email = email;
+            Password = password;
+            BirthDate = birthDate;
+        }
     }
 }

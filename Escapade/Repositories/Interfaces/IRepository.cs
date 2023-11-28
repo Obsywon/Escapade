@@ -12,7 +12,7 @@ namespace AzureFunctionEscapade.Repositories.Interfaces
     {
         public Task<T> GetById(string id);
 
-        public Task<IEnumerable<T>> GetAll();
+        public Task<List<T>> GetAll();
 
         public Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression);
 

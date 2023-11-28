@@ -35,8 +35,10 @@ namespace AzureFunctionEscapade
             .AddGraphQLFunction()
             .AddGraphQLServer()
             .RegisterDbContext<CosmosContext>()
-            .AddQueryType<Query>();
-            
+            .AddQueryType<Query>()
+            .AddMutationType<Mutation>()
+            .AddMutationConventions();
+
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 

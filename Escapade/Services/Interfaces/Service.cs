@@ -20,7 +20,7 @@ namespace AzureFunctionEscapade.Services.Interfaces
 
         public virtual async Task<T> GetById(string id) => await _repository.GetById(id);
 
-        public virtual async Task<IEnumerable<T>> GetAll() => await _repository.GetAll();
+        public virtual async Task<List<T>> GetAll() => await _repository.GetAll();
 
         public virtual async Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression) => await _repository.GetByCondition(expression);
 

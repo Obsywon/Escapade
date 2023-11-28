@@ -25,11 +25,14 @@ namespace AzureFunctionEscapade.Repositories.Interfaces
                 .FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public virtual async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<List<T>> GetAll()
         {
-            var entities = await _dbContext.Set<T>().ToListAsync();
-
-            return entities;
+            try {
+                var entities = await _dbContext.Set<T>().ToListAsync();
+                return entities;
+            } catch (Exception ex) {
+                throw new Exception("Faild to fetch the data");
+            } 
         }
 
         public virtual async Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression)
