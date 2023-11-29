@@ -31,7 +31,7 @@ namespace AzureFunctionEscapade
 
             return await executor.ExecuteAsync(req);
         }
-        /*
+        
         private readonly IUserService _userService;
         public ControllerUser(IUserService userService)
         {
@@ -174,7 +174,7 @@ namespace AzureFunctionEscapade
                 return new InternalServerErrorResult();
             }
         }
-        */
+        
 
     }
 }
