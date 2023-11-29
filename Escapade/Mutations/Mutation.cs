@@ -15,7 +15,7 @@ using HotChocolate;
 using AzureFunctionEscapade.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace AzureFunctionEscapade
+namespace AzureFunctionEscapade.Mutations
 {
     public class Mutation
     {

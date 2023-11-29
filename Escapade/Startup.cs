@@ -46,9 +46,9 @@ namespace AzureFunctionEscapade
             services.AddGraphQLServer()
                 .AddType<User>()
                 .AddQueryType<Query>()
-                .AddTypeExtension<PostExtensions>()
-                .AddMutationType<Mutation>()
-                .AddMutationConventions();
+                .AddTypeExtension<PostExtensions>();
+                //.AddMutationType<Mutation>()
+                //.AddMutationConventions();
 
             return services;
         }
