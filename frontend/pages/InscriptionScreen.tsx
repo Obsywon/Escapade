@@ -7,33 +7,71 @@ import BasicButton from '../components/forms/BasicButton';
 import AppTitle from '../components/AppTitle';
 import FormLayout from '../layouts/FormLayout';
 import DatePicker from '../components/forms/DatePicker';
-import VerifyPassword from '../components/forms/VerifyPassword';
+import EmailInput from '../components/forms/EmailInput';
+import useVerifiedPasswordInputs from '../hooks/useVerifiedPasswordInputs';
+import PasswordInput from '../components/forms/PasswordInput';
+import ErrorText from '../components/forms/ErrorText';
+import useEmailInput from '../hooks/useEmailInput';
+import {useInscription} from './UserService/useInscription';
 
 function InscriptionScreen(): JSX.Element {
-  const [password, setPassword] = useState<string | undefined>();
-  const [email, setEmail] = useState<string | undefined>();
+  const [
+    password,
+    secondPassword,
+    setPassword,
+    setSecondPassword,
+    passwordErrorMessage,
+    passwordIsVerified,
+    resetPasswords,
+  ] = useVerifiedPasswordInputs();
+
+  const [email, setEmail, errorMessage, emailIsValid] = useEmailInput();
+
   const [date, setDate] = useState<Date | undefined>();
   const [prenom, setPrenom] = useState<string | undefined>();
   const [nom, setNom] = useState<string | undefined>();
   const [formValid, setFormValid] = useState<boolean>(false);
 
+  const [inscription, data, error, loading] = useInscription();
+
+  function resetForm(): void {
+    resetPasswords();
+    setEmail('');
+    setDate(undefined);
+    setPrenom('');
+    setNom('');
+  }
+
+  async function sendData(): Promise<any> {
+    await inscription({
+      email,
+      nom: nom != null ? nom : '',
+      prenom: prenom != null ? prenom : '',
+      mot_de_passe: password.value,
+      date_de_naissance: date != null ? date : '',
+      sexe: undefined,
+    });
+    console.table(data);
+    if (!loading && data) {
+      resetForm();
+    }
+  }
+
   useEffect(() => {
     if (
-      password == null ||
-      email == null ||
+      !passwordIsVerified ||
+      !emailIsValid ||
       date == null ||
       prenom == null ||
       nom == null ||
       prenom.length < 3 ||
-      nom.length < 3 ||
-      email.length < 3
+      nom.length < 3
     ) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-
-  }, [password, email, date, prenom, nom]);
+  }, [passwordIsVerified, emailIsValid, date, prenom, nom]);
 
   return (
     <FormLayout>
@@ -48,8 +86,28 @@ function InscriptionScreen(): JSX.Element {
             <AppTitle title="Escapade" />
             <MainTitle title="Inscription" />
           </View>
-          <BasicTextInput value={email} setValue={setEmail} label="E-mail" />
-          <VerifyPassword setRealPassword={setPassword} />
+          <EmailInput
+            setEmail={setEmail}
+            email={email}
+            errorMsg={errorMessage}
+            isValid={email.length === 0 ? true : emailIsValid}
+          />
+          <PasswordInput
+            label="Mot de passe"
+            value={password.value}
+            setPassword={setPassword}
+            isValid={password.isValid}
+          />
+          <PasswordInput
+            label="Vérification mot de passe"
+            value={secondPassword.value}
+            setPassword={setSecondPassword}
+            isValid={secondPassword.isValid}
+          />
+
+          {passwordErrorMessage != null && (
+            <ErrorText>{passwordErrorMessage}</ErrorText>
+          )}
           <View style={styles.linedInputs}>
             <BasicTextInput
               value={prenom}
@@ -58,8 +116,22 @@ function InscriptionScreen(): JSX.Element {
             />
             <BasicTextInput value={nom} setValue={setNom} label="Nom" />
           </View>
+          {nom != null && nom.length < 3 ? (
+            <ErrorText>Le nom doit fait au moins 3 caractères.</ErrorText>
+          ) : null}
+          {prenom != null && prenom.length < 3 ? (
+            <ErrorText>Le prénom doit fait au moins 3 caractères.</ErrorText>
+          ) : null}
           <DatePicker date={date} setDate={setDate} label="Date de naissance" />
-          <BasicButton label="Inscription" disabled={!formValid} />
+          <BasicButton
+            label="Inscription"
+            disabled={!formValid || loading}
+            onPress={sendData}
+            loading={loading}
+          />
+          {error != null && error.length > 0 ? (
+            <ErrorText>{error}</ErrorText>
+          ) : null}
         </ScrollView>
       </Surface>
     </FormLayout>

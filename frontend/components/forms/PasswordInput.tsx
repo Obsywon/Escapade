@@ -1,40 +1,32 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import ErrorText from './ErrorText';
 
 interface PasswordInputProps {
   label?: string | undefined;
   value: string | undefined;
   setPassword(password: string): void;
-  errorMsg?: string;
-  isValid?(valid: boolean): void;
+  isValid: boolean;
 }
 
-const PasswordInput = ({label, value, setPassword, isValid}: PasswordInputProps) => {
+const PasswordInput = ({
+  label,
+  value,
+  setPassword,
+  isValid,
+}: PasswordInputProps) => {
   const [isSecured, setSecured] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
   function toggleSecure(): void {
     setSecured(s => !s);
   }
-
-  function onFocusLost(): void {
-    if (value != null && value.length < 8) {
-      setErrorMessage('Mot de passe trop court.');
-      isValid && isValid(false);
-    }
-    if (value == null || value.length === 0 || value.length >= 8) {
-      setErrorMessage('');
-      isValid && isValid(true);
-    }
+  function setPasswordTrimmed(value: string): void {
+    const result = value.trim();
+    setPassword(result);
   }
 
-  useEffect(() => {
-    if (value == null || value.length < 8){
-      console.log("Erreur password");
-    }
-  }, [value]);
+  function onLostFocus(): void {
+    setSecured(true);
+  }
 
   return (
     <View style={styles.container}>
@@ -42,17 +34,13 @@ const PasswordInput = ({label, value, setPassword, isValid}: PasswordInputProps)
         mode="outlined"
         label={label != null ? label : 'Mot de passe'}
         value={value}
-        onChangeText={setPassword}
+        onChangeText={setPasswordTrimmed}
         style={styles.textInput}
         secureTextEntry={isSecured}
         right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
-        onBlur={onFocusLost}
+        error={isValid}
+        onBlur={onLostFocus}
       />
-      {errorMessage.length !== 0 ? (
-        <ErrorText>{errorMessage}</ErrorText>
-      ) : (
-        <></>
-      )}
     </View>
   );
 };

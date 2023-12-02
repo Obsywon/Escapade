@@ -3,8 +3,6 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import React, {useState} from 'react';
 import BasicTextInput from './BasicTextInput';
-import {GestureHandlerEvent} from 'react-native-reanimated/lib/typescript/reanimated2/hook';
-import {Text, TouchableRipple} from 'react-native-paper';
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -21,13 +19,21 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
     selectedDate?: Date | undefined,
   ): void {
     const currentDate = selectedDate;
-    setDate(currentDate);
+    // Si non null et date différente d'aujourd'hui
+    if (
+      currentDate != null &&
+      !(
+        today.getDate() === currentDate.getDate() &&
+        today.getMonth() === currentDate.getMonth() &&
+        today.getFullYear() === currentDate.getFullYear()
+      )
+    ) {
+      setDate(currentDate);
+    }
     setShowDate(false);
   }
-
-
-  function handleClick(event: GestureHandlerEvent): void | undefined {
-    setShowDate(true);
+  function handleClick(): void | undefined {
+    setShowDate(b => !b);
     return;
   }
 
