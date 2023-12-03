@@ -16,22 +16,15 @@ using System.Threading.Tasks;
 
 namespace AzureFunctionEscapade.Queries
 {
-    
+
     public class UserQuery : Query<User>, IUserQuery
     {
         public UserQuery(IService<User> service) : base(service) { }
 
-        public async Task<List<User>> GetUsers([Service] IHttpClientFactory clientFactory, [Service] ILogger<UserQuery> logger, CancellationToken cancellationToken)
+        public async Task<List<User>> GetUsers([Service] IHttpClientFactory clientFactory, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
-
-            Console.WriteLine("GetUsers method called");
-            logger.LogInformation("GetUsers method called");
-
             var content = await client.GetStringAsync($"api/users", cancellationToken);
-
-            Console.WriteLine("Content retrieved successfully");
-            logger.LogInformation("Content retrieved successfully");
             var users = JsonConvert.DeserializeObject<List<User>>(content);
             return users;
         }

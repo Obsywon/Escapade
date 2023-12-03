@@ -14,6 +14,8 @@ using System.IO;
 using AzureFunctionEscapade.Mutations;
 using AzureFunctionEscapade.Queries.Interface;
 using Microsoft.Extensions.Logging;
+using AzureFunctionEscapade.Queries.Root;
+using AzureFunctionEscapade.Mutations.Root;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -46,15 +48,15 @@ namespace AzureFunctionEscapade
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IService<User>, UserService>();
             services.AddScoped<UserQuery>();
+            services.AddScoped<UserMutation>();
             services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
 
 
             services.AddGraphQLServer()
                 .AddQueryType<RootQuery>()
+                .AddMutationType<RootMutation>()
                 .AddType<User>()
                 .AddTypeExtension<PostExtensions>();
-                //.AddTypeExtension<UserQuery>()
-                //.AddTypeExtension<PostQuery>();
 
 
             return services;

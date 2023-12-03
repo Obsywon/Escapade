@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Queries
+namespace AzureFunctionEscapade.Queries.Root
 {
     public class RootQuery
     {
