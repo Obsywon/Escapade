@@ -1,5 +1,6 @@
 ﻿using AzureFunctionEscapade.Models;
 using HotChocolate;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace AzureFunctionEscapade.Queries.Interface
 {
     public interface IUserQuery : IQuery<User>
     {
-        public Task<List<User>> GetUsers([Service] IHttpClientFactory clientFactory, CancellationToken cancellationToken);
+        public Task<List<User>> GetUsers([Service] IHttpClientFactory clientFactory, [Service] ILogger<UserQuery> logger, CancellationToken cancellationToken);
 
         public Task<User> GetUserById(string id, [Service] IHttpClientFactory clientFactory, CancellationToken cancellationToken);
     }

@@ -29,7 +29,7 @@ namespace AzureFunctionEscapade
         [GraphQL] IGraphQLRequestExecutor executor,
         ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            //log.LogInformation("C# HTTP trigger function processed a request.");
 
             return await executor.ExecuteAsync(req);
         }

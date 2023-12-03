@@ -13,6 +13,7 @@ using AzureFunctionEscapade.Queries;
 using System.IO;
 using AzureFunctionEscapade.Mutations;
 using AzureFunctionEscapade.Queries.Interface;
+using Microsoft.Extensions.Logging;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -36,12 +37,15 @@ namespace AzureFunctionEscapade
 
 
             services.AddSingleton(new FunctionConfiguration(config));
+            services.AddLogging(builder => builder.AddConsole());
             services.AddGraphQLFunction();
             services.AddDbContext<CosmosContext>();
-            services.AddScoped<Repositories.Interfaces.IRepository<User>, UserRepository>();
-            services.AddScoped<Repositories.Interfaces.IRepository<Post>, PostRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Post>, PostRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IService<User>, UserService>();
+            services.AddScoped<UserQuery>();
             services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
 
 
@@ -49,7 +53,7 @@ namespace AzureFunctionEscapade
                 .AddQueryType<RootQuery>()
                 .AddType<User>()
                 .AddTypeExtension<PostExtensions>();
-                //.AddTypeExtension<UserQuery>();
+                //.AddTypeExtension<UserQuery>()
                 //.AddTypeExtension<PostQuery>();
 
 
