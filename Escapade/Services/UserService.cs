@@ -16,7 +16,7 @@ namespace AzureFunctionEscapade.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        public UserService(IRepository<User> repository) : base(repository) { }
+        public UserService(Repositories.Interfaces.IRepository<User> repository) : base(repository) { }
 
         public async Task<bool> CheckForConflictingUser(User user)
         {

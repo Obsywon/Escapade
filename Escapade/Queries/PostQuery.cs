@@ -1,4 +1,5 @@
 ﻿using AzureFunctionEscapade.Models;
+using AzureFunctionEscapade.Queries.Interface;
 using AzureFunctionEscapade.Repositories;
 using AzureFunctionEscapade.Services.Interfaces;
 using HotChocolate;
@@ -11,12 +12,9 @@ using System.Threading.Tasks;
 
 namespace AzureFunctionEscapade.Queries
 {
-    public class Query
+    public class PostQuery : Query<Post>, IPostQuery
     {
-        public async Task<List<Post>> GetPosts([Service] IPostService service)
-            => (List<Post>)await service.GetAll();
+        public PostQuery(IService<Post> service) : base(service) { }
 
-        public async Task<Post> GetPostById(string id, [Service] IPostService service)
-            => await service.GetById(id);
     }
 }

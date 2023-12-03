@@ -11,6 +11,8 @@ using AzureFunctionEscapade.Repositories;
 using System;
 using AzureFunctionEscapade.Queries;
 using System.IO;
+using AzureFunctionEscapade.Mutations;
+using AzureFunctionEscapade.Queries.Interface;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -36,19 +38,20 @@ namespace AzureFunctionEscapade
             services.AddSingleton(new FunctionConfiguration(config));
             services.AddGraphQLFunction();
             services.AddDbContext<CosmosContext>();
-            services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IRepository<Post>, PostRepository>();
+            services.AddScoped<Repositories.Interfaces.IRepository<User>, UserRepository>();
+            services.AddScoped<Repositories.Interfaces.IRepository<Post>, PostRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
-            services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7087"));
+            services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
 
 
             services.AddGraphQLServer()
+                .AddQueryType<RootQuery>()
                 .AddType<User>()
-                .AddQueryType<Query>()
                 .AddTypeExtension<PostExtensions>();
-                //.AddMutationType<Mutation>()
-                //.AddMutationConventions();
+                //.AddTypeExtension<UserQuery>();
+                //.AddTypeExtension<PostQuery>();
+
 
             return services;
         }

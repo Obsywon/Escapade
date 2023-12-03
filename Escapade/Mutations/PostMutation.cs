@@ -17,14 +17,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AzureFunctionEscapade.Mutations
 {
-    public class Mutation
+    public class PostMutation
     {
-        public async Task<User> AddUser(string id, string name, string lastname, string genre, string email, string password, string birthdate, CosmosContext cosmosContext)
-        {
-            User user = new User(id, name, lastname, genre, email, password, birthdate);
-            await cosmosContext.Users.AddAsync(user);
-            await cosmosContext.SaveChangesAsync();
-            return user;
-        }
+        //public async Task<User> AddUser(string id, string name, string lastname, string genre, string email, string password, string birthdate, CosmosContext cosmosContext)
+        //{
+        //    User user = new User(id, name, lastname, genre, email, password, birthdate);
+        //    await cosmosContext.Users.AddAsync(user);
+        //    await cosmosContext.SaveChangesAsync();
+        //    return user;
+        //}
     }
 }

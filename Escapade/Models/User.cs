@@ -12,8 +12,6 @@ namespace AzureFunctionEscapade.Models
 {
     public class User : Entity
     {
-        [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
-        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "prenom", Required = Required.Always)]
         public string Name { get; set; }

@@ -11,9 +11,9 @@ namespace AzureFunctionEscapade.Services.Interfaces
 {
     public abstract class Service<T> : IService<T> where T : class, IEntity
     {
-        protected readonly IRepository<T> _repository;
+        protected readonly Repositories.Interfaces.IRepository<T> _repository;
 
-        protected Service(IRepository<T> repository)
+        protected Service(Repositories.Interfaces.IRepository<T> repository)
         {
             _repository = repository;
         }

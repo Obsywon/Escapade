@@ -11,6 +11,6 @@ namespace AzureFunctionEscapade.Services
 {
     public class PostService : Service<Post>, IPostService
     {
-        public PostService(IRepository<Post> repository) : base(repository) { }
+        public PostService(Repositories.Interfaces.IRepository<Post> repository) : base(repository) { }
     }
 }
