@@ -14,6 +14,7 @@ namespace AzureFunctionEscapade
         private readonly FunctionConfiguration _config;
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         public CosmosContext(FunctionConfiguration config)
         {
@@ -23,8 +24,15 @@ namespace AzureFunctionEscapade
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .Entity<User>().ToContainer("User")
-                .HasNoDiscriminator().HasPartitionKey("Id");
+                .Entity<User>().ToContainer(nameof(User))
+                .HasNoDiscriminator()
+                .HasPartitionKey(e => e.Id);
+
+            modelBuilder
+                .Entity<Post>().ToContainer(nameof(Post))
+                .HasNoDiscriminator()
+                .HasPartitionKey(e => e.UserId);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

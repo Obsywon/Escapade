@@ -1,6 +1,5 @@
 ﻿using AzureFunctionEscapade.Models;
 using AzureFunctionEscapade.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace AzureFunctionEscapade.Repositories
 {
-    public class UserRepository : Repository<User>
+    public class PostRepository : Repository<Post>
     {
-        public UserRepository(CosmosContext dbContext) : base(dbContext) {}
-
+        public PostRepository(CosmosContext dbContext) : base(dbContext) { }
     }
 }

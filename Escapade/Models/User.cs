@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AzureFunctionEscapade.Models.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace AzureFunctionEscapade.Models
 {
     public class User : Entity
     {
+
         [JsonProperty(PropertyName = "prenom", Required = Required.Always)]
         public string Name { get; set; }
 
@@ -28,5 +31,15 @@ namespace AzureFunctionEscapade.Models
         [JsonProperty(PropertyName = "date_de_naissance", Required = Required.Always)]
         public string BirthDate { get; set; }
 
+        public User(string id, string name, string lastName, string gender, string email, string password, string birthDate)
+        {
+            Id = id;
+            Name = name;
+            LastName = lastName;
+            Gender = gender;
+            Email = email;
+            Password = password;
+            BirthDate = birthDate;
+        }
     }
 }

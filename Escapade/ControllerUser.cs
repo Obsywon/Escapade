@@ -14,12 +14,26 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using System.Net;
 using Swashbuckle.AspNetCore.Annotations;
+using HotChocolate.AzureFunctions;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Collections.Generic;
 
 namespace AzureFunctionEscapade
 {
     public class ControllerUser
     {
+
+        [FunctionName("ControllerUser")]
+        public async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "graphql/{**slug}")] HttpRequest req,
+        [GraphQL] IGraphQLRequestExecutor executor,
+        ILogger log)
+        {
+            //log.LogInformation("C# HTTP trigger function processed a request.");
+
+            return await executor.ExecuteAsync(req);
+        }
+        
         private readonly IUserService _userService;
         public ControllerUser(IUserService userService)
         {
@@ -29,11 +43,10 @@ namespace AzureFunctionEscapade
         [FunctionName("CreateUser")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "CreateUser" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
-        [OpenApiRequestBody(
-        "application/json",
-        typeof(User),
-        Description = "The user to create.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(string), Description = "The Created response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Conflict, contentType: "application/json", bodyType: typeof(string), Description = "The Conflict response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(string), Description = "The Bad Request response")]
+        [OpenApiRequestBody("application/json", typeof(User), Description = "The user to create.")]
         public async Task<IActionResult> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "users")] HttpRequest req,
             ILogger log)
         {
@@ -65,7 +78,7 @@ namespace AzureFunctionEscapade
                 user.Password = await _userService.EncryptPassword(user);
                 await _userService.Create(user);
 
-                return new OkObjectResult(user);
+                return new CreatedResult($"api/users/{user.Id}", user);
             }
             catch (Exception e)
             {
@@ -79,7 +92,7 @@ namespace AzureFunctionEscapade
         [FunctionName("GetUsers")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "GetUsers" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<User>), Description = "The OK response")]
         public async Task<IActionResult> GetUsers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "users")] HttpRequest req,
             ILogger log)
         {
@@ -102,7 +115,7 @@ namespace AzureFunctionEscapade
         [OpenApiOperation(operationId: "Run", tags: new[] { "GetUserById" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "L'identifiant de l'utilisateur")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(User), Description = "The OK response")] 
         public async Task<IActionResult> GetUserById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "users/{id}")] HttpRequest req,
             ILogger log, string id)
         {
@@ -128,11 +141,8 @@ namespace AzureFunctionEscapade
         [OpenApiOperation(operationId: "Run", tags: new[] { "UpdateUserPost" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "L'identifiant de l'utilisateur")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
-        [OpenApiRequestBody(
-        "application/json",
-        typeof(User),
-        Description = "The user to update.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(User), Description = "The OK response")]
+        [OpenApiRequestBody("application/json", typeof(User), Description = "The user to update.")]
         public async Task<IActionResult> UpdateUserPost([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "users/{id}")] HttpRequest req,
             ILogger log, string id)
         {
@@ -164,13 +174,9 @@ namespace AzureFunctionEscapade
         [OpenApiOperation(operationId: "Run", tags: new[] { "UpdateUserPatch" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "L'identifiant de l'utilisateur")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
-        [OpenApiRequestBody(
-        "application/json",
-        typeof(JsonPatchDocument<User>),
-        Description = "The patch document for updating the user.")]
-        public async Task<IActionResult> UpdateUserPatch(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "patch", Route = "users/{id}")] HttpRequest req,
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(User), Description = "The OK response")]
+        [OpenApiRequestBody("application/json", typeof(JsonPatchDocument<User>), Description = "The patch document for updating the user.")]
+        public async Task<IActionResult> UpdateUserPatch([HttpTrigger(AuthorizationLevel.Anonymous, "patch", Route = "users/{id}")] HttpRequest req,
         ILogger log, string id)
         {
             var patchDocumentJson = await req.ReadAsStringAsync();
@@ -204,7 +210,7 @@ namespace AzureFunctionEscapade
         [OpenApiOperation(operationId: "Run", tags: new[] { "DeleteUser" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "L'identifiant de l'utilisateur")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> DeleteUser([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "users/{id}")] HttpRequest req,
             ILogger log, string id)
         {
@@ -228,6 +234,7 @@ namespace AzureFunctionEscapade
                 return new InternalServerErrorResult();
             }
         }
+        
 
     }
 }
