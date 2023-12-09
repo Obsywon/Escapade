@@ -1,33 +1,45 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {Control, Controller} from 'react-hook-form';
+import Validator from 'validator';
 import ErrorText from './ErrorText';
 
 interface EmailInputProps {
-  email: string;
-  setEmail(value: string): void;
-  errorMsg?: string;
-  isValid: boolean;
+  control: Control<any>;
+  name: string;
 }
 
-const EmailInput = ({email, setEmail, errorMsg, isValid}: EmailInputProps) => {
-  function setEmailTrimmed(value: string): void {
-    const result = value.trim();
-    setEmail(result);
-  }
+const EmailInput = ({control, name}: EmailInputProps) => {
+  const isEmailValid = (email: string): boolean => {
+    return Validator.isEmail(email);
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label="E-mail"
-        value={email}
-        onChangeText={setEmailTrimmed}
-        style={styles.textInput}
-        error={!isValid}
+      <Controller
+        control={control}
+        name={name}
+        rules={{
+          validate: {
+            valid: v => isEmailValid(v) || 'E-mail invalide.',
+          },
+        }}
+        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+          <>
+            <TextInput
+              mode="outlined"
+              label="E-mail"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              style={styles.textInput}
+              error={error != null}
+            />
+            {error && <ErrorText>{error.message}</ErrorText>}
+          </>
+        )}
       />
-      {errorMsg != null && errorMsg.length !== 0 ? (
-        <ErrorText>{errorMsg}</ErrorText>
-      ) : null}
     </View>
   );
 };
