@@ -12,7 +12,7 @@ import useVerifiedPasswordInputs from '../hooks/useVerifiedPasswordInputs';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
 import useEmailInput from '../hooks/useEmailInput';
-import {useInscription} from './UserService/useInscription';
+import {useInscription} from '../UserService/useInscription';
 
 function InscriptionScreen(): JSX.Element {
   const [
