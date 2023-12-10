@@ -3,12 +3,16 @@ import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import GuestLayout from './layouts/GuestLayout';
 import ConnectedLayout from './layouts/ConnectedLayout';
-import {NavigationContainer} from "@react-navigation/native";
-import {PaperProvider} from "react-native-paper";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PaperProvider } from 'react-native-paper';
+import pageBienvenue from './pages/pageBienvenue';
+import InscriptionScreen from './pages/InscriptionScreen';
 import {CustomTheme} from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
+const Stack = createNativeStackNavigator();
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -32,14 +36,23 @@ function App(): JSX.Element {
   }
   
   return (
-    <ApolloProvider client={client}>
-      <PaperProvider theme={{...CustomTheme, fonts}}>
+      <ApolloProvider client={client}>  
+        <PaperProvider theme={{...CustomTheme, fonts}}>
           <NavigationContainer>
-            { connected ? <ConnectedLayout /> : <GuestLayout />}
+            {connected ? (
+              <ConnectedLayout />
+            ) : (
+              <Stack.Navigator initialRouteName="pageBienvenue">
+                <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
+                <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
+                {/* <Stack.Screen name="pageConnexion" component={pageConnexion} /> */}
+              </Stack.Navigator>
+            )}
           </NavigationContainer>
         </PaperProvider>
       </ApolloProvider>
-  )
-}
+  );
 
 export default App;
+
+
