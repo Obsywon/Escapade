@@ -24,6 +24,7 @@ const EmailInput = ({control, name}: EmailInputProps) => {
           validate: {
             valid: v => isEmailValid(v) || 'E-mail invalide.',
           },
+          required: true,
         }}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>
