@@ -7,9 +7,13 @@ export default function useEmailInput(): [
   string,
   boolean,
 ] {
-  const [email, setEmail] = useState<string>('');
+  const [email, setTrimmedEmail] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [emailIsValid, setEmailValid] = useState<boolean>(false);
+
+  function setEmail(value: string): void {
+    setTrimmedEmail(value.trim());
+  }
 
   useEffect(() => {
     if (Validator.isEmail(email)) {
