@@ -3,6 +3,7 @@ import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import InscriptionScreen from '../pages/InscriptionScreen';
+
 function GuestLayout(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 

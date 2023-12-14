@@ -2,7 +2,8 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import React, {useState} from 'react';
-import BasicTextInput from './BasicTextInput';
+import {StyleSheet, View} from 'react-native';
+import {TextInput} from 'react-native-paper';
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -32,18 +33,20 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
     }
     setShowDate(false);
   }
-  function handleClick(): void | undefined {
-    setShowDate(b => !b);
-    return;
+  function handleClick(): void {
+    setShowDate(true);
   }
 
   return (
-    <>
-      <BasicTextInput
-        value={date && date.toLocaleDateString('fr')}
+    <View style={styles.container}>
+      <TextInput
+        style={styles.textInput}
         label={label}
-        clickHandler={handleClick}
-        showKeyboardOnTouch={false}
+        mode="outlined"
+        value={date && date.toLocaleDateString('fr')}
+        role="dialog"
+        showSoftInputOnFocus={false}
+        onPressIn={handleClick}
       />
       {showDate && (
         <DateTimePicker
@@ -55,8 +58,20 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
           maximumDate={today}
         />
       )}
-    </>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  textInput: {
+    width: '100%',
+  },
+  container: {
+    flex: 1,
+    width: '100%',
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+});
 
 export default DatePicker;

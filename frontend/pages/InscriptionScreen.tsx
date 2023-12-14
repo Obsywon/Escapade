@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {Surface} from 'react-native-paper';
 import MainTitle from '../components/MainTitle';
@@ -8,70 +8,60 @@ import AppTitle from '../components/AppTitle';
 import FormLayout from '../layouts/FormLayout';
 import DatePicker from '../components/forms/DatePicker';
 import EmailInput from '../components/forms/EmailInput';
-import useVerifiedPasswordInputs from '../hooks/useVerifiedPasswordInputs';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
-import useEmailInput from '../hooks/useEmailInput';
 import {useInscription} from './UserService/useInscription';
+import {useForm} from 'react-hook-form';
+import {UserInCreation} from './UserService/useInscription';
+
+type InscriptionFormData = {
+  nom: string;
+  prenom: string;
+  mot_de_passe: string;
+  date_de_naissance?: Date;
+  email: string;
+  verify_mdp: string;
+};
+
+const defaultValues: InscriptionFormData = {
+  nom: '',
+  prenom: '',
+  mot_de_passe: '',
+  email: '',
+  verify_mdp: '',
+};
 
 function InscriptionScreen(): JSX.Element {
-  const [
-    password,
-    secondPassword,
-    setPassword,
-    setSecondPassword,
-    passwordErrorMessage,
-    passwordIsVerified,
-    resetPasswords,
-  ] = useVerifiedPasswordInputs();
+  const [date, setDate] = useState<Date>();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    reset,
+    formState: {errors},
+  } = useForm<InscriptionFormData>({
+    defaultValues: defaultValues,
+  });
 
-  const [email, setEmail, errorMessage, emailIsValid] = useEmailInput();
-
-  const [date, setDate] = useState<Date | undefined>();
-  const [prenom, setPrenom] = useState<string | undefined>();
-  const [nom, setNom] = useState<string | undefined>();
-  const [formValid, setFormValid] = useState<boolean>(false);
+  const password = watch('mot_de_passe');
 
   const [inscription, data, error, loading] = useInscription();
-
-  function resetForm(): void {
-    resetPasswords();
-    setEmail('');
-    setDate(undefined);
-    setPrenom('');
-    setNom('');
-  }
-
-  async function sendData(): Promise<any> {
-    await inscription({
-      email,
-      nom: nom != null ? nom : '',
-      prenom: prenom != null ? prenom : '',
-      mot_de_passe: password.value,
+  async function sendData(values: InscriptionFormData): Promise<any> {
+    const user: UserInCreation = {
+      email: values.email,
+      mot_de_passe: values.mot_de_passe,
+      prenom: values.prenom,
+      nom: values.nom,
       date_de_naissance: date != null ? date : '',
-      sexe: undefined,
-    });
+    };
+
+    await inscription(user);
     console.table(data);
     if (!loading && data) {
-      resetForm();
+      reset(defaultValues);
+      setDate(undefined);
     }
   }
-
-  useEffect(() => {
-    if (
-      !passwordIsVerified ||
-      !emailIsValid ||
-      date == null ||
-      prenom == null ||
-      nom == null ||
-      prenom.length < 3 ||
-      nom.length < 3
-    ) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [passwordIsVerified, emailIsValid, date, prenom, nom]);
 
   return (
     <FormLayout>
@@ -86,48 +76,53 @@ function InscriptionScreen(): JSX.Element {
             <AppTitle title="Escapade" />
             <MainTitle title="Inscription" />
           </View>
-          <EmailInput
-            setEmail={setEmail}
-            email={email}
-            errorMsg={errorMessage}
-            isValid={email.length === 0 ? true : emailIsValid}
-          />
+          <EmailInput control={control} name="email" />
+          <PasswordInput control={control} name="mot_de_passe" />
           <PasswordInput
-            label="Mot de passe"
-            value={password.value}
-            setPassword={setPassword}
-            isValid={password.isValid}
-          />
-          <PasswordInput
+            control={control}
+            name="verify_mdp"
             label="Vérification mot de passe"
-            value={secondPassword.value}
-            setPassword={setSecondPassword}
-            isValid={secondPassword.isValid}
+            rules={{
+              required: true,
+              validate: {
+                isIdentical: v =>
+                  v === password || 'Les champs ne sont pas identiques.',
+              },
+            }}
           />
-
-          {passwordErrorMessage != null && (
-            <ErrorText>{passwordErrorMessage}</ErrorText>
-          )}
           <View style={styles.linedInputs}>
             <BasicTextInput
-              value={prenom}
-              setValue={setPrenom}
+              control={control}
+              name="prenom"
               label="Prénom"
+              rules={{
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'Le prénom doit faire au moins 3 caractères.',
+                },
+              }}
             />
-            <BasicTextInput value={nom} setValue={setNom} label="Nom" />
+            <BasicTextInput
+              control={control}
+              name="nom"
+              label="Nom"
+              rules={{
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'Le nom doit faire au moins 3 caractères.',
+                },
+              }}
+            />
           </View>
-          {nom != null && nom.length < 3 ? (
-            <ErrorText>Le nom doit fait au moins 3 caractères.</ErrorText>
-          ) : null}
-          {prenom != null && prenom.length < 3 ? (
-            <ErrorText>Le prénom doit fait au moins 3 caractères.</ErrorText>
-          ) : null}
           <DatePicker date={date} setDate={setDate} label="Date de naissance" />
+
           <BasicButton
             label="Inscription"
-            disabled={!formValid || loading}
-            onPress={sendData}
+            disabled={errors == null}
             loading={loading}
+            onPress={handleSubmit(sendData)}
           />
           {error != null && error.length > 0 ? (
             <ErrorText>{error}</ErrorText>

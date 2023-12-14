@@ -1,27 +1,25 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {Control, Controller, RegisterOptions} from 'react-hook-form';
+import ErrorText from './ErrorText';
 
 interface PasswordInputProps {
+  control: Control<any>;
+  name: string;
   label?: string | undefined;
-  value: string | undefined;
-  setPassword(password: string): void;
-  isValid: boolean;
+  rules?:
+    | Omit<
+        RegisterOptions<any, string>,
+        'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+      >
+    | undefined;
 }
 
-const PasswordInput = ({
-  label,
-  value,
-  setPassword,
-  isValid,
-}: PasswordInputProps) => {
+const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
   const [isSecured, setSecured] = useState<boolean>(true);
   function toggleSecure(): void {
     setSecured(s => !s);
-  }
-  function setPasswordTrimmed(value: string): void {
-    const result = value.trim();
-    setPassword(result);
   }
 
   function onLostFocus(): void {
@@ -30,16 +28,52 @@ const PasswordInput = ({
 
   return (
     <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label={label != null ? label : 'Mot de passe'}
-        value={value}
-        onChangeText={setPasswordTrimmed}
-        style={styles.textInput}
-        secureTextEntry={isSecured}
-        right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
-        error={isValid}
-        onBlur={onLostFocus}
+      <Controller
+        control={control}
+        name={name}
+        rules={
+          rules != null
+            ? rules
+            : {
+                // Le mot de passe doit contenir 8 caractères avec au moins 1 majuscule, 1 minuscule et 1 chiffre.'
+                minLength: {
+                  value: 8,
+                  message:
+                    'Le mot de passe doit contenir au moins 8 caractères.',
+                },
+                validate: {
+                  uppercase: v =>
+                    /[A-Z]/.test(v) ||
+                    'Le mot de passe doit contenir au moins 1 majuscule.',
+                  lowercase: v =>
+                    /[a-z]/.test(v) ||
+                    'Le mot de passe doit contenir au moins 1 minuscule.',
+                  atLeastOneDigit: v =>
+                    /\d/.test(v) ||
+                    'Le mot de passe doit contenir au moins 1 chiffre.',
+                },
+                required: true,
+              }
+        }
+        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+          <>
+            <TextInput
+              mode="outlined"
+              label={label != null ? label : 'Mot de passe'}
+              value={value}
+              onChangeText={onChange}
+              onBlur={() => {
+                onLostFocus();
+                onBlur();
+              }}
+              style={styles.textInput}
+              error={error != null}
+              secureTextEntry={isSecured}
+              right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
+            />
+            {error && <ErrorText>{error.message}</ErrorText>}
+          </>
+        )}
       />
     </View>
   );
