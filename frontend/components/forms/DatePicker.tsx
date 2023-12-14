@@ -43,15 +43,14 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
         style={styles.textInput}
         label={label}
         mode="outlined"
-        value={date && date.toLocaleDateString('fr')}
-        role="dialog"
+        value={date?.toLocaleDateString('fr')}
         showSoftInputOnFocus={false}
         onPressIn={handleClick}
       />
       {showDate && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date == null ? new Date() : date}
+          value={date ?? new Date()}
           mode="date"
           is24Hour={true}
           onChange={changeDate}

@@ -4,6 +4,7 @@ import {TextInput} from 'react-native-paper';
 import {Control, Controller} from 'react-hook-form';
 import Validator from 'validator';
 import ErrorText from './ErrorText';
+import { DarkTheme } from '../../themes/DarkTheme';
 
 interface EmailInputProps {
   control: Control<any>;
