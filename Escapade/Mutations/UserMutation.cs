@@ -20,21 +20,51 @@ namespace AzureFunctionEscapade.Mutations
 {
     public class UserMutation : Mutation<User>, IUserMutation
     {
-        public UserMutation(IService<User> service) : base(service) { }
+        public UserMutation() : base() { }
 
-        public async Task<User> CreateUser([Service] IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
+        public async Task<User> CreateUserRestApi(IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            using var client = clientFactory.CreateClient("rest");
+
+
+            var jsonContent = JsonConvert.SerializeObject(newUser);
+            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("api/users", stringContent, cancellationToken);
+
+            response.EnsureSuccessStatusCode(); 
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var createdUser = JsonConvert.DeserializeObject<User>(responseContent);
+
+            return createdUser;
         }
 
-        public async Task DeleteUser([Service] IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken)
+        public async Task<User> UpdateUserRestApi(IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            using var client = clientFactory.CreateClient("rest");
+
+
+            var jsonContent = JsonConvert.SerializeObject(updatedUser);
+            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync($"api/users/{userId}", stringContent, cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var modifiedUser = JsonConvert.DeserializeObject<User>(responseContent);
+
+            return modifiedUser;
         }
 
-        public async Task<User> UpdateUserPost([Service] IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken)
+        public async Task DeleteUserRestApi(IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            using var client = clientFactory.CreateClient("rest");
+
+            var response = await client.DeleteAsync($"api/users/{userId}", cancellationToken);
+
+            response.EnsureSuccessStatusCode();
         }
     }
 }

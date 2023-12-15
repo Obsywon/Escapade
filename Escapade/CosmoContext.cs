@@ -16,9 +16,13 @@ namespace AzureFunctionEscapade
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
 
-        public CosmosContext(FunctionConfiguration config)
+        private CosmosContext(DbContextOptions<CosmosContext> options, FunctionConfiguration config): base(options)
         {
             _config = config;
+        }
+
+        public CosmosContext(DbContextOptions<CosmosContext> options) : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,16 +35,15 @@ namespace AzureFunctionEscapade
             modelBuilder
                 .Entity<Post>().ToContainer(nameof(Post))
                 .HasNoDiscriminator()
-                .HasPartitionKey(e => e.UserId);
-
+                .HasPartitionKey(e => e.Id);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseCosmos(
-                accountEndpoint: _config.CosmosAccountEndpoint,
-                accountKey: _config.CosmosAccountKey,
-                databaseName: _config.CosmosDatabaseName);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseCosmos(
+        //        accountEndpoint: _config.CosmosAccountEndpoint,
+        //        accountKey: _config.CosmosAccountKey,
+        //        databaseName: _config.CosmosDatabaseName);
+        //}
     }
 }

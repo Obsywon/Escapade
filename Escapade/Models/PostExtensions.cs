@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AzureFunctionEscapade.Models
 {
-    [ExtendObjectType<Post>]
+    //[ExtendObjectType<Post>]
     public class PostExtensions
     {
         [GraphQLType("User!")]
@@ -21,7 +21,8 @@ namespace AzureFunctionEscapade.Models
             CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
-            var content = await client.GetByteArrayAsync($"api/users/{post.UserId}", cancellationToken);
+            //var content = await client.GetByteArrayAsync($"api/users/{post.User.Id}", cancellationToken);
+            var content = await client.GetByteArrayAsync($"api/users/{1}", cancellationToken);
             return JsonDocument.Parse(content).RootElement;
         }
     }

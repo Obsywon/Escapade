@@ -11,7 +11,7 @@ namespace AzureFunctionEscapade.Repositories
 {
     public class UserRepository : Repository<User>
     {
-        public UserRepository(CosmosContext dbContext) : base(dbContext) {}
+        public UserRepository(CosmosContext dbContext) : base(dbContext) { }
 
     }
 }

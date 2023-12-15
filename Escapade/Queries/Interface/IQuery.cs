@@ -1,4 +1,5 @@
 ﻿using AzureFunctionEscapade.Models.Interfaces;
+using AzureFunctionEscapade.Services.Interfaces;
 using HotChocolate;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace AzureFunctionEscapade.Queries.Interface
 {
     public interface IQuery<T> where T : class, IEntity
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(IService<T> service, CancellationToken cancellation);
 
-        Task<T> GetById(string id);
+        Task<T> GetById(string id, IService<T> service, CancellationToken cancellation);
     }
 }

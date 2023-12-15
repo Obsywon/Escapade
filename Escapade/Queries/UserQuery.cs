@@ -19,9 +19,9 @@ namespace AzureFunctionEscapade.Queries
 
     public class UserQuery : Query<User>, IUserQuery
     {
-        public UserQuery(IService<User> service) : base(service) { }
+        public UserQuery() : base() { }
 
-        public async Task<List<User>> GetUsers([Service] IHttpClientFactory clientFactory, CancellationToken cancellationToken)
+        public async Task<List<User>> GetUsers(IHttpClientFactory clientFactory, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
             var content = await client.GetStringAsync($"api/users", cancellationToken);
@@ -29,7 +29,7 @@ namespace AzureFunctionEscapade.Queries
             return users;
         }
 
-        public async Task<User> GetUserById(string id, [Service] IHttpClientFactory clientFactory, CancellationToken cancellationToken)
+        public async Task<User> GetUserById(string id, IHttpClientFactory clientFactory, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
             var content = await client.GetStringAsync($"api/users/{id}", cancellationToken);

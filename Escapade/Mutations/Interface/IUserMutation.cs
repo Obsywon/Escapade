@@ -16,11 +16,11 @@ namespace AzureFunctionEscapade.Mutations.Interface
 {
     public interface IUserMutation : IMutation<User>
     {
-        public Task<User> CreateUser([Service] IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken);
+        public Task<User> CreateUserRestApi(IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken);
 
-        public Task<User> UpdateUserPost([Service] IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken);
+        public Task<User> UpdateUserRestApi(IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken);
 
-        public Task DeleteUser([Service] IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken);
+        public Task DeleteUserRestApi(IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken);
 
     }
 }

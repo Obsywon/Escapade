@@ -15,16 +15,10 @@ namespace AzureFunctionEscapade.Queries
 {
     public abstract class Query<T> : IQuery<T> where T : class, IEntity
     {
-        protected readonly IService<T> _service;
 
-        protected Query(IService<T> service)
-        {
-            _service = service;
-        }
+        public virtual async Task<IEnumerable<T>> GetAll(IService<T> service, CancellationToken cancellation) => await service.GetAll();
 
-        public virtual async Task<IEnumerable<T>> GetAll() => await _service.GetAll();
-
-        public virtual async Task<T> GetById(string id) => await _service.GetById(id);
+        public virtual async Task<T> GetById(string id, IService<T> service, CancellationToken cancellation) => await service.GetById(id);
 
     }
 }

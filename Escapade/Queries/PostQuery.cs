@@ -14,7 +14,7 @@ namespace AzureFunctionEscapade.Queries
 {
     public class PostQuery : Query<Post>, IPostQuery
     {
-        public PostQuery(IService<Post> service) : base(service) { }
+        public PostQuery() : base() { }
 
     }
 }
