@@ -4,6 +4,7 @@ import DateTimePicker, {
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -46,6 +47,13 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
         value={date?.toLocaleDateString('fr')}
         showSoftInputOnFocus={false}
         onPressIn={handleClick}
+        contentStyle={styles.content}
+        outlineStyle={styles.outline}
+        theme={{
+          colors: {
+               onSurfaceVariant: CustomColors.inputOutline,
+          }
+      }}
       />
       {showDate && (
         <DateTimePicker
@@ -70,6 +78,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
   },
 });
 

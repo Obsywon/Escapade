@@ -1,10 +1,17 @@
-export const LightTheme = {
+import { MD3LightTheme } from 'react-native-paper';
+import { ColorScheme } from './CustomColors';
+
+
+export const CustomTheme = {
+  ...MD3LightTheme,
+  dark: false,
+  roundness: 8,
   colors: {
-    primary: "rgb(71, 85, 182)",
+    primary: ColorScheme.primary,
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(223, 224, 255)",
     onPrimaryContainer: "rgb(0, 13, 95)",
-    secondary: "rgb(0, 95, 175)",
+    secondary: ColorScheme.secondary,
     onSecondary: "rgb(255, 255, 255)",
     secondaryContainer: "rgb(212, 227, 255)",
     onSecondaryContainer: "rgb(0, 28, 58)",

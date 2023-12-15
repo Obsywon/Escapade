@@ -19,6 +19,7 @@ interface FormLayoutProps {
 function FormLayout({children}: FormLayoutProps): JSX.Element {
   return (
     <KeyboardAvoidingView
+      enabled={false}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

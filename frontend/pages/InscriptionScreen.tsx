@@ -65,7 +65,7 @@ function InscriptionScreen(): JSX.Element {
 
   return (
     <FormLayout>
-      <Surface style={styles.formContainer} elevation={2}>
+      <Surface style={styles.formContainer} elevation={1}>
         <ScrollView
           maximumZoomScale={1}
           minimumZoomScale={1}
@@ -143,9 +143,6 @@ const styles = StyleSheet.create({
   linedInputs: {
     flexDirection: 'row',
     gap: 8,
-  },
-  scrollView: {
-    flex: 1,
   },
   scrollViewContent: {
     padding: 8,
