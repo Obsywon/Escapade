@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     color: CustomColors.MainTitleColor,
-    fontWeight: 'bold',
   },
 });
 

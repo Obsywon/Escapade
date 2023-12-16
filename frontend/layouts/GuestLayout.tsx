@@ -19,8 +19,8 @@ function GuestLayout(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ConnexionScreen/>
-      {/*<InscriptionScreen />*/}
+      {/*<ConnexionScreen/>*/}
+      <InscriptionScreen />
     </SafeAreaView>
   );
 }

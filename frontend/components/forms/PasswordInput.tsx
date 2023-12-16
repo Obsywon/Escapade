@@ -8,8 +8,8 @@ import { CustomColors } from '../../themes/CustomColors';
 interface PasswordInputProps {
   control: Control<any>;
   name: string;
-  label?: string | undefined;
-  rules?:
+  label?: string;
+  rules:
     | Omit<
         RegisterOptions<any, string>,
         'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
@@ -18,7 +18,7 @@ interface PasswordInputProps {
 }
 
 const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
-  const [isSecured, setSecured] = useState<boolean>(true);
+  const [secured, setSecured] = useState<boolean>(true);
   function toggleSecure(): void {
     setSecured(s => !s);
   }
@@ -66,7 +66,7 @@ const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
                 onBlur();
               }}
               error={error != null}
-              secureTextEntry={isSecured}
+              secureTextEntry={secured}
               right={<TextInput.Icon icon="eye" onPress={toggleSecure} color={styles.content.color}/>}
               style={styles.textInput}
               contentStyle={styles.content}
