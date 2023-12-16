@@ -16,24 +16,35 @@ import useCustomFonts from "./hooks/useCustomFonts";
 import { StyleSheet } from "react-native";
 import LoadingSurface from "./components/LoadingSurface";
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://func-escapade-dev-fc.azurewebsites.net/api/graphql/',
+  cache: new InMemoryCache(),
+});
+
 function App(): JSX.Element {
   const [connected, setConnected] = useState<boolean>(false);
   const [fonts, fontLoaded] = useCustomFonts();
 
   if (!fontLoaded) {
     return (
-      <PaperProvider theme={CustomTheme}>
-      <LoadingSurface text="Chargement en cours..."/>
-    </PaperProvider>
+      <ApolloProvider client={client}>
+        <PaperProvider theme={CustomTheme}>
+          <LoadingSurface text="Chargement en cours..."/>
+        </PaperProvider>
+      </ApolloProvider>
     );
   }
   
   return (
-    <PaperProvider theme={{...CustomTheme, fonts}}>
-        <NavigationContainer >
-          { connected ? <ConnectedLayout /> : <GuestLayout />}
-        </NavigationContainer>
-      </PaperProvider>
+    <ApolloProvider client={client}>
+      <PaperProvider>
+          <NavigationContainer>
+            { connected ? <ConnectedLayout /> : <GuestLayout />}
+          </NavigationContainer>
+        </PaperProvider>
+      </ApolloProvider>
   )
 }
 
