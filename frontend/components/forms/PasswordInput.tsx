@@ -3,12 +3,13 @@ import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {Control, Controller, RegisterOptions} from 'react-hook-form';
 import ErrorText from './ErrorText';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface PasswordInputProps {
   control: Control<any>;
   name: string;
-  label?: string | undefined;
-  rules?:
+  label?: string;
+  rules:
     | Omit<
         RegisterOptions<any, string>,
         'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
@@ -17,7 +18,7 @@ interface PasswordInputProps {
 }
 
 const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
-  const [isSecured, setSecured] = useState<boolean>(true);
+  const [secured, setSecured] = useState<boolean>(true);
   function toggleSecure(): void {
     setSecured(s => !s);
   }
@@ -32,9 +33,7 @@ const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
         control={control}
         name={name}
         rules={
-          rules != null
-            ? rules
-            : {
+          rules ?? {
                 // Le mot de passe doit contenir 8 caractères avec au moins 1 majuscule, 1 minuscule et 1 chiffre.'
                 minLength: {
                   value: 8,
@@ -59,17 +58,24 @@ const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
           <>
             <TextInput
               mode="outlined"
-              label={label != null ? label : 'Mot de passe'}
+              label={label ?? 'Mot de passe'}
               value={value}
               onChangeText={onChange}
               onBlur={() => {
                 onLostFocus();
                 onBlur();
               }}
-              style={styles.textInput}
               error={error != null}
-              secureTextEntry={isSecured}
-              right={<TextInput.Icon icon="eye" onPress={toggleSecure} />}
+              secureTextEntry={secured}
+              right={<TextInput.Icon icon="eye" onPress={toggleSecure} color={styles.content.color}/>}
+              style={styles.textInput}
+              contentStyle={styles.content}
+              outlineStyle={styles.outline}
+              theme={{
+                colors: {
+                     onSurfaceVariant: CustomColors.inputOutline,
+                }
+            }}
             />
             {error && <ErrorText>{error.message}</ErrorText>}
           </>
@@ -88,6 +94,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
   },
 });
 

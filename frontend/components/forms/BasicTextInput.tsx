@@ -3,6 +3,7 @@ import {GestureResponderEvent, View, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import ErrorText from './ErrorText';
 import {Control, Controller, RegisterOptions} from 'react-hook-form';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface BasicTextInputProps {
   control: Control<any>;
@@ -41,21 +42,28 @@ const BasicTextInput = ({
       <Controller
         control={control}
         name={name}
-        rules={rules != null ? rules : undefined}
+        rules={rules ?? undefined}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>
             <TextInput
               mode="outlined"
-              label={label != null ? label : ''}
+              label={label ?? ''}
               value={value}
-              disabled={disabled != null ? disabled : false}
+              disabled={disabled ?? false}
               onChangeText={onChange}
               onBlur={onBlur}
-              style={styles.textInput}
-              placeholder={placeholder != null ? placeholder : ''}
+              placeholder={placeholder ?? ''}
               onTouchStart={handleClick}
               showSoftInputOnFocus={showKeyboardOnTouch}
               error={error != null}
+              style={styles.textInput}
+              contentStyle={styles.content}
+              outlineStyle={styles.outline}
+              theme={{
+                colors: {
+                     onSurfaceVariant: CustomColors.inputOutline,
+                }
+            }}
             />
             {error && <ErrorText>{error.message}</ErrorText>}
           </>
@@ -69,12 +77,20 @@ const BasicTextInput = ({
 const styles = StyleSheet.create({
   textInput: {
     width: '100%',
+    color: CustomColors.inputOutline,
   },
   container: {
     flex: 1,
     width: '100%',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
   },
 });
 

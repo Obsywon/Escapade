@@ -4,6 +4,7 @@ import {TextInput} from 'react-native-paper';
 import {Control, Controller} from 'react-hook-form';
 import Validator from 'validator';
 import ErrorText from './ErrorText';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface EmailInputProps {
   control: Control<any>;
@@ -34,8 +35,15 @@ const EmailInput = ({control, name}: EmailInputProps) => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              style={styles.textInput}
               error={error != null}
+              style={styles.textInput}
+              contentStyle={styles.content}
+              outlineStyle={styles.outline}
+              theme={{
+                colors: {
+                     onSurfaceVariant: CustomColors.inputOutline,
+                }
+            }}
             />
             {error && <ErrorText>{error.message}</ErrorText>}
           </>
@@ -54,6 +62,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
   },
 });
 

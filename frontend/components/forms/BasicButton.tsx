@@ -28,7 +28,9 @@ const BasicButton = ({
         onPress={onPress}
         onLongPress={handleLongPress}
         style={styles.button}
-        uppercase={uppercase}>
+        uppercase={uppercase}
+        labelStyle={styles.label}
+        >
         {label}
       </Button>
     </View>
@@ -46,6 +48,9 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
   },
+  label: {
+    fontWeight: "600",
+  }
 });
 
 export default BasicButton;
