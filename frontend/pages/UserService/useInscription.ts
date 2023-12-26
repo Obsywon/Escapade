@@ -1,6 +1,20 @@
-import {useState} from 'react';
+import { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 
-const URL: string = 'https://func-escapade-dev-fc.azurewebsites.net/api/users';
+const CREATE_USER_MUTATION = gql`
+  mutation CreateUser($entity: UserInput) {
+    userMutation {
+      create(entity: $entity) {
+        id
+        name
+        lastName
+        gender
+        email
+        birthDate
+      }
+    }
+  }
+`;
 
 export interface UserInCreation {
   email: string;
@@ -25,21 +39,30 @@ export const useInscription = (): [
   const [error, setError] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [createUserMutation] = useMutation(CREATE_USER_MUTATION);
+
   async function inscription(newUser: UserInCreation): Promise<void> {
     setData(undefined);
     setError(undefined);
     setLoading(true);
 
     try {
-      const response = await fetch(URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await createUserMutation({
+        variables: {
+          entity: {
+            name: newUser.prenom,
+            lastName: newUser.nom,
+            gender: newUser.sexe,
+            email: newUser.email,
+            password: newUser.mot_de_passe,
+            birthDate: newUser.date_de_naissance,
+          },
         },
-        body: JSON.stringify(newUser),
       });
+
       console.table(response);
-      const user = await response.json();
+      const user = response.data.create; 
+
       setData(user);
     } catch (err) {
       let message = "Erreur lors de l'inscription";
