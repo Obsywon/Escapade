@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import MainTitle from '../components/MainTitle';
 import BasicButton from '../components/forms/BasicButton';
 import FormLayout from '../layouts/FormLayout';
-import { Paragraph, Surface } from 'react-native-paper';
+import { Text, Surface } from 'react-native-paper';
 import Logo from '../components/forms/Logo';
 import AppTitle from '../components/AppTitle';
 
@@ -23,28 +23,27 @@ const PageBienvenue: React.FC<PageBienvenueProps> = ({ navigation }) => {
           automaticallyAdjustContentInsets={true}
           pagingEnabled={true}
           contentContainerStyle={styles.scrollViewContent}>
-
-	  <Logo />
-
+	
           <View style={styles.titles}>
             <AppTitle title="Escapade" />
+            <Logo />
             <MainTitle title="Bienvenue" />
           </View> 
 
-	  <Paragraph>
+	  <Text>
   	     Partez pour une aventure mémorable avec Escapade{"\n"}
   	     Pas encore membre ? Rejoignez-nous maintenant{"\n"}
          Explorez des parcours touristiques uniques !
-	  </Paragraph>       
+	  </Text>       
           
           <BasicButton
             label="Créer un compte"
-            onPress={() => navigation.navigate('InscriptionScreen')}
+            onPress={() => navigation.navigate('Inscription')}
           />
 
           <BasicButton
             label="Se connecter"
-            onPress={() => navigation.navigate('ConnexionScreen')}
+            onPress={() => navigation.navigate('Connexion')}
           />
           
         </ScrollView>
