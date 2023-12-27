@@ -18,6 +18,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import pageBienvenue from './pages/pageBienvenue';
 import InscriptionScreen from './pages/InscriptionScreen';
+import ConnexionScreen from './pages/ConnexionScreen';
 
 const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
@@ -49,7 +50,7 @@ function App(): JSX.Element {
             <Stack.Navigator initialRouteName="pageBienvenue">
               <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
               <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
-              {/* <Stack.Screen name="pageConnexion" component={pageConnexion} /> */}
+              <Stack.Screen name="ConnexionScreen" component={ConnexionScreen} />
             </Stack.Navigator>
           )}
         </NavigationContainer>
