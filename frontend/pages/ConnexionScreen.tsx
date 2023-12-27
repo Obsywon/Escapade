@@ -46,6 +46,13 @@ export default function ConnexionScreen(): JSX.Element {
   return (
     <FormLayout>
       <Surface style={styles.formContainer} elevation={1}>
+        <ScrollView
+          maximumZoomScale={1}
+          minimumZoomScale={1}
+          automaticallyAdjustContentInsets={true}
+          pagingEnabled={true}
+          contentContainerStyle={styles.scrollViewContent}
+        >
           <View style={styles.titles}>
             <AppTitle title="Escapade" />
             <MainTitle title="Connexion" />
@@ -57,6 +64,7 @@ export default function ConnexionScreen(): JSX.Element {
               <BasicButton label="Connexion" onPress={onSubmit} />
             </View>
           </View>
+        </ScrollView>
       </Surface>
     </FormLayout>
   );
@@ -71,12 +79,13 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   scrollViewContent: {
     padding: 8,
     paddingRight: 24,
     paddingLeft: 24,
+    flex: 1,
   },
   content: {
     flex: 2,
@@ -85,11 +94,12 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   formContent: {
-    flex: 0.6,
+    flex: 0.7,
     padding: 8,
     margin: 8,
+    gap: 8,
   },
   titles: {
     flex: 1,
-  }
+  },
 });
