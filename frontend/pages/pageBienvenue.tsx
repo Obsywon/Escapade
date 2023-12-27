@@ -43,8 +43,8 @@ const PageBienvenue: React.FC<PageBienvenueProps> = ({ navigation }) => {
           />
 
           <BasicButton
-            label="Créer un compte"
-            onPress={() => navigation.navigate('pageConnexion')}
+            label="Se connecter"
+            onPress={() => navigation.navigate('ConnexionScreen')}
           />
           
         </ScrollView>
@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
   },
   titles: {
-    flex: 1,
-    fontFamily: 'fontastique',
+    flex: 1,  
   },
+  
 });
 
 

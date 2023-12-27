@@ -25,6 +25,7 @@ const client = new ApolloClient({
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import pageBienvenue from './pages/pageBienvenue';
 import InscriptionScreen from './pages/InscriptionScreen';
+import ConnexionScreen from './pages/ConnexionScreen';
 
 const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
@@ -64,12 +65,29 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
+<<<<<<< HEAD
       <PaperProvider theme={{...CustomTheme, fonts}}>
           <NavigationContainer>
             { connected ? <ConnectedLayout /> : <GuestLayout />}
           </NavigationContainer>
         </PaperProvider>
       </ApolloProvider>
+=======
+      <PaperProvider theme={{ ...CustomTheme, fonts }}>
+        <NavigationContainer>
+          {connected ? (
+            <ConnectedLayout />
+          ) : (
+            <Stack.Navigator initialRouteName="pageBienvenue">
+              <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
+              <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
+              <Stack.Screen name="ConnexionScreen" component={ConnexionScreen} />
+            </Stack.Navigator>
+          )}
+        </NavigationContainer>
+      </PaperProvider>
+    </ApolloProvider>
+>>>>>>> b01440e (page connexion à résoudre)
   )
 }
 
