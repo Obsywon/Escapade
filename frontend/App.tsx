@@ -3,18 +3,10 @@ import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import GuestLayout from './layouts/GuestLayout';
 import ConnectedLayout from './layouts/ConnectedLayout';
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  ActivityIndicator,
-  configureFonts,
-  PaperProvider,
-  Surface,
-  Text,
-} from "react-native-paper";
-import { CustomTheme } from "./themes/CustomTheme";
-import { useFonts } from "expo-font";
+import {NavigationContainer} from "@react-navigation/native";
+import {PaperProvider} from "react-native-paper";
+import {CustomTheme} from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
-import { StyleSheet } from "react-native";
 import LoadingSurface from "./components/LoadingSurface";
 
 
@@ -32,7 +24,7 @@ function App(): JSX.Element {
   if (!fontLoaded) {
     return (
       <ApolloProvider client={client}>
-        <PaperProvider theme={CustomTheme}>
+        <PaperProvider theme={{...CustomTheme, fonts}}>
           <LoadingSurface text="Chargement en cours..."/>
         </PaperProvider>
       </ApolloProvider>
@@ -41,7 +33,7 @@ function App(): JSX.Element {
   
   return (
     <ApolloProvider client={client}>
-      <PaperProvider>
+      <PaperProvider theme={{...CustomTheme, fonts}}>
           <NavigationContainer>
             { connected ? <ConnectedLayout /> : <GuestLayout />}
           </NavigationContainer>
