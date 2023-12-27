@@ -1,7 +1,13 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import MainTitle from '../components/MainTitle';
 import BasicButton from '../components/forms/BasicButton';
+import FormLayout from '../layouts/FormLayout';
+import { Paragraph, Surface } from 'react-native-paper';
+import Logo from '../components/forms/Logo';
+import AppTitle from '../components/AppTitle';
+
+
 
 interface PageBienvenueProps {
   navigation: any;
@@ -9,31 +15,66 @@ interface PageBienvenueProps {
 
 const PageBienvenue: React.FC<PageBienvenueProps> = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <MainTitle title="Bienvenue" />
-      <View style={styles.buttonContainer}>
-        <BasicButton
-          label="Créer un compte"
-          onPress={() => navigation.navigate('InscriptionScreen')}
-        />
-        <BasicButton
-          label="Se connecter"
-          onPress={() => navigation.navigate('pageConnexion')}
-        />
-      </View>
-    </View>
+    <FormLayout>
+      <Surface style={styles.formContainer} elevation={2}>
+        <ScrollView
+          maximumZoomScale={1}
+          minimumZoomScale={1}
+          automaticallyAdjustContentInsets={true}
+          pagingEnabled={true}
+          contentContainerStyle={styles.scrollViewContent}>
+
+	  <Logo />
+
+          <View style={styles.titles}>
+            <AppTitle title="Escapade" />
+            <MainTitle title="Bienvenue" />
+          </View> 
+
+	  <Paragraph>
+  	     Partez pour une aventure mémorable avec Escapade{"\n"}
+  	     Pas encore membre ? Rejoignez-nous maintenant{"\n"}
+         Explorez des parcours touristiques uniques !
+	  </Paragraph>       
+          
+          <BasicButton
+            label="Créer un compte"
+            onPress={() => navigation.navigate('InscriptionScreen')}
+          />
+
+          <BasicButton
+            label="Créer un compte"
+            onPress={() => navigation.navigate('pageConnexion')}
+          />
+          
+        </ScrollView>
+      </Surface>
+    </FormLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  formContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    padding: 0,
   },
-  buttonContainer: {
-    marginTop: 16,
+  
+  scrollView: {
+    flex: 1,
+  },
+
+  scrollViewContent: {
+    padding: 8,
+    paddingRight: 24,
+    paddingLeft: 24,
+  },
+  titles: {
+    flex: 1,
+    fontFamily: 'fontastique',
   },
 });
+
 
 export default PageBienvenue;
