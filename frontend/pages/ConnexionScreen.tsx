@@ -57,13 +57,9 @@ export default function ConnexionScreen(): JSX.Element {
             <AppTitle title="Escapade" />
             <MainTitle title="Connexion" />
           </View>
-          <View style={styles.content}>
-            <View style={styles.formContent}>
-              <EmailInput control={control} name="email" />
-              <PasswordInput control={control} name="password" />
-              <BasicButton label="Connexion" onPress={onSubmit} />
-            </View>
-          </View>
+          <EmailInput control={control} name="email" />
+          <PasswordInput control={control} name="password" />
+          <BasicButton label="Connexion" onPress={onSubmit} />
         </ScrollView>
       </Surface>
     </FormLayout>
@@ -77,24 +73,10 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     padding: 0,
   },
-  scrollView: {
-    flex: 1,
-  },
   scrollViewContent: {
     padding: 8,
-    flex: 1,
-  },
-  content: {
-    flex: 2,
-    paddingHorizontal: 0,
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-  },
-  formContent: {
-    flex: 0.7,
-    padding: 8,
-    margin: 8,
-    gap: 8,
+    paddingRight: 24,
+    paddingLeft: 24,
   },
   titles: {
     flex: 1,
