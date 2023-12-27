@@ -10,8 +10,8 @@ import DatePicker from '../components/forms/DatePicker';
 import EmailInput from '../components/forms/EmailInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
-import {useInscription} from './UserService/useInscription';
 import {useForm} from 'react-hook-form';
+import { UserInCreation, useInscription } from '../UserService/useInscription';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig, app, auth } from "../components/firebaseConfig";
