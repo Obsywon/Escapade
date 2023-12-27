@@ -2,7 +2,9 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import React, {useState} from 'react';
-import BasicTextInput from './BasicTextInput';
+import {StyleSheet, View} from 'react-native';
+import {TextInput} from 'react-native-paper';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -32,31 +34,58 @@ function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
     }
     setShowDate(false);
   }
-  function handleClick(): void | undefined {
-    setShowDate(b => !b);
-    return;
+  function handleClick(): void {
+    setShowDate(true);
   }
 
   return (
-    <>
-      <BasicTextInput
-        value={date && date.toLocaleDateString('fr')}
+    <View style={styles.container}>
+      <TextInput
+        style={styles.textInput}
         label={label}
-        clickHandler={handleClick}
-        showKeyboardOnTouch={false}
+        mode="outlined"
+        value={date?.toLocaleDateString('fr')}
+        showSoftInputOnFocus={false}
+        onPressIn={handleClick}
+        contentStyle={styles.content}
+        outlineStyle={styles.outline}
+        theme={{
+          colors: {
+               onSurfaceVariant: CustomColors.inputOutline,
+          }
+      }}
       />
       {showDate && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date == null ? new Date() : date}
+          value={date ?? new Date()}
           mode="date"
           is24Hour={true}
           onChange={changeDate}
           maximumDate={today}
         />
       )}
-    </>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  textInput: {
+    width: '100%',
+  },
+  container: {
+    flex: 1,
+    width: '100%',
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
+  },
+});
 
 export default DatePicker;

@@ -16,9 +16,10 @@ interface FormLayoutProps {
  * @param FormLayoutProps enfants react native à afficher dans le formulaire
  * @returns Un formulaire qui s'adapte à l'apparition du clavier
  */
-function FormLayout({children}: FormLayoutProps): JSX.Element {
+function FormLayout({children}: Readonly<FormLayoutProps>): JSX.Element {
   return (
     <KeyboardAvoidingView
+      enabled={false}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

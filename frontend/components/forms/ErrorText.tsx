@@ -3,7 +3,7 @@ import {Text} from 'react-native-paper';
 import {StyleSheet} from 'react-native';
 
 interface ErrorTextProps {
-  children: React.ReactElement | string;
+  children: string | undefined;
 }
 
 const ErrorText = ({children}: ErrorTextProps) => {

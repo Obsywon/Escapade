@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace AzureFunctionEscapade.Services

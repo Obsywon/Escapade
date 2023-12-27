@@ -1,33 +1,54 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {Control, Controller} from 'react-hook-form';
+import Validator from 'validator';
 import ErrorText from './ErrorText';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface EmailInputProps {
-  email: string;
-  setEmail(value: string): void;
-  errorMsg?: string;
-  isValid: boolean;
+  control: Control<any>;
+  name: string;
 }
 
-const EmailInput = ({email, setEmail, errorMsg, isValid}: EmailInputProps) => {
-  function setEmailTrimmed(value: string): void {
-    const result = value.trim();
-    setEmail(result);
-  }
+const EmailInput = ({control, name}: EmailInputProps) => {
+  const isEmailValid = (email: string): boolean => {
+    return Validator.isEmail(email);
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label="E-mail"
-        value={email}
-        onChangeText={setEmailTrimmed}
-        style={styles.textInput}
-        error={!isValid}
+      <Controller
+        control={control}
+        name={name}
+        rules={{
+          validate: {
+            valid: v => isEmailValid(v) || 'E-mail invalide.',
+          },
+          required: true,
+        }}
+        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+          <>
+            <TextInput
+              mode="outlined"
+              label="E-mail"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={error != null}
+              style={styles.textInput}
+              contentStyle={styles.content}
+              outlineStyle={styles.outline}
+              theme={{
+                colors: {
+                     onSurfaceVariant: CustomColors.inputOutline,
+                }
+            }}
+            />
+            {error && <ErrorText>{error.message}</ErrorText>}
+          </>
+        )}
       />
-      {errorMsg != null && errorMsg.length !== 0 ? (
-        <ErrorText>{errorMsg}</ErrorText>
-      ) : null}
     </View>
   );
 };
@@ -41,6 +62,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  outline: {
+    borderColor: CustomColors.inputOutline,
+    borderWidth: 2,
+  },
+  content: {
+    color: CustomColors.inputOutline,
   },
 });
 

@@ -7,57 +7,43 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PaperProvider } from 'react-native-paper';
 import GuestLayout from './layouts/GuestLayout';
 import ConnectedLayout from './layouts/ConnectedLayout';
-import pageBienvenue from './pages/pageBienvenue';
-import InscriptionScreen from './pages/InscriptionScreen';
+import {NavigationContainer} from "@react-navigation/native";
+import {PaperProvider} from "react-native-paper";
+import {CustomTheme} from "./themes/CustomTheme";
+import useCustomFonts from "./hooks/useCustomFonts";
+import LoadingSurface from "./components/LoadingSurface";
 
 
-const Stack = createNativeStackNavigator();
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    // Définissez ici vos différentes polices
-    'Fontastique': require('./assets/fonts/Fontastique.ttf'),
-  });
-};
+const client = new ApolloClient({
+  uri: 'https://func-escapade-dev-fc.azurewebsites.net/api/graphql/',
+  cache: new InMemoryCache(),
+});
 
-const App: React.FC = () => {
-  const [dataLoaded, setDataLoaded] = useState(false);
+function App(): JSX.Element {
   const [connected, setConnected] = useState<boolean>(false);
+  const [fonts, fontLoaded] = useCustomFonts();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchFonts();
-      setDataLoaded(true);
-    };
-
-    fetchData();
-  }, []);
-
-  if (!dataLoaded) {
+  if (!fontLoaded) {
     return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setDataLoaded(true)}
-        onError={(err) => console.error(err)}
-      />
+      <ApolloProvider client={client}>
+        <PaperProvider theme={{...CustomTheme, fonts}}>
+          <LoadingSurface text="Chargement en cours..."/>
+        </PaperProvider>
+      </ApolloProvider>
     );
   }
-
+  
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        {connected ? (
-          <ConnectedLayout />
-        ) : (
-          <Stack.Navigator initialRouteName="pageBienvenue">
-            <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
-            <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
-            {/* <Stack.Screen name="pageConnexion" component={pageConnexion} /> */}
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
-    </PaperProvider>
-  );
-};
+    <ApolloProvider client={client}>
+      <PaperProvider theme={{...CustomTheme, fonts}}>
+          <NavigationContainer>
+            { connected ? <ConnectedLayout /> : <GuestLayout />}
+          </NavigationContainer>
+        </PaperProvider>
+      </ApolloProvider>
+  )
+}
 
 export default App;
