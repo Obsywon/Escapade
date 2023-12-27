@@ -10,6 +10,7 @@ import GuestLayout from './layouts/GuestLayout';
 import ConnectedLayout from './layouts/ConnectedLayout';
 import pageBienvenue from './pages/pageBienvenue';
 import InscriptionScreen from './pages/InscriptionScreen';
+
 import {CustomTheme} from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
@@ -62,6 +63,25 @@ function App(): JSX.Element {
     );
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchFonts();
+      setDataLoaded(true);
+    };
+
+    fetchData();
+  }, []);
+
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+        onError={(err) => console.error(err)}
+      />
+    );
+  }
+
   return (
     <ApolloProvider client={client}>
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
@@ -87,6 +107,6 @@ function App(): JSX.Element {
       </PaperProvider>
     </ApolloProvider>
   );
-}
+};
 
 export default App;
