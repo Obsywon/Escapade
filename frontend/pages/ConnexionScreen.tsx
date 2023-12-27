@@ -64,17 +64,14 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "red",
   },
   scrollViewContent: {
     padding: 8,
-    paddingRight: 24,
-    paddingLeft: 24,
     flex: 1,
   },
   content: {
     flex: 2,
-    paddingHorizontal: 24,
+    paddingHorizontal: 0,
     justifyContent: "flex-start",
     alignItems: "stretch",
   },
