@@ -14,9 +14,9 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="pageBienvenue">
-        <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
-        <Stack.Screen name="InscriptionScreen" component={InscriptionScreen} />
-        <Stack.Screen name="ConnexionScreen" component={ConnexionScreen} />
+        <Stack.Screen name="Bienvenue" component={pageBienvenue} />
+        <Stack.Screen name="Inscription" component={InscriptionScreen} />
+        <Stack.Screen name="Connexion" component={ConnexionScreen} />
         {/* Ajoutez d'autres écrans ici si nécessaire */}
       </Stack.Navigator>
     </NavigationContainer>

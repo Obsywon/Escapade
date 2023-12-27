@@ -94,13 +94,13 @@ const App: React.FC = () => {
           ) : (
             <GuestLayout>
               <Stack.Navigator initialRouteName="pageBienvenue">
-                <Stack.Screen name="pageBienvenue" component={pageBienvenue} />
+                <Stack.Screen name="Bienvenue" component={pageBienvenue} />
                 <Stack.Screen
-                  name="InscriptionScreen"
+                  name="Inscription"
                   component={InscriptionScreen}
                 />
                 <Stack.Screen
-                  name="ConnexionScreen"
+                  name="Connexion"
                   component={ConnexionScreen}
                 />
               </Stack.Navigator>
