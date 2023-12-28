@@ -1,6 +1,7 @@
 import React from 'react';
 import {GestureResponderEvent, View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
+import { ColorScheme } from '../../themes/CustomColors';
 
 interface BasicButtonProps {
   onPress?: (e: GestureResponderEvent) => void;
@@ -9,6 +10,7 @@ interface BasicButtonProps {
   loading?: boolean;
   uppercase?: boolean;
   label?: string | undefined;
+  color?: string;
 }
 
 const BasicButton = ({
@@ -18,6 +20,7 @@ const BasicButton = ({
   disabled = false,
   loading = false,
   uppercase = false,
+  color=ColorScheme.primary,
 }: BasicButtonProps) => {
   return (
     <View style={styles.container}>
@@ -27,7 +30,7 @@ const BasicButton = ({
         loading={loading}
         onPress={onPress}
         onLongPress={handleLongPress}
-        style={styles.button}
+        style={[styles.button, { backgroundColor: color }]}
         uppercase={uppercase}
         labelStyle={styles.label}
         >
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "600",
+    fontSize: 16,
   }
 });
 
