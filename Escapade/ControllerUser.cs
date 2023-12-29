@@ -17,29 +17,45 @@ using Swashbuckle.AspNetCore.Annotations;
 using HotChocolate.AzureFunctions;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Collections.Generic;
+using FirebaseAdminAuthentication.DependencyInjection.Services;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AzureFunctionEscapade
 {
     public class ControllerUser
     {
 
+        private readonly IUserService _userService;
+        private readonly FirebaseAuthenticationFunctionHandler _authenticationHandler;
+        public ControllerUser(
+            IUserService userService,
+            FirebaseAuthenticationFunctionHandler authenticationHandler)
+        {
+            _userService = userService;
+            _authenticationHandler = authenticationHandler;
+        }
+
         [FunctionName("ControllerUser")]
         public async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "graphql/{**slug}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "graphql")] HttpRequest req,
         [GraphQL] IGraphQLRequestExecutor executor,
         ILogger log)
         {
             //log.LogInformation("C# HTTP trigger function processed a request.");
 
+            AuthenticateResult authenticationResult = await _authenticationHandler.HandleAuthenticateAsync(req);
+
+            if (!authenticationResult.Succeeded)
+            {
+                return new UnauthorizedResult();
+            }
+
             return await executor.ExecuteAsync(req);
+
+            //return new NoContentResult();
         }
         
-        private readonly IUserService _userService;
-        public ControllerUser(IUserService userService)
-        {
-            _userService = userService;
-        }
-
+       
         [FunctionName("CreateUser")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "CreateUser" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]

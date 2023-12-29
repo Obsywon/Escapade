@@ -2,6 +2,7 @@
 using AzureFunctionEscapade.Queries.Interface;
 using AzureFunctionEscapade.Services.Interfaces;
 using HotChocolate;
+using HotChocolate.Authorization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -21,6 +22,7 @@ namespace AzureFunctionEscapade.Queries
     {
         public UserQuery() : base() { }
 
+        
         public async Task<List<User>> GetUsers(IHttpClientFactory clientFactory, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");

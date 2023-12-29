@@ -21,6 +21,12 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using HotChocolate.Data;
 using HotChocolate;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -30,6 +36,18 @@ namespace AzureFunctionEscapade
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            // Initialisation FirebaseAdmin
+
+            IConfiguration configuration = builder.GetContext().Configuration;
+
+            string firebaseConfig = configuration.GetValue<string>("FIREBASE_CONFIG");
+            FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromJson(firebaseConfig)
+            });
+            builder.Services.AddSingleton(firebaseApp);
+            builder.Services.AddFirebaseAuthentication();
+
             ConfigureServices(builder.Services).BuildServiceProvider(true);
         }
 
@@ -41,6 +59,7 @@ namespace AzureFunctionEscapade
                 .AddEnvironmentVariables()
                 .Build();
 
+            services.AddAuthorization();
 
             //services.AddSingleton(provider =>
             //{
@@ -61,6 +80,7 @@ namespace AzureFunctionEscapade
             //    );
             //});
 
+
             services.AddDbContextPool<CosmosContext>((options) =>
             {
                 options.UseCosmos(
@@ -70,6 +90,22 @@ namespace AzureFunctionEscapade
                 );
             });
 
+            //var signingKey = new SymmetricSecurityKey(
+            // Encoding.UTF8.GetBytes("MySuperSecretKey"));
+
+            //services
+            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.TokenValidationParameters =
+            //            new TokenValidationParameters
+            //            {
+            //                ValidIssuer = "https://auth.chillicream.com",
+            //                ValidAudience = "https://graphql.chillicream.com",
+            //                ValidateIssuerSigningKey = true,
+            //                IssuerSigningKey = signingKey
+            //            };
+            //    });
 
             services.AddGraphQLFunction();
 
@@ -89,6 +125,7 @@ namespace AzureFunctionEscapade
             services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
 
             services.AddGraphQLServer()
+                .AddAuthorization()
                 .AddQueryType<RootQuery>()
                 .AddMutationType<RootMutation>()
                 .AddType<User>()
