@@ -36,5 +36,7 @@ namespace AzureFunctionEscapade.Queries
             var users = JsonConvert.DeserializeObject<User>(content);
             return users;
         }
+
+
     }
 }

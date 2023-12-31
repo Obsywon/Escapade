@@ -16,6 +16,7 @@ using AzureFunctionEscapade.Queries.Interface;
 using Microsoft.Extensions.Logging;
 using AzureFunctionEscapade.Queries.Root;
 using AzureFunctionEscapade.Mutations.Root;
+using AzureFunctionEscapade.Mutations.Interface;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 

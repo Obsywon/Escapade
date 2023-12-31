@@ -55,7 +55,7 @@ namespace AzureFunctionEscapade
             try
             {
                 var user = JsonConvert.DeserializeObject<User>(userJson);
-
+                /*
                 if (!_userService.IsEmailFormatValid(user))
                     return new ConflictObjectResult($"Invalid email : \"{user.Email}\"");
 
@@ -74,7 +74,7 @@ namespace AzureFunctionEscapade
                     msg += "\n 1 digit";
                     return new ConflictObjectResult(msg);
                 }
-
+                */
                 user.Password = await _userService.EncryptPassword(user);
                 await _userService.Create(user);
 

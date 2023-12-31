@@ -15,21 +15,45 @@ using AzureFunctionEscapade.Services.Interfaces;
 using HotChocolate;
 using AzureFunctionEscapade.Services;
 using Microsoft.AspNetCore.Mvc;
+using AzureFunctionEscapade.Models.Interfaces;
 
 namespace AzureFunctionEscapade.Mutations
 {
     public class UserMutation : Mutation<User>, IUserMutation
     {
-        public UserMutation(IService<User> service) : base(service) { }
+        protected readonly IUserService _userService;
+        public UserMutation(IService<User> service, IUserService userService) : base(service) { this._userService = userService; }
+
+        public async override Task<User> Create(User entity)
+        {
+            if (!await this._userService.CheckForConflictingUser(entity))
+            {
+                entity.Password = await this._userService.EncryptPassword(entity);
+                return await this._service.Create(entity);
+            } else
+            {
+                throw new InvalidOperationException("Email address is already in use.");
+            }
+        }
 
         public async Task<User> CreateUser([Service] IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
+        public async override Task Delete(string id)
+        {
+            await this._service.Delete(id);
+        }
+
         public async Task DeleteUser([Service] IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public async override Task<User> Update(User entity)
+        {
+            return await this._service.Update(entity);
         }
 
         public async Task<User> UpdateUserPost([Service] IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken)

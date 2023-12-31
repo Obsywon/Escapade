@@ -3,6 +3,7 @@ using AzureFunctionEscapade.Mutations.Interface;
 using AzureFunctionEscapade.Queries.Interface;
 using AzureFunctionEscapade.Services;
 using AzureFunctionEscapade.Services.Interfaces;
+using HotChocolate;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,10 @@ namespace AzureFunctionEscapade.Mutations
             _service = service;
         }
 
-        public async Task<T> Create(T entity) => await _service.Create(entity);
+        public abstract Task<T> Create(T entity);
 
-        public async Task Delete(string id) => await _service.Delete(id);
+        public abstract Task Delete(string id); 
 
-        public async Task<T> Update(T entity) => await _service.Update(entity);
+        public abstract Task<T> Update(T entity); 
     }
 }

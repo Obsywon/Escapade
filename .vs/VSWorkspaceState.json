@@ -1,6 +1,15 @@
 {
   "ExpandedNodes": [
+<<<<<<< Updated upstream
     ""
+=======
+    "",
+    "\\Escapade",
+    "\\Escapade\\Models",
+    "\\Escapade\\Mutations",
+    "\\Escapade\\Services",
+    "\\frontend"
+>>>>>>> Stashed changes
   ],
   "SelectedNode": "\\Escapade.sln",
   "PreviewInSolutionExplorer": false
