@@ -1,4 +1,4 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace AzureFunctionEscapade.Repositories.Interfaces
+namespace EscapadeApi.Repositories.Interfaces
 {
     public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     {

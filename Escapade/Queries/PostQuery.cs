@@ -1,7 +1,7 @@
-﻿using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Repositories;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Repositories;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Queries
+namespace EscapadeApi.Queries
 {
     public class PostQuery : Query<Post>, IPostQuery
     {

@@ -1,12 +1,12 @@
-﻿using AzureFunctionEscapade.Mutations.Interface;
-using AzureFunctionEscapade.Queries;
+﻿using EscapadeApi.Mutations.Interface;
+using EscapadeApi.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Mutations.Root
+namespace EscapadeApi.Mutations.Root
 {
     public class RootMutation
     {

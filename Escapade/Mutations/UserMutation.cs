@@ -1,6 +1,6 @@
-﻿using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Queries;
+﻿using EscapadeApi.Models;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Queries;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using System;
@@ -10,13 +10,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Mutations.Interface;
-using AzureFunctionEscapade.Services.Interfaces;
+using EscapadeApi.Mutations.Interface;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
-using AzureFunctionEscapade.Services;
+using EscapadeApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AzureFunctionEscapade.Mutations
+namespace EscapadeApi.Mutations
 {
     public class UserMutation : Mutation<User>, IUserMutation
     {

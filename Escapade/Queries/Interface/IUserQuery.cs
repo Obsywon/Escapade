@@ -1,4 +1,4 @@
-﻿using AzureFunctionEscapade.Models;
+﻿using EscapadeApi.Models;
 using HotChocolate;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Queries.Interface
+namespace EscapadeApi.Queries.Interface
 {
     public interface IUserQuery : IQuery<User>
     {

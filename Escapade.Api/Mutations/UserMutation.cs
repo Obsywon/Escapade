@@ -1,6 +1,6 @@
-﻿using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Queries;
+﻿using EscapadeApi.Models;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Queries;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,18 +9,21 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Mutations.Interface;
-using AzureFunctionEscapade.Services.Interfaces;
+using EscapadeApi.Mutations.Interface;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
-using AzureFunctionEscapade.Services;
+using EscapadeApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using FirebaseAdmin.Auth;
+using System.Security.Cryptography;
 
-namespace AzureFunctionEscapade.Mutations
+namespace EscapadeApi.Mutations
 {
     public class UserMutation : Mutation<User>, IUserMutation
     {
         public UserMutation() : base() { }
 
+        #region API Rest
         public async Task<User> CreateUserRestApi(IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
@@ -65,5 +68,63 @@ namespace AzureFunctionEscapade.Mutations
 
             response.EnsureSuccessStatusCode();
         }
+
+        #endregion
+
+        #region HotChocolate
+        public async Task<User> RegisterUser(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Vérifier les informations de l'utilisateur
+                if (userService.IsEmailFormatValid(email) && userService.IsBirthDateValid(birthDate) && userService.IsPasswordSecure(password))
+                {
+                    // Créer un nouvel utilisateur dans Firebase
+                    var user = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
+                    {
+                        DisplayName = $"{name} {lastname}",
+                        Email = email,
+                        Password = password,
+                        EmailVerified = false,
+                        Disabled = false,
+                    }, cancellationToken);
+
+
+                    // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
+                    var uid = user.Uid;
+
+                    // Créer un nouvel utilisateur
+                    User newUser = new User
+                    {
+                        Id = uid,
+                        Name = name,
+                        LastName = lastname,
+                        Email = email,
+                        Password = password,
+                        BirthDate = birthDate
+                    };
+
+                    // Enregistrer l'utilisateur dans CosmoDb
+                    return await userService.Create(newUser);
+                }
+                User u = new User
+                {
+                    Name = name,
+                    LastName = lastname,
+                    Email = email,
+                    Password = password,
+                    BirthDate = birthDate
+                };
+                return u;
+            }
+            catch (FirebaseAuthException ex)
+            {
+                // Gérer les erreurs d'authentification Firebase
+                Console.WriteLine($"Erreur lors de l'enregistrement de l'utilisateur : {ex.Message}");
+                throw;
+            }
+        }
+
+        #endregion 
     }
 }

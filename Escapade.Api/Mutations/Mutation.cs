@@ -1,8 +1,8 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
-using AzureFunctionEscapade.Mutations.Interface;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Services;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
+using EscapadeApi.Mutations.Interface;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Services;
+using EscapadeApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Mutations
+namespace EscapadeApi.Mutations
 {
     public abstract class Mutation<T> : IMutation<T> where T : class, IEntity
     {

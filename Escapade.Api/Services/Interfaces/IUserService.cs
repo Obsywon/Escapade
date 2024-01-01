@@ -1,4 +1,4 @@
-﻿using AzureFunctionEscapade.Models;
+﻿using EscapadeApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,20 +6,20 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Services.Interfaces
+namespace EscapadeApi.Services.Interfaces
 {
     public interface IUserService : IService<User>
     {
-        public Task<bool> CheckForConflictingUser(User user);
+        public Task<bool> CheckForConflictingUser(string email);
 
-        public Task<string> EncryptPassword(User user);
+        public Task<string> EncryptPassword(string password);
 
-        public bool IsPasswordSecure(User user);
+        public bool IsPasswordSecure(string password);
 
-        public bool IsEmailFormatValid(User user);
+        public bool IsEmailFormatValid(string email);
 
-        public bool IsNameOrLastNameValid(User user);
+        public bool IsNameAndLastNameValid(string name, string lastName);
 
-        public bool IsBirthDateValid(User user);
+        public bool IsBirthDateValid(DateTime birthDate);
     }
 }

@@ -9,9 +9,9 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Models
+namespace EscapadeApi.Models
 {
-    //[ExtendObjectType<Post>]
+    [ExtendObjectType<Post>]
     public class PostExtensions
     {
         [GraphQLType("User!")]

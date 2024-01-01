@@ -1,4 +1,4 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace AzureFunctionEscapade.Models
+namespace EscapadeApi.Models
 {
     public class Post : Entity
     {

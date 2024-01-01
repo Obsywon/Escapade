@@ -1,5 +1,5 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
+using EscapadeApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Mutations.Interface
+namespace EscapadeApi.Mutations.Interface
 {
     public interface IMutation<T> where T : class, IEntity
     {

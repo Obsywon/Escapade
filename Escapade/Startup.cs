@@ -2,24 +2,24 @@
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AzureFunctionEscapade;
-using AzureFunctionEscapade.Repositories.Interfaces;
-using AzureFunctionEscapade.Services.Interfaces;
-using AzureFunctionEscapade.Services;
-using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Repositories;
+using EscapadeApi;
+using EscapadeApi.Repositories.Interfaces;
+using EscapadeApi.Services.Interfaces;
+using EscapadeApi.Services;
+using EscapadeApi.Models;
+using EscapadeApi.Repositories;
 using System;
-using AzureFunctionEscapade.Queries;
+using EscapadeApi.Queries;
 using System.IO;
-using AzureFunctionEscapade.Mutations;
-using AzureFunctionEscapade.Queries.Interface;
+using EscapadeApi.Mutations;
+using EscapadeApi.Queries.Interface;
 using Microsoft.Extensions.Logging;
-using AzureFunctionEscapade.Queries.Root;
-using AzureFunctionEscapade.Mutations.Root;
+using EscapadeApi.Queries.Root;
+using EscapadeApi.Mutations.Root;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
-namespace AzureFunctionEscapade
+namespace EscapadeApi
 {
     public class Startup : FunctionsStartup
     {

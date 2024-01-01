@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Escapade.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9817743cca4c2e73d9bfc9d08d04c0b70e6c09a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e9bbfdaedc94aaf9ef68716941deff1f0530c49")]
 [assembly: System.Reflection.AssemblyProductAttribute("Escapade.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Escapade.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

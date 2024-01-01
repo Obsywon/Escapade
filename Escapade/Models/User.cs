@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Models.Interfaces;
+using EscapadeApi.Models.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace AzureFunctionEscapade.Models
+namespace EscapadeApi.Models
 {
     public class User : Entity
     {

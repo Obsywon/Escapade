@@ -1,18 +1,19 @@
-using AzureFunctionEscapade;
-using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Mutations;
-using AzureFunctionEscapade.Queries;
-using AzureFunctionEscapade.Repositories.Interfaces;
-using AzureFunctionEscapade.Repositories;
-using AzureFunctionEscapade.Services;
-using AzureFunctionEscapade.Services.Interfaces;
+using EscapadeApi;
+using EscapadeApi.Models;
+using EscapadeApi.Mutations;
+using EscapadeApi.Queries;
+using EscapadeApi.Repositories.Interfaces;
+using EscapadeApi.Repositories;
+using EscapadeApi.Services;
+using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
-using AzureFunctionEscapade.Mutations.Root;
-using AzureFunctionEscapade.Queries.Root;
+using EscapadeApi.Mutations.Root;
+using EscapadeApi.Queries.Root;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,18 +28,28 @@ var firebaseApp = FirebaseApp.Create(new AppOptions
 });
 
 builder.Services.AddSingleton(firebaseApp);
-
 builder.Services.AddFirebaseAuthentication();
 
+// Lire la configuration CosmoDb depuis le fichier local.settings.json
+IConfiguration configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
+
+string accountEndpointConfig = configuration.GetValue<string>("CosmosAccountEndpoint");
+string accountKeyConfig = configuration.GetValue<string>("CosmosAccountKey");
+string databaseNameConfig = configuration.GetValue<string>("CosmosDatabaseName");
+
+
+// Configure CosmoDb
 builder.Services.AddDbContextPool<CosmosContext>((options) =>
 {
     options.UseCosmos(
-        accountEndpoint: "https://cosmos-escapade-dev-fc.documents.azure.com:443/",
-        accountKey: "uTZDABFmVId1bmbCGu2n5uJB4W1wyQeWJUPebHG3AJ7cgqtMX97CfMOBwHf3jTkHrtaM1YSDeF6QACDbwsjTwQ==",
-        databaseName: "db-cosmos-nosql-escapade-dev-fc"
+        accountEndpoint: accountEndpointConfig,
+        accountKey: accountKeyConfig,
+        databaseName: databaseNameConfig
     );
 });
 
+
+// Configure DI
 builder.Services
         .AddTransient<UserService>()
         .AddTransient<PostService>()
@@ -51,10 +62,10 @@ builder.Services
         .AddScoped<UserQuery>()
         .AddScoped<UserMutation>()
         .AddScoped<PostQuery>()
-        .AddScoped<PostMutation>()
-        .AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
+        .AddScoped<PostMutation>();
+//.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
 
-
+// Configure HotChocolate
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
@@ -62,8 +73,9 @@ builder.Services
     .AddMutationType<RootMutation>()
     .AddType<User>()
     .AddType<Post>()
-    //.AddTypeExtension<PostExtensions>()
+    .AddTypeExtension<PostExtensions>()
     .RegisterService<IService<User>>(ServiceKind.Resolver)
+    .RegisterService<IUserService>(ServiceKind.Resolver)
     .RegisterService<IService<Post>>(ServiceKind.Resolver)
     .RegisterService<IHttpClientFactory>(ServiceKind.Resolver);
 

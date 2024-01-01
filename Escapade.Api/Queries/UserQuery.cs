@@ -1,6 +1,6 @@
-﻿using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using HotChocolate.Authorization;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +15,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Queries
+namespace EscapadeApi.Queries
 {
 
     public class UserQuery : Query<User>, IUserQuery
