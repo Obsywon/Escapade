@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KxKrArMhjZvyl/8GH9Ii0qGdjdbsjS8yIU6J4I/siutU8hvZrXLpBZcD8oS2lTqowTImya+zwUotavxFIazAmg==",
+  "dgSpecHash": "OtweeWHURTE3HV6w9dvpteUKT56NY3Mc2B/fvCqxe+qT+NFW/TuEGc/WB3AFhUIN0nljblUeoy2i/4EG0UMNzA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
   "expectedPackageFiles": [
@@ -33,6 +33,7 @@
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.subscriptions.inmemory\\13.8.1\\hotchocolate.subscriptions.inmemory.13.8.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.transport.sockets\\13.8.1\\hotchocolate.transport.sockets.13.8.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.types\\13.8.1\\hotchocolate.types.13.8.1.nupkg.sha512",
+    "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.types.analyzers\\13.8.1\\hotchocolate.types.analyzers.13.8.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.types.cursorpagination\\13.8.1\\hotchocolate.types.cursorpagination.13.8.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.types.mutations\\13.8.1\\hotchocolate.types.mutations.13.8.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\hotchocolate.types.offsetpagination\\13.8.1\\hotchocolate.types.offsetpagination.13.8.1.nupkg.sha512",

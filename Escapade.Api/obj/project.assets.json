@@ -518,6 +518,9 @@
           }
         }
       },
+      "HotChocolate.Types.Analyzers/13.8.1": {
+        "type": "package"
+      },
       "HotChocolate.Types.CursorPagination/13.8.1": {
         "type": "package",
         "dependencies": {
@@ -2489,6 +2492,22 @@
         "lib/net8.0/HotChocolate.Types.xml",
         "lib/netstandard2.0/HotChocolate.Types.dll",
         "lib/netstandard2.0/HotChocolate.Types.xml",
+        "strawberryshake-signet.png"
+      ]
+    },
+    "HotChocolate.Types.Analyzers/13.8.1": {
+      "sha512": "Uw8SyLc1JRxJQU7RWncFXhn+94DrZzNcQBZIrMGTqUxV2SAVNG4P0zMVUWDaqVa2ekyao0B1GWCDtM6J3/3RKw==",
+      "type": "package",
+      "path": "hotchocolate.types.analyzers/13.8.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "analyzers/dotnet/cs/HotChocolate.Types.Analyzers.dll",
+        "greendonut-signet.png",
+        "hotchocolate-signet.png",
+        "hotchocolate.types.analyzers.13.8.1.nupkg.sha512",
+        "hotchocolate.types.analyzers.nuspec",
         "strawberryshake-signet.png"
       ]
     },
@@ -4464,6 +4483,7 @@
       "HotChocolate.AspNetCore >= 13.8.1",
       "HotChocolate.AspNetCore.Authorization >= 13.8.1",
       "HotChocolate.Data.EntityFramework >= 13.8.1",
+      "HotChocolate.Types.Analyzers >= 13.8.1",
       "Microsoft.EntityFrameworkCore.Cosmos >= 6.0.25",
       "Newtonsoft.Json >= 13.0.3"
     ]
@@ -4526,6 +4546,10 @@
             "version": "[13.8.1, )"
           },
           "HotChocolate.Data.EntityFramework": {
+            "target": "Package",
+            "version": "[13.8.1, )"
+          },
+          "HotChocolate.Types.Analyzers": {
             "target": "Package",
             "version": "[13.8.1, )"
           },

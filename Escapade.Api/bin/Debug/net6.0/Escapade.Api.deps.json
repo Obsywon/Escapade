@@ -12,6 +12,7 @@
           "HotChocolate.AspNetCore": "13.8.1",
           "HotChocolate.AspNetCore.Authorization": "13.8.1",
           "HotChocolate.Data.EntityFramework": "13.8.1",
+          "HotChocolate.Types.Analyzers": "13.8.1",
           "Microsoft.EntityFrameworkCore.Cosmos": "6.0.25",
           "Newtonsoft.Json": "13.0.3"
         },
@@ -388,6 +389,7 @@
           }
         }
       },
+      "HotChocolate.Types.Analyzers/13.8.1": {},
       "HotChocolate.Types.CursorPagination/13.8.1": {
         "dependencies": {
           "HotChocolate.Execution": "13.8.1",
@@ -1240,6 +1242,13 @@
       "sha512": "sha512-EK5PodS+N+Oi77jmBFucS6Leq0mL4xYjC2fDTq6Le+cNxMLYx+cY8PE5Kjg3rMtrd/MFOOvUSQ/heAes5nuBHQ==",
       "path": "hotchocolate.types/13.8.1",
       "hashPath": "hotchocolate.types.13.8.1.nupkg.sha512"
+    },
+    "HotChocolate.Types.Analyzers/13.8.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Uw8SyLc1JRxJQU7RWncFXhn+94DrZzNcQBZIrMGTqUxV2SAVNG4P0zMVUWDaqVa2ekyao0B1GWCDtM6J3/3RKw==",
+      "path": "hotchocolate.types.analyzers/13.8.1",
+      "hashPath": "hotchocolate.types.analyzers.13.8.1.nupkg.sha512"
     },
     "HotChocolate.Types.CursorPagination/13.8.1": {
       "type": "package",
