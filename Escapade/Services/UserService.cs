@@ -47,7 +47,7 @@ namespace AzureFunctionEscapade.Services
                 }
             }
         }
-        /*
+        
         public bool IsPasswordSecure(User user)
         {
             // Vérifier si le mot de passe a au moins 8 caractères
@@ -93,6 +93,5 @@ namespace AzureFunctionEscapade.Services
             // Vérifier si la date de naissance correspond au format attendu
             return regex.IsMatch(user.BirthDate);
         }
-        */
     }
 }

@@ -19,21 +19,26 @@ using AzureFunctionEscapade.Models.Interfaces;
 
 namespace AzureFunctionEscapade.Mutations
 {
-    public class UserMutation : Mutation<User>, IUserMutation
+    public class UserMutation 
     {
-        protected readonly IUserService _userService;
-        public UserMutation(IService<User> service, IUserService userService) : base(service) { this._userService = userService; }
-
-        public async override Task<User> Create(User entity)
+        public async Task<User> CreateNewUser([Service] IUserService userService, User entity)
         {
-            if (!await this._userService.CheckForConflictingUser(entity))
+            if (await userService.CheckForConflictingUser(entity))
             {
-                entity.Password = await this._userService.EncryptPassword(entity);
-                return await this._service.Create(entity);
-            } else
+                throw new InvalidOperationException("email address is already in use.");
+            } else if (!userService.IsPasswordSecure(entity))
             {
-                throw new InvalidOperationException("Email address is already in use.");
+                throw new InvalidOperationException("password is invalid.");
+            } else if (!userService.IsNameOrLastNameValid(entity))
+            {
+                throw new InvalidOperationException("user's name is invalid.");
+            } else if (!userService.IsBirthDateValid(entity))
+            {
+                throw new InvalidOperationException("birthdate is invalid.");
             }
+
+            entity.Password = await userService.EncryptPassword(entity);
+            return await userService.Create(entity);
         }
 
         public async Task<User> CreateUser([Service] IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
@@ -41,9 +46,9 @@ namespace AzureFunctionEscapade.Mutations
             throw new NotImplementedException();
         }
 
-        public async override Task Delete(string id)
+        public async  Task DelUser([Service] IUserService userService, string id, CancellationToken cancellationtoken)
         {
-            await this._service.Delete(id);
+            await userService.Delete(id);
         }
 
         public async Task DeleteUser([Service] IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken)
@@ -51,9 +56,9 @@ namespace AzureFunctionEscapade.Mutations
             throw new NotImplementedException();
         }
 
-        public async override Task<User> Update(User entity)
+        public async  Task<User> UpUser([Service] IUserService userService, User entity, CancellationToken cancellationToken)
         {
-            return await this._service.Update(entity);
+            return await userService.Update(entity);
         }
 
         public async Task<User> UpdateUserPost([Service] IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken)
