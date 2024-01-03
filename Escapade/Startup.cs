@@ -56,9 +56,10 @@ namespace AzureFunctionEscapade
             
             services.AddGraphQLServer()
                 .AddQueryType<RootQuery>()
-                .AddMutationType<RootMutation>()
+                .AddMutationType<Mutation>()
                 .AddType<User>()
-                .AddTypeExtension<PostExtensions>();
+                .AddTypeExtension<PostExtensions>()
+                .AddTypeExtension<UserMutation>(); 
 
             services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071")); ;
 

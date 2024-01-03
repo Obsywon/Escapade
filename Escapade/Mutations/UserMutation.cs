@@ -16,9 +16,12 @@ using HotChocolate;
 using AzureFunctionEscapade.Services;
 using Microsoft.AspNetCore.Mvc;
 using AzureFunctionEscapade.Models.Interfaces;
+using HotChocolate.Types;
+using AzureFunctionEscapade.Mutations.Root;
 
 namespace AzureFunctionEscapade.Mutations
 {
+    [ExtendObjectType(typeof(Mutation))]
     public class UserMutation 
     {
         public async Task<User> Create([Service] IUserService userService, User entity)
