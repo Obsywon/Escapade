@@ -47,7 +47,7 @@ namespace AzureFunctionEscapade.Services
                 }
             }
         }
-
+        
         public bool IsPasswordSecure(User user)
         {
             // Vérifier si le mot de passe a au moins 8 caractères

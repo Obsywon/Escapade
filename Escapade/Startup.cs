@@ -16,6 +16,9 @@ using AzureFunctionEscapade.Queries.Interface;
 using Microsoft.Extensions.Logging;
 using AzureFunctionEscapade.Queries.Root;
 using AzureFunctionEscapade.Mutations.Root;
+using AzureFunctionEscapade.Mutations.Interface;
+using HotChocolate;
+using System.Net.Http;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -47,16 +50,18 @@ namespace AzureFunctionEscapade
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IService<User>, UserService>();
+            services.AddScoped<Service<User>, UserService>();
             services.AddScoped<UserQuery>();
             services.AddScoped<UserMutation>();
-            services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
-
-
+            
             services.AddGraphQLServer()
                 .AddQueryType<RootQuery>()
-                .AddMutationType<RootMutation>()
+                .AddMutationType<Mutation>()
                 .AddType<User>()
-                .AddTypeExtension<PostExtensions>();
+                .AddTypeExtension<PostExtensions>()
+                .AddTypeExtension<UserMutation>(); 
+
+            services.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071")); ;
 
 
             return services;

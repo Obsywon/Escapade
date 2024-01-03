@@ -13,7 +13,6 @@ namespace AzureFunctionEscapade.Services.Interfaces
         public Task<bool> CheckForConflictingUser(User user);
 
         public Task<string> EncryptPassword(User user);
-
         public bool IsPasswordSecure(User user);
 
         public bool IsEmailFormatValid(User user);

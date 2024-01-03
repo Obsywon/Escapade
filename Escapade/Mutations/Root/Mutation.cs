@@ -8,14 +8,7 @@ using System.Threading.Tasks;
 
 namespace AzureFunctionEscapade.Mutations.Root
 {
-    public class RootMutation
+    public class Mutation
     {
-        public UserMutation UserMutation { get; }
-
-
-        public RootMutation(UserMutation userMutation)
-        {
-            UserMutation = userMutation;
-        }
     }
 }

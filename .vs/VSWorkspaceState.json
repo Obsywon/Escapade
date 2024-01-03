@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Escapade",
+    "\\Escapade\\Models",
+    "\\Escapade\\Mutations",
+    "\\Escapade\\Services",
+    "\\frontend"
   ],
-  "SelectedNode": "\\Escapade.sln",
+  "SelectedNode": "\\Escapade\\Escapade.sln",
   "PreviewInSolutionExplorer": false
 }
