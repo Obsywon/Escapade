@@ -21,7 +21,7 @@ namespace AzureFunctionEscapade.Mutations
 {
     public class UserMutation 
     {
-        public async Task<User> CreateNewUser([Service] IUserService userService, User entity)
+        public async Task<User> Create([Service] IUserService userService, User entity)
         {
             if (await userService.CheckForConflictingUser(entity))
             {
@@ -46,7 +46,7 @@ namespace AzureFunctionEscapade.Mutations
             throw new NotImplementedException();
         }
 
-        public async  Task DelUser([Service] IUserService userService, string id, CancellationToken cancellationtoken)
+        public async  Task Delete([Service] IUserService userService, string id, CancellationToken cancellationtoken)
         {
             await userService.Delete(id);
         }
@@ -56,7 +56,7 @@ namespace AzureFunctionEscapade.Mutations
             throw new NotImplementedException();
         }
 
-        public async  Task<User> UpUser([Service] IUserService userService, User entity, CancellationToken cancellationToken)
+        public async  Task<User> Update([Service] IUserService userService, User entity, CancellationToken cancellationToken)
         {
             return await userService.Update(entity);
         }
