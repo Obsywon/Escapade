@@ -37,9 +37,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 >>>>>>> 4b7316e (correction bugs connexionscreen / app (affichage écrasée))
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import pageBienvenue from "./pages/pageBienvenue";
+
 import InscriptionScreen from "./pages/InscriptionScreen";
 import ConnexionScreen from "./pages/ConnexionScreen";
+import pageBienvenue from "./pages/Bienvenue";
+
 
 const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
