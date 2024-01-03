@@ -1,4 +1,5 @@
 ﻿using EscapadeApi.Models.Interfaces;
+using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -20,7 +21,7 @@ namespace EscapadeApi.Repositories.Interfaces
             _dbContext = dbContext;
         }
 
-        public virtual async Task<T> GetById(string id)
+        public virtual async Task<T> GetById(Guid id)
         {
             return await _dbContext.Set<T>()
                 .FirstOrDefaultAsync(entity => entity.Id == id);
@@ -40,9 +41,9 @@ namespace EscapadeApi.Repositories.Interfaces
 
         public virtual async Task<T> Create(T entity)
         {
-            if (entity.Id is null)
+            if (entity.Id.IsNull())
             {
-                entity.Id = Guid.NewGuid().ToString();
+                entity.Id = Guid.NewGuid();
             }
 
             await _dbContext.Set<T>().AddAsync(entity);
@@ -62,7 +63,7 @@ namespace EscapadeApi.Repositories.Interfaces
             return await GetById(entity.Id);
         }
 
-        public virtual async Task Delete(string id)
+        public virtual async Task Delete(Guid id)
         {
             var entity = await GetById(id);
 

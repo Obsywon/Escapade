@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Escapade.Api.Schema.Queries;
 
-namespace EscapadeApi.Queries.Root
+namespace Escapade.Api.Schema.Queries.Root
 {
     public class RootQuery
     {

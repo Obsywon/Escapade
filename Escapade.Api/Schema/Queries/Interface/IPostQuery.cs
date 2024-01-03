@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EscapadeApi.Queries.Interface
+namespace Escapade.Api.Schema.Queries.Interface
 {
     public interface IPostQuery : IQuery<Post>
     {

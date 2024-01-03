@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OtweeWHURTE3HV6w9dvpteUKT56NY3Mc2B/fvCqxe+qT+NFW/TuEGc/WB3AFhUIN0nljblUeoy2i/4EG0UMNzA==",
+  "dgSpecHash": "sX/MwLXKSIqKovxoe86XMvs6F7C94tPzRLMWdxX0YCtMAmzr05jWhblzC5M9a69/GHyU6b2dPl3cFn2LzB8ufA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
   "expectedPackageFiles": [
@@ -86,7 +86,7 @@
     "C:\\Users\\gaeta\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\gaeta\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\gaeta\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\gaeta\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",

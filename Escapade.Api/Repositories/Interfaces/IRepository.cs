@@ -10,7 +10,7 @@ namespace EscapadeApi.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {
-        public Task<T> GetById(string id);
+        public Task<T> GetById(Guid id);
 
         public Task<IEnumerable<T>> GetAll();
 
@@ -20,6 +20,6 @@ namespace EscapadeApi.Repositories.Interfaces
 
         public Task<T> Update(T entity);
 
-        public Task Delete(string id);
+        public Task Delete(Guid id);
     }
 }

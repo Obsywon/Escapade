@@ -1,7 +1,5 @@
 using EscapadeApi;
 using EscapadeApi.Models;
-using EscapadeApi.Mutations;
-using EscapadeApi.Queries;
 using EscapadeApi.Repositories.Interfaces;
 using EscapadeApi.Repositories;
 using EscapadeApi.Services;
@@ -11,9 +9,10 @@ using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
-using EscapadeApi.Mutations.Root;
-using EscapadeApi.Queries.Root;
-using System.Configuration;
+using Escapade.Api.Schema.Queries;
+using Escapade.Api.Schema.Queries.Root;
+using Escapade.Api.Schema.Mutations;
+using Escapade.Api.Schema.Mutations.Root;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +68,7 @@ builder.Services
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
+    .AddMutationConventions(applyToAllMutations: true)
     .AddQueryType<RootQuery>()
     .AddMutationType<RootMutation>()
     .AddType<User>()

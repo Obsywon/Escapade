@@ -1,5 +1,5 @@
-﻿using EscapadeApi.Models;
-using EscapadeApi.Queries.Interface;
+﻿using Escapade.Api.Schema.Queries.Interface;
+using EscapadeApi.Models;
 using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using HotChocolate.Authorization;
@@ -15,14 +15,14 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EscapadeApi.Queries
+namespace Escapade.Api.Schema.Queries
 {
 
     public class UserQuery : Query<User>, IUserQuery
     {
         public UserQuery() : base() { }
 
-        
+
         public async Task<List<User>> GetUsers(IHttpClientFactory clientFactory, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");

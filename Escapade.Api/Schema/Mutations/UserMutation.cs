@@ -1,23 +1,11 @@
 ﻿using EscapadeApi.Models;
-using EscapadeApi.Queries.Interface;
-using EscapadeApi.Queries;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using EscapadeApi.Mutations.Interface;
 using EscapadeApi.Services.Interfaces;
-using HotChocolate;
-using EscapadeApi.Services;
-using Microsoft.AspNetCore.Mvc;
 using FirebaseAdmin.Auth;
-using System.Security.Cryptography;
+using Escapade.Api.Schema.Mutations.Interface;
 
-namespace EscapadeApi.Mutations
+namespace Escapade.Api.Schema.Mutations
 {
     public class UserMutation : Mutation<User>, IUserMutation
     {
@@ -34,7 +22,7 @@ namespace EscapadeApi.Mutations
 
             var response = await client.PostAsync("api/users", stringContent, cancellationToken);
 
-            response.EnsureSuccessStatusCode(); 
+            response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var createdUser = JsonConvert.DeserializeObject<User>(responseContent);
@@ -42,7 +30,7 @@ namespace EscapadeApi.Mutations
             return createdUser;
         }
 
-        public async Task<User> UpdateUserRestApi(IHttpClientFactory clientFactory, string userId, User updatedUser, CancellationToken cancellationToken)
+        public async Task<User> UpdateUserRestApi(IHttpClientFactory clientFactory, Guid userId, User updatedUser, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
 
@@ -60,7 +48,7 @@ namespace EscapadeApi.Mutations
             return modifiedUser;
         }
 
-        public async Task DeleteUserRestApi(IHttpClientFactory clientFactory, string userId, CancellationToken cancellationToken)
+        public async Task DeleteUserRestApi(IHttpClientFactory clientFactory, Guid userId, CancellationToken cancellationToken)
         {
             using var client = clientFactory.CreateClient("rest");
 
@@ -72,6 +60,7 @@ namespace EscapadeApi.Mutations
         #endregion
 
         #region HotChocolate
+
         public async Task<User> RegisterUser(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
@@ -91,21 +80,25 @@ namespace EscapadeApi.Mutations
 
 
                     // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
-                    var uid = user.Uid;
+                    string uidString = user.Uid;
 
-                    // Créer un nouvel utilisateur
-                    User newUser = new User
+                    // Convertir la chaîne en Guid
+                    if (Guid.TryParse(uidString, out Guid uid))
                     {
-                        Id = uid,
-                        Name = name,
-                        LastName = lastname,
-                        Email = email,
-                        Password = password,
-                        BirthDate = birthDate
-                    };
+                        // Créer un nouvel utilisateur
+                        User newUser = new User
+                        {
+                            Id = uid,
+                            Name = name,
+                            LastName = lastname,
+                            Email = email,
+                            Password = password,
+                            BirthDate = birthDate
+                        };
 
-                    // Enregistrer l'utilisateur dans CosmoDb
-                    return await userService.Create(newUser);
+                        // Enregistrer l'utilisateur dans CosmoDb
+                        return await userService.Create(newUser);
+                    }
                 }
                 User u = new User
                 {

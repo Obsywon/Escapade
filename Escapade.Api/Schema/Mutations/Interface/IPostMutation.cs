@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EscapadeApi.Mutations.Interface
+namespace Escapade.Api.Schema.Mutations.Interface
 {
     public interface IPostMutation : IMutation<Post>
     {

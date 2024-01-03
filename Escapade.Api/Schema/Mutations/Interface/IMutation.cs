@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EscapadeApi.Mutations.Interface
+namespace Escapade.Api.Schema.Mutations.Interface
 {
     public interface IMutation<T> where T : class, IEntity
     {
@@ -16,6 +16,6 @@ namespace EscapadeApi.Mutations.Interface
 
         Task<T> Update(IService<T> service, T entity, CancellationToken cancellation);
 
-        Task Delete(string id, IService<T> service, CancellationToken cancellation);
+        Task Delete(Guid id, IService<T> service, CancellationToken cancellation);
     }
 }
