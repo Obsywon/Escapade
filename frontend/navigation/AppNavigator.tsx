@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import pageBienvenue from '../pages/pageBienvenue';
+import pageBienvenue from '../pages/Bienvenue';
 import InscriptionScreen from '../pages/InscriptionScreen';
 import ConnexionScreen from '../pages/ConnexionScreen';
 // import pageConnexion from '../pages/pageConnexion';
