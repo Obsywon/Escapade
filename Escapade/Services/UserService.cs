@@ -1,6 +1,6 @@
-﻿using AzureFunctionEscapade.Models;
-using AzureFunctionEscapade.Repositories.Interfaces;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models;
+using EscapadeApi.Repositories.Interfaces;
+using EscapadeApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
-namespace AzureFunctionEscapade.Services
+namespace EscapadeApi.Services
 {
     public class UserService : Service<User>, IUserService
     {

@@ -1,4 +1,4 @@
-﻿using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Models;
+using EscapadeApi.Models;
 using System.Web.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
@@ -18,7 +18,7 @@ using HotChocolate.AzureFunctions;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Collections.Generic;
 
-namespace AzureFunctionEscapade
+namespace EscapadeApi
 {
     public class ControllerUser
     {

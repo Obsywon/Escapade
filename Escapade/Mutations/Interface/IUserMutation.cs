@@ -1,5 +1,5 @@
-﻿using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Queries;
+﻿using EscapadeApi.Queries.Interface;
+using EscapadeApi.Queries;
 using HotChocolate;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,10 +9,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Models;
+using EscapadeApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AzureFunctionEscapade.Mutations.Interface
+namespace EscapadeApi.Mutations.Interface
 {
     public interface IUserMutation : IMutation<User>
     {

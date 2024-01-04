@@ -1,5 +1,5 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
-using AzureFunctionEscapade.Repositories.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
+using EscapadeApi.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Services.Interfaces
+namespace EscapadeApi.Services.Interfaces
 {
     public abstract class Service<T> : IService<T> where T : class, IEntity
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Models.Interfaces
+namespace EscapadeApi.Models.Interfaces
 {
     public interface IEntity
     {

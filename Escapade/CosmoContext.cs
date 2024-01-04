@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AzureFunctionEscapade.Models;
+using EscapadeApi.Models;
 
-namespace AzureFunctionEscapade
+namespace EscapadeApi
 {
     public class CosmosContext : DbContext
     {

@@ -1,7 +1,7 @@
-﻿using AzureFunctionEscapade.Models.Interfaces;
-using AzureFunctionEscapade.Queries.Interface;
-using AzureFunctionEscapade.Repositories.Interfaces;
-using AzureFunctionEscapade.Services.Interfaces;
+﻿using EscapadeApi.Models.Interfaces;
+using EscapadeApi.Queries.Interface;
+using EscapadeApi.Repositories.Interfaces;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AzureFunctionEscapade.Queries
+namespace EscapadeApi.Queries
 {
     public abstract class Query<T> : IQuery<T> where T : class, IEntity
     {

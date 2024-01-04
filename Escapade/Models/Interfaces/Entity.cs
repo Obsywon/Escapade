@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace AzureFunctionEscapade.Models.Interfaces
+namespace EscapadeApi.Models.Interfaces
 {
     public abstract class Entity : IEntity
     {

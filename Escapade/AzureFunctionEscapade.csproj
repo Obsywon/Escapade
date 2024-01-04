@@ -5,6 +5,11 @@
 	<LangVersion>11.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Dto\**" />
+    <EmbeddedResource Remove="Dto\**" />
+    <None Remove="Dto\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Schema.graphql" />
   </ItemGroup>
   <ItemGroup>
@@ -35,8 +40,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dto\" />
   </ItemGroup>
 </Project>
