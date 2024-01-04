@@ -14,11 +14,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Escapade.Api.Schema.Queries
 {
-
-    public class UserQuery : Query<User>, IUserQuery
+    [ExtendObjectType(typeof(Query))]
+    public class UserQuery : IUserQuery
     {
         public UserQuery() : base() { }
 
@@ -37,6 +38,16 @@ namespace Escapade.Api.Schema.Queries
             var content = await client.GetStringAsync($"api/users/{id}", cancellationToken);
             var users = JsonConvert.DeserializeObject<User>(content);
             return users;
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync(IService<User> service, CancellationToken cancellation)
+        {
+            return await service.GetAllAsync();
+        }
+
+        public async Task<User> GetByIdAsync(Guid id, IService<User> service, CancellationToken cancellation)
+        {
+            return await service.GetByIdAsync(id);
         }
     }
 }

@@ -10,16 +10,16 @@ namespace EscapadeApi.Services.Interfaces
 {
     public interface IService<T> where T : class, IEntity
     {
-        public Task<T> GetById(Guid id);
+        public Task<T> GetByIdAsync(Guid id);
 
-        public Task<IEnumerable<T>> GetAll();
+        public Task<IEnumerable<T>> GetAllAsync();
 
-        public Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression);
+        public Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
 
-        public Task<T> Create(T entity);
+        public Task<T> CreateAsync(T entity);
 
-        public Task<T> Update(T entity);
+        public Task<T> UpdateAsync(T entity);
 
-        public Task Delete(Guid id);
+        public Task DeleteAsync(Guid id);
     }
 }

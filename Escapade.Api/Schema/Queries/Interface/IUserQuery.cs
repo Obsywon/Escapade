@@ -1,4 +1,5 @@
 ﻿using EscapadeApi.Models;
+using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,5 +17,9 @@ namespace Escapade.Api.Schema.Queries.Interface
         public Task<List<User>> GetUsers(IHttpClientFactory clientFactory, CancellationToken cancellationToken);
 
         public Task<User> GetUserById(string id, IHttpClientFactory clientFactory, CancellationToken cancellationToken);
+
+        public Task<IEnumerable<User>> GetAllAsync(IService<User> service, CancellationToken cancellation);
+
+        public Task<User> GetByIdAsync(Guid id, IService<User> service, CancellationToken cancellation);
     }
 }

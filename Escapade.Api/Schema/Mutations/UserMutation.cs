@@ -97,7 +97,7 @@ namespace Escapade.Api.Schema.Mutations
                         };
 
                         // Enregistrer l'utilisateur dans CosmoDb
-                        return await userService.Create(newUser);
+                        return await userService.CreateAsync(newUser);
                     }
                 }
                 User u = new User

@@ -20,7 +20,7 @@ namespace EscapadeApi.Services
 
         public async Task<bool> CheckForConflictingUser(string email)
         {
-            return (await _repository.GetByCondition(x => x.Email == email)).Any();
+            return (await _repository.GetByConditionAsync(x => x.Email == email)).Any();
         }
 
         public async Task<string> EncryptPassword(string password)

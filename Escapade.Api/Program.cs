@@ -10,7 +10,6 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
 using Escapade.Api.Schema.Queries;
-using Escapade.Api.Schema.Queries.Root;
 using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Mutations.Root;
 
@@ -69,7 +68,7 @@ builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
     .AddMutationConventions(applyToAllMutations: true)
-    .AddQueryType<RootQuery>()
+    .AddQueryType<Query>()
     .AddMutationType<RootMutation>()
     .AddType<User>()
     .AddType<Post>()

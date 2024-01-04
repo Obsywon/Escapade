@@ -13,8 +13,8 @@ namespace Escapade.Api.Schema.Queries.Interface
 {
     public interface IQuery<T> where T : class, IEntity
     {
-        Task<IEnumerable<T>> GetAll(IService<T> service, CancellationToken cancellation);
+        Task<IEnumerable<T>> GetAllAsync(IService<T> service, CancellationToken cancellation);
 
-        Task<T> GetById(Guid id, IService<T> service, CancellationToken cancellation);
+        Task<T> GetByIdAsync(Guid id, IService<T> service, CancellationToken cancellation);
     }
 }
