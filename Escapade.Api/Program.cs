@@ -13,6 +13,7 @@ using Escapade.Api.Schema.Queries;
 using Escapade.Api.Schema.Queries.Root;
 using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Mutations.Root;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +30,15 @@ var firebaseApp = FirebaseApp.Create(new AppOptions
 builder.Services.AddSingleton(firebaseApp);
 builder.Services.AddFirebaseAuthentication();
 
-// Lire la configuration CosmoDb depuis le fichier local.settings.json
-IConfiguration configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
+// Lire la configuration CosmoDb depuis le fichier appsettings.json
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json")
+    .Build();
 
-string accountEndpointConfig = configuration.GetValue<string>("CosmosAccountEndpoint");
-string accountKeyConfig = configuration.GetValue<string>("CosmosAccountKey");
-string databaseNameConfig = configuration.GetValue<string>("CosmosDatabaseName");
+string accountEndpointConfig = configuration.GetValue<string>("CosmosDb:AccountEndpoint");
+string accountKeyConfig = configuration.GetValue<string>("CosmosDb:AccountKey");
+string databaseNameConfig = configuration.GetValue<string>("CosmosDb:DatabaseName");
 
 
 // Configure CosmoDb
@@ -70,14 +74,16 @@ builder.Services
     .AddAuthorization()
     .AddMutationConventions(applyToAllMutations: true)
     .AddQueryType<RootQuery>()
-    .AddMutationType<RootMutation>()
+    .AddMutationType<Mutation>()
     .AddType<User>()
     .AddType<Post>()
     .AddTypeExtension<PostExtensions>()
     .RegisterService<IService<User>>(ServiceKind.Resolver)
     .RegisterService<IUserService>(ServiceKind.Resolver)
     .RegisterService<IService<Post>>(ServiceKind.Resolver)
-    .RegisterService<IHttpClientFactory>(ServiceKind.Resolver);
+    .RegisterService<IHttpClientFactory>(ServiceKind.Resolver)
+    .AddTypeExtension<PostExtensions>()
+    .AddTypeExtension<UserMutation>();
 
 var app = builder.Build();
 

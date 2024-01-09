@@ -1,7 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\Escapade.Api",
+    "\\Escapade.Api\\Schema",
+    "\\Escapade.Api\\Schema\\Mutations",
+    "\\Escapade\\Mutations",
+    "\\frontend",
+    "\\frontend\\pages",
+    "\\frontend\\pages\\UserService"
   ],
-  "SelectedNode": "\\Escapade.sln",
+  "SelectedNode": "\\Escapade.Api\\Schema\\Mutations\\UserMutation.cs",
   "PreviewInSolutionExplorer": false
 }

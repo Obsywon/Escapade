@@ -1,4 +1,5 @@
 ﻿using Escapade.Api.Schema.Mutations.Interface;
+using Escapade.Api.Schema.Mutations.Root;
 using EscapadeApi.Models;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Escapade.Api.Schema.Mutations
 {
-    public class PostMutation : Mutation<Post>, IPostMutation
+    [ExtendObjectType(typeof(Mutation))]
+    public class PostMutation 
     {
-        public PostMutation() : base() { }
+
     }
 }
