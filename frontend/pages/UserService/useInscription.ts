@@ -3,15 +3,13 @@ import { gql, useMutation } from '@apollo/client';
 
 const CREATE_USER_MUTATION = gql`
   mutation CreateUser($entity: UserInput) {
-    userMutation {
-      create(entity: $entity) {
-        id
-        name
-        lastName
-        gender
-        email
-        birthDate
-      }
+    create(input: $entity) {
+      id
+      name
+      lastName
+      gender
+      email
+      birthDate
     }
   }
 `;

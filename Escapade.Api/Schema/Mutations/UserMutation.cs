@@ -4,12 +4,14 @@ using System.Text;
 using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin.Auth;
 using Escapade.Api.Schema.Mutations.Interface;
+using EscapadeApi.Models.Interfaces;
+using Escapade.Api.Schema.Mutations.Root;
 
 namespace Escapade.Api.Schema.Mutations
 {
-    public class UserMutation : Mutation<User>, IUserMutation
+    [ExtendObjectType(typeof(Mutation))]
+    public class UserMutation 
     {
-        public UserMutation() : base() { }
 
         #region API Rest
         public async Task<User> CreateUserRestApi(IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
@@ -61,45 +63,62 @@ namespace Escapade.Api.Schema.Mutations
 
         #region HotChocolate
 
-        public async Task<User> RegisterUser(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        public async Task<User> Create([Service] IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
             {
                 // Vérifier les informations de l'utilisateur
-                if (userService.IsEmailFormatValid(email) && userService.IsBirthDateValid(birthDate) && userService.IsPasswordSecure(password))
+                if (await userService.CheckForConflictingUser(email))
                 {
-                    // Créer un nouvel utilisateur dans Firebase
-                    var user = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
+                    throw new InvalidOperationException("email address is already in use.");
+                }
+                else if (!userService.IsPasswordSecure(password))
+                {
+                    throw new InvalidOperationException("password is invalid.");
+                }
+                else if (!userService.IsNameAndLastNameValid(name, lastname))
+                {
+                    throw new InvalidOperationException("user's name is invalid.");
+                }
+                else if (!userService.IsBirthDateValid(birthDate))
+                {
+                    throw new InvalidOperationException("birthdate is invalid.");
+                }
+
+                // Cryptage du mdp
+                password = await userService.EncryptPassword(password);
+
+                // Créer un nouvel utilisateur dans Firebase
+                var user = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
+                {
+                    DisplayName = $"{name} {lastname}",
+                    Email = email,
+                    Password = password,
+                    EmailVerified = false,
+                    Disabled = false,
+                }, cancellationToken);
+
+                // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
+                string uidString = user.Uid;
+
+                // Convertir la chaîne en Guid
+                if (Guid.TryParse(uidString, out Guid uid))
+                {
+                    // Créer un nouvel utilisateur
+                    User newUser = new User
                     {
-                        DisplayName = $"{name} {lastname}",
+                        Id = uid,
+                        Name = name,
+                        LastName = lastname,
                         Email = email,
                         Password = password,
-                        EmailVerified = false,
-                        Disabled = false,
-                    }, cancellationToken);
+                        BirthDate = birthDate
+                    };
 
-
-                    // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
-                    string uidString = user.Uid;
-
-                    // Convertir la chaîne en Guid
-                    if (Guid.TryParse(uidString, out Guid uid))
-                    {
-                        // Créer un nouvel utilisateur
-                        User newUser = new User
-                        {
-                            Id = uid,
-                            Name = name,
-                            LastName = lastname,
-                            Email = email,
-                            Password = password,
-                            BirthDate = birthDate
-                        };
-
-                        // Enregistrer l'utilisateur dans CosmoDb
-                        return await userService.Create(newUser);
-                    }
+                    // Enregistrer l'utilisateur dans CosmoDb
+                    return await userService.Create(newUser);
                 }
+
                 User u = new User
                 {
                     Name = name,
@@ -119,5 +138,8 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         #endregion 
+
+
+
     }
 }
