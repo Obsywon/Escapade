@@ -6,8 +6,6 @@ C:\Users\gaeta\source\repos\Escapade\Escapade.Api\obj\Debug\net6.0\Escapade.Api.
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\obj\Debug\net6.0\Escapade.Api.sourcelink.json
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\appsettings.json
-C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\firebase-config.json
-C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\local.settings.json
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\Escapade.Api.exe
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\Escapade.Api.deps.json
 C:\Users\gaeta\source\repos\Escapade\Escapade.Api\bin\Debug\net6.0\Escapade.Api.runtimeconfig.json

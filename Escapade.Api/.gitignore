@@ -1,0 +1,139 @@
+################################################################################
+# Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
+################################################################################
+# Ignore les fichiers de configuration ASP.NET
+*.config
+
+# Ignore les fichiers de l'environnement de développement
+[Dd]ebug/
+[Rr]elease/
+obj/
+[Bb]in/
+
+# Ignorer le dossier .vs/
+.vs/
+
+# Ignorer le dossier .vscode/
+.vscode/
+
+# Ignore les fichiers de sauvegarde Visual Studio
+*.suo
+*.user
+*.suo
+*.user
+
+# Ignore les fichiers de compilation
+*.dll
+*.exe
+*.pdb
+*.class
+
+# Ignore les fichiers de journalisation
+*.log
+*.logs
+
+# Ignore les fichiers de déploiement
+[Dd]eploy/
+[Dd]ebugPublic/
+
+# Ignore les fichiers NuGet
+packages/
+
+# Ignore les fichiers de l'environnement
+.vscode/
+.idea/
+
+# Ignore les fichiers de test
+[Tt]est[Aa]rtifacts/
+
+# Ignore les fichiers de cache
+[Cc]ache/
+[Cc]aches/
+
+# Ignore les fichiers de sauvegarde
+*.bak
+*.bak1
+*.bak2
+*.tmp
+
+# Ignore les fichiers temporaires
+*.tmp
+*.temp
+*.tmp/
+
+# Ignore les fichiers de sauvegarde Visual Studio Code
+.vscode/
+
+# Ignore les fichiers de sauvegarde Rider
+.idea/
+*.sln.iml
+
+# Ignore les fichiers de sauvegarde Rider, ReSharper et RiderDotSettings
+*.sln.DotSettings.user
+*.sln.DotSettings
+*.DotSettings.user
+*.DotSettings
+
+# Ignore les fichiers de sauvegarde Xamarin
+*.userprefs
+
+# Ignore les fichiers spécifiques à Windows
+Thumbs.db
+ehthumbs.db
+
+# Ignore les fichiers de sauvegarde Windows
+$RECYCLE.BIN/
+
+# Ignore les fichiers de sauvegarde Mac
+.DS_Store
+
+# Ignore les fichiers de sauvegarde Linux
+lost+found/
+*.swp
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+
+# Autres fichiers générés
+*.cache
+*.props
+*.editorconfig
+*.json
+
+# Ignore les fichiers secrets
+firebase-config.json
+appsettings.json
+appsettings.Development.json
+local.settings.json
