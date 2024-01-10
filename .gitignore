@@ -10,6 +10,18 @@
 obj/
 [Bb]in/
 
+# Ignore le dossier obj/
+Escapade.Api/obj/
+
+# Ignore le dossier bin/
+Escapade.Api/bin/
+
+# Ignorer le dossier .vs/
+.vs/
+
+# Ignorer le dossier .vscode/
+.vscode/
+
 # Ignore les fichiers de sauvegarde Visual Studio
 *.suo
 *.user
@@ -119,7 +131,14 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-#Ignore les fichiers secrets
+
+# Autres fichiers générés
+*.cache
+*.props
+*.editorconfig
+*.json
+
+# Ignore les fichiers secrets
 firebase-config.json
 appsettings.json
 appsettings.Development.json
