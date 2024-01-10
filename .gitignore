@@ -10,6 +10,12 @@
 obj/
 [Bb]in/
 
+# Ignorer le dossier .vs/
+.vs/
+
+# Ignorer le dossier .vscode/
+.vscode/
+
 # Ignore les fichiers de sauvegarde Visual Studio
 *.suo
 *.user
