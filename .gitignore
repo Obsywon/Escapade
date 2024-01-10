@@ -10,6 +10,12 @@
 obj/
 [Bb]in/
 
+# Ignore le dossier obj/
+Escapade.Api/obj/
+
+# Ignore le dossier bin/
+Escapade.Api/bin/
+
 # Ignorer le dossier .vs/
 .vs/
 
