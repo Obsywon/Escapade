@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj": {}
+    "C:\\Users\\gaeta\\GitHub\\Escapade\\Escapade.Api\\Escapade.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj": {
+    "C:\\Users\\gaeta\\GitHub\\Escapade\\Escapade.Api\\Escapade.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
+        "projectUniqueName": "C:\\Users\\gaeta\\GitHub\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
         "projectName": "Escapade.Api",
-        "projectPath": "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
+        "projectPath": "C:\\Users\\gaeta\\GitHub\\Escapade\\Escapade.Api\\Escapade.Api.csproj",
         "packagesPath": "C:\\Users\\gaeta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gaeta\\source\\repos\\Escapade\\Escapade.Api\\obj\\",
+        "outputPath": "C:\\Users\\gaeta\\GitHub\\Escapade\\Escapade.Api\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\gaeta\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -89,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

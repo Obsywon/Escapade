@@ -1,9 +1,0 @@
-type User {
-	name: String! @fromJson
-	lastName: String! @fromJson
-	genre: String @fromJson
-	email: String! @fromJson
-	password: String! @fromJson
-	birthDate: String! @fromJson
-	id: String @fromJson
-}
