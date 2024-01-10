@@ -125,7 +125,14 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-#Ignore les fichiers secrets
+
+# Autres fichiers générés
+*.cache
+*.props
+*.editorconfig
+*.json
+
+# Ignore les fichiers secrets
 firebase-config.json
 appsettings.json
 appsettings.Development.json
