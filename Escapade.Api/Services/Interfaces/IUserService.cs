@@ -10,6 +10,8 @@ namespace EscapadeApi.Services.Interfaces
 {
     public interface IUserService : IService<User>
     {
+        public Task<User> GetUserByEmailAsync(string email);
+
         public Task<bool> CheckForConflictingUser(string email);
 
         public Task<string> EncryptPassword(string password);

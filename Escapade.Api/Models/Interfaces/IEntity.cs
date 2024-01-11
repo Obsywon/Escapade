@@ -8,6 +8,6 @@ namespace EscapadeApi.Models.Interfaces
 {
     public interface IEntity
     {
-        Guid Id { get; set; }
+        string Id { get; set; }
     }
 }

@@ -17,26 +17,14 @@ using System.Threading.Tasks;
 
 namespace Escapade.Api.Schema.Queries
 {
-
-    public class UserQuery : Query<User>, IUserQuery
+    [ExtendObjectType(typeof(Query))]
+    public class UserQuery 
     {
         public UserQuery() : base() { }
 
-
-        public async Task<List<User>> GetUsers(IHttpClientFactory clientFactory, CancellationToken cancellationToken)
+        public async Task<IEnumerable<User>> GetAllAsync(IService<User> service, CancellationToken cancellation)
         {
-            using var client = clientFactory.CreateClient("rest");
-            var content = await client.GetStringAsync($"api/users", cancellationToken);
-            var users = JsonConvert.DeserializeObject<List<User>>(content);
-            return users;
-        }
-
-        public async Task<User> GetUserById(string id, IHttpClientFactory clientFactory, CancellationToken cancellationToken)
-        {
-            using var client = clientFactory.CreateClient("rest");
-            var content = await client.GetStringAsync($"api/users/{id}", cancellationToken);
-            var users = JsonConvert.DeserializeObject<User>(content);
-            return users;
+            return await service.GetAllAsync();
         }
     }
 }

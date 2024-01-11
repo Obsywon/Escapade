@@ -18,16 +18,16 @@ namespace EscapadeApi.Services.Interfaces
             _repository = repository;
         }
 
-        public virtual async Task<T> GetById(Guid id) => await _repository.GetById(id);
+        public virtual async Task<T> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
 
-        public virtual async Task<IEnumerable<T>> GetAll() => await _repository.GetAll();
+        public virtual async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 
-        public virtual async Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression) => await _repository.GetByCondition(expression);
+        public virtual async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression) => await _repository.GetByConditionAsync(expression);
 
-        public virtual async Task<T> Create(T entity) => await _repository.Create(entity);
+        public virtual async Task<T> CreateAsync(T entity) => await _repository.CreateAsync(entity);
 
-        public virtual async Task<T> Update(T entity) => await _repository.Update(entity);
+        public virtual async Task<T> UpdateAsync(T entity) => await _repository.UpdateAsync(entity);
 
-        public virtual async Task Delete(Guid id) => await _repository.Delete(id);
+        public virtual async Task DeleteAsync(string id) => await _repository.DeleteAsync(id);
     }
 }

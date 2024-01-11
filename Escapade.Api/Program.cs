@@ -10,10 +10,9 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
 using Escapade.Api.Schema.Queries;
-using Escapade.Api.Schema.Queries.Root;
+using Escapade.Api.Schema.Mutations.UserMutation;
+using Escapade.Api.Schema.Mutations.PostMutation;
 using Escapade.Api.Schema.Mutations;
-using Escapade.Api.Schema.Mutations.Root;
-using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,7 +61,7 @@ builder.Services
         .AddScoped<IPostService, PostService>()
         .AddScoped<IService<User>, UserService>()
         .AddScoped<IService<Post>, PostService>()
-        .AddScoped<UserQuery>()
+        .AddScoped<Query>()
         .AddScoped<UserMutation>()
         .AddScoped<PostQuery>()
         .AddScoped<PostMutation>();
@@ -71,10 +70,10 @@ builder.Services
 // Configure HotChocolate
 builder.Services
     .AddGraphQLServer()
-    .AddAuthorization()
     .AddMutationConventions(applyToAllMutations: true)
-    .AddQueryType<RootQuery>()
     .AddMutationType<Mutation>()
+    .AddQueryType<Query>()
+    .AddType<UserQuery>()
     .AddType<User>()
     .AddType<Post>()
     .AddTypeExtension<PostExtensions>()
@@ -83,7 +82,11 @@ builder.Services
     .RegisterService<IService<Post>>(ServiceKind.Resolver)
     .RegisterService<IHttpClientFactory>(ServiceKind.Resolver)
     .AddTypeExtension<PostExtensions>()
-    .AddTypeExtension<UserMutation>();
+    .AddTypeExtension<UserMutation>()
+    .AddFiltering()
+    .AddSorting()
+    .AddProjections()
+    .AddAuthorization();
 
 var app = builder.Build();
 

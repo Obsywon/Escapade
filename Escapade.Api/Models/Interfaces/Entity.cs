@@ -11,6 +11,6 @@ namespace EscapadeApi.Models.Interfaces
     public abstract class Entity : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 }

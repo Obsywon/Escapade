@@ -12,9 +12,19 @@ using System.Threading.Tasks;
 
 namespace Escapade.Api.Schema.Queries
 {
-    public class PostQuery : Query<Post>, IPostQuery
+    [ExtendObjectType(typeof(Query))]
+    public class PostQuery : IPostQuery
     {
         public PostQuery() : base() { }
 
+        public Task<IEnumerable<Post>> GetAllAsync(IService<Post> service, CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Post> GetByIdAsync(Guid id, IService<Post> service, CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
