@@ -1,5 +1,6 @@
 ﻿using Escapade.Api.Schema.Queries.Interface;
 using EscapadeApi.Models;
+using EscapadeApi.Services;
 using EscapadeApi.Services.Interfaces;
 using HotChocolate;
 using HotChocolate.Authorization;
@@ -22,9 +23,19 @@ namespace Escapade.Api.Schema.Queries
     {
         public UserQuery() : base() { }
 
-        public async Task<IEnumerable<User>> GetAllAsync(IService<User> service, CancellationToken cancellation)
+        public async Task<IEnumerable<User>> GetAllUserAsync(IService<User> service, CancellationToken cancellation)
         {
             return await service.GetAllAsync();
+        }
+
+        public async Task<User> GetUserById(IService<User> service, string id, CancellationToken cancellation)
+        {
+            return await service.GetByIdAsync(id);
+        }
+
+        public async Task<User> GetUserByEmail(UserService service, string email, CancellationToken cancellation)
+        {
+            return await service.GetUserByEmailAsync(email);
         }
     }
 }

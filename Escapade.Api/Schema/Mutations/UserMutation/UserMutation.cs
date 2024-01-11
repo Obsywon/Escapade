@@ -1,5 +1,4 @@
-﻿using Escapade.Api.Schema.Users;
-using EscapadeApi.Models;
+﻿using EscapadeApi.Models;
 using EscapadeApi.Services;
 using EscapadeApi.Services.Interfaces;
 using Firebase.Auth.Providers;
