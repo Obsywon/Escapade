@@ -96,7 +96,7 @@ app.UseAuthentication();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGraphQL();
+    endpoints.MapGraphQL().RequireAuthorization();
 });
 
 app.Run();
