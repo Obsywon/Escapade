@@ -1,7 +1,9 @@
+using Escapade.Api.Schema.Mutations;
+using Escapade.Api.Schema.Queries;
 using EscapadeApi;
 using EscapadeApi.Models;
-using EscapadeApi.Repositories.Interfaces;
 using EscapadeApi.Repositories;
+using EscapadeApi.Repositories.Interfaces;
 using EscapadeApi.Services;
 using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin;
@@ -9,10 +11,6 @@ using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
-using Escapade.Api.Schema.Queries;
-using Escapade.Api.Schema.Mutations.UserMutation;
-using Escapade.Api.Schema.Mutations.PostMutation;
-using Escapade.Api.Schema.Mutations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,36 +49,28 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 });
 
 
-// Configure DI
+// Configure Dependancy Injection
 builder.Services
-        .AddTransient<UserService>()
-        .AddTransient<PostService>()
-        .AddScoped<IRepository<User>, UserRepository>()
-        .AddScoped<IRepository<Post>, PostRepository>()
-        .AddScoped<IUserService, UserService>()
-        .AddScoped<IPostService, PostService>()
-        .AddScoped<IService<User>, UserService>()
-        .AddScoped<IService<Post>, PostService>()
-        .AddScoped<Query>()
-        .AddScoped<UserMutation>()
-        .AddScoped<PostQuery>()
-        .AddScoped<PostMutation>();
-//.AddHttpClient("rest", c => c.BaseAddress = new Uri("http://localhost:7071"));
+        .AddScoped<IRepository<User>, UserRepository>() // -- UserService
+        .AddScoped<IRepository<Post>, PostRepository>() // -- PostService
+
+        .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
+        .AddScoped<IPostService, PostService>(); // -- PostQuery & PostMutation
+
+
 
 // Configure HotChocolate
 builder.Services
     .AddGraphQLServer()
-    .AddMutationConventions(applyToAllMutations: true)
+    .AddTypes()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>()
-    .AddType<UserQuery>()
-    .AddType<User>()
-    .AddType<Post>()
-    .RegisterService<IService<User>>(ServiceKind.Resolver)
-    .RegisterService<IUserService>(ServiceKind.Resolver)
-    .RegisterService<IService<Post>>(ServiceKind.Resolver)
-    .RegisterService<IHttpClientFactory>(ServiceKind.Resolver)
-    .AddTypeExtension<UserMutation>()
+    .AddMutationConventions(applyToAllMutations: true)
+
+    .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
+    .RegisterService<IPostService>(ServiceKind.Resolver) // -- PostService
+
+
     .AddFiltering()
     .AddSorting()
     .AddProjections()
@@ -95,7 +85,11 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGraphQL();//.RequireAuthorization();
+    // -- Force l'authentification sur l'endpoint GraphQl
+    // -- Dans notre cas : /graphql
+    // -- BanacakePop n'est donc pas non plus disponible sans credentials.
+    // .RequireAuthorization(); A décommenter par la suite 
+    endpoints.MapGraphQLHttp();//.RequireAuthorization(); 
 });
 
 app.Run();

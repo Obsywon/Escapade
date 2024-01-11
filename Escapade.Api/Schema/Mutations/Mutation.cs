@@ -1,13 +1,13 @@
-﻿using EscapadeApi.Models;
-using EscapadeApi.Services.Interfaces;
-
-namespace Escapade.Api.Schema.Mutations
+﻿namespace Escapade.Api.Schema.Mutations
 {
     public class Mutation
     {
-        public async Task<User> Search(IService<User> service)
+        // -- La classe Mutation doit impérativement implémentée au moins une méthode
+        // -- Sinon, HotChocolate lance une erreur à l'éxécution
+        // -----------------------------------------------------------------------
+        public async Task MutateSomething()
         {
-            return await service.GetByIdAsync(new Guid().ToString());
+            throw new NotImplementedException();
         }
     }
 }

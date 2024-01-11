@@ -14,7 +14,10 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.8.1" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.8.1" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.8.1" />
+	  <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.8.1" >
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+	  </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="6.0.25" />
   </ItemGroup>
 

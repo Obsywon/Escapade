@@ -5,7 +5,7 @@ using FirebaseAdmin.Auth;
 using HotChocolate.Authorization;
 using Newtonsoft.Json;
 
-namespace Escapade.Api.Schema.Mutations.UserMutation
+namespace Escapade.Api.Schema.Mutations
 {
     [ExtendObjectType(typeof(Mutation))]
     public class UserMutation
@@ -13,7 +13,7 @@ namespace Escapade.Api.Schema.Mutations.UserMutation
         #region HotChocolate
 
         [AllowAnonymous]
-        public async Task<User> RegisterUserAsync([Service] IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Escapade.Api.Schema.Mutations.UserMutation
         }
 
         [AllowAnonymous]
-        public async Task<User> LoginUserAsync([Service] IUserService userService, string email, string password)
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string password)
         {
             try
             {
