@@ -1,14 +1,9 @@
 ﻿using EscapadeApi.Models;
-using EscapadeApi.Services;
 using EscapadeApi.Services.Interfaces;
-using Firebase.Auth.Providers;
 using Firebase.Auth.Requests;
-using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using HotChocolate.Authorization;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Escapade.Api.Schema.Mutations.UserMutation
 {
