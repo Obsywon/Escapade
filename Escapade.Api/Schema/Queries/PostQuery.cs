@@ -17,12 +17,12 @@ namespace Escapade.Api.Schema.Queries
     {
         public PostQuery() : base() { }
 
-        public async Task<IEnumerable<User>> GetAllPostAsync(IUserService service, CancellationToken cancellation)
+        public async Task<IEnumerable<Post>> GetAllPostAsync(IPostService service, CancellationToken cancellation)
         {
             return await service.GetAllAsync();
         }
 
-        public async Task<User> GetPostById(IUserService service, string id, CancellationToken cancellation)
+        public async Task<Post> GetPostById(IPostService service, string id, CancellationToken cancellation)
         {
             return await service.GetByIdAsync(id);
         }
