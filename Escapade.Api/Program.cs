@@ -91,10 +91,11 @@ var app = builder.Build();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGraphQL().RequireAuthorization();
+    endpoints.MapGraphQL();//.RequireAuthorization();
 });
 
 app.Run();
