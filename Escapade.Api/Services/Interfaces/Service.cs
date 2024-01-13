@@ -13,16 +13,83 @@ namespace EscapadeApi.Services.Interfaces
             _repository = repository;
         }
 
-        public virtual async Task<T> GetByIdAsync(string id) => await _repository.GetByIdAsync(id);
+        public virtual async Task<T> GetByIdAsync(string id)
+        {
+            try
+            {
+                return await _repository.GetByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw new GraphQLException(new Error("An error occurred while fetching all users.", ex.Message));
+            }
+        }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw;
+            }
+        }
 
-        public virtual async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression) => await _repository.GetByConditionAsync(expression);
+        public virtual async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression)
+        {
+            try
+            {
+                return await _repository.GetByConditionAsync(expression);
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw;
+            }
+        }
 
-        public virtual async Task<T> CreateAsync(T entity) => await _repository.CreateAsync(entity);
+        public virtual async Task<T> CreateAsync(T entity)
+        {
+            try
+            {
+                return await _repository.CreateAsync(entity);
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw;
+            }
+        }
 
-        public virtual async Task<T> UpdateAsync(T entity) => await _repository.UpdateAsync(entity);
+        public virtual async Task<T> UpdateAsync(T entity)
+        {
+            try
+            {
+                return await _repository.UpdateAsync(entity);
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw;
+            }
+        }
 
-        public virtual async Task DeleteAsync(string id) => await _repository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(string id)
+        {
+            try
+            {
+                await _repository.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                // Gérer ou logger l'exception selon les besoins
+                throw;
+            }
+        }
+
     }
 }

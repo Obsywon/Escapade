@@ -65,6 +65,7 @@ builder.Services
     .AddTypes()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>()
+    
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
@@ -89,7 +90,7 @@ app.UseEndpoints(endpoints =>
     // -- Dans notre cas : /graphql
     // -- BanacakePop n'est donc pas non plus disponible sans credentials.
     // .RequireAuthorization(); A décommenter par la suite 
-    endpoints.MapGraphQLHttp();//.RequireAuthorization(); 
+    endpoints.MapGraphQL();//.RequireAuthorization(); 
 });
 
 app.Run();

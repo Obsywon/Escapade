@@ -16,8 +16,20 @@ namespace EscapadeApi.Repositories.Interfaces
 
         public virtual async Task<T> GetByIdAsync(string id)
         {
-            return await _dbContext.Set<T>()
-                .FirstOrDefaultAsync(entity => entity.Id == id);
+            try
+            {
+                if(id == null || id == string.Empty)
+                    throw new ArgumentNullException(nameof(id));
+                var result = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id);
+                if (result == null)
+                    throw new Exception("Entity with Id : " + id + " not found");
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new GraphQLException(new Error("An error occurred while fetching all users.", ex.Message));
+            }
+           
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
