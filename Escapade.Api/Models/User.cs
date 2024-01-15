@@ -23,5 +23,8 @@ namespace EscapadeApi.Models
 
         [JsonProperty(PropertyName = "Date De Naissance", Required = Required.Always)]
         public DateTime BirthDate { get; set; }
+
+        [JsonProperty(PropertyName = "Firebase Token")]
+        public string Token { get; set; }
     }
 }

@@ -1,69 +1,21 @@
 ﻿using EscapadeApi.Models;
-using Newtonsoft.Json;
-using System.Text;
 using EscapadeApi.Services.Interfaces;
+using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
-using Escapade.Api.Schema.Mutations.Interface;
-using EscapadeApi.Models.Interfaces;
-using Escapade.Api.Schema.Mutations.Root;
+using FirebaseAdminAuthentication.DependencyInjection.Models;
+using HotChocolate.Authorization;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Escapade.Api.Schema.Mutations
 {
     [ExtendObjectType(typeof(Mutation))]
-    public class UserMutation 
+    public class UserMutation
     {
-
-        #region API Rest
-        public async Task<User> CreateUserRestApi(IHttpClientFactory clientFactory, User newUser, CancellationToken cancellationToken)
-        {
-            using var client = clientFactory.CreateClient("rest");
-
-
-            var jsonContent = JsonConvert.SerializeObject(newUser);
-            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("api/users", stringContent, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var createdUser = JsonConvert.DeserializeObject<User>(responseContent);
-
-            return createdUser;
-        }
-
-        public async Task<User> UpdateUserRestApi(IHttpClientFactory clientFactory, Guid userId, User updatedUser, CancellationToken cancellationToken)
-        {
-            using var client = clientFactory.CreateClient("rest");
-
-
-            var jsonContent = JsonConvert.SerializeObject(updatedUser);
-            var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var response = await client.PutAsync($"api/users/{userId}", stringContent, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var modifiedUser = JsonConvert.DeserializeObject<User>(responseContent);
-
-            return modifiedUser;
-        }
-
-        public async Task DeleteUserRestApi(IHttpClientFactory clientFactory, Guid userId, CancellationToken cancellationToken)
-        {
-            using var client = clientFactory.CreateClient("rest");
-
-            var response = await client.DeleteAsync($"api/users/{userId}", cancellationToken);
-
-            response.EnsureSuccessStatusCode();
-        }
-
-        #endregion
-
         #region HotChocolate
 
-        public async Task<User> Create([Service] IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        [AllowAnonymous]
+        public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
             {
@@ -89,7 +41,7 @@ namespace Escapade.Api.Schema.Mutations
                 password = await userService.EncryptPassword(password);
 
                 // Créer un nouvel utilisateur dans Firebase
-                var user = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
+                var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
                 {
                     DisplayName = $"{name} {lastname}",
                     Email = email,
@@ -98,48 +50,155 @@ namespace Escapade.Api.Schema.Mutations
                     Disabled = false,
                 }, cancellationToken);
 
+
                 // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
-                string uidString = user.Uid;
+                string uidString = firebaseUser.Uid;
+
+                // Récupérer le token Firebase associé à l'utilisateur
+                string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
 
                 // Convertir la chaîne en Guid
-                if (Guid.TryParse(uidString, out Guid uid))
-                {
-                    // Créer un nouvel utilisateur
-                    User newUser = new User
-                    {
-                        Id = uid,
-                        Name = name,
-                        LastName = lastname,
-                        Email = email,
-                        Password = password,
-                        BirthDate = birthDate
-                    };
+                //Guid.TryParse(uidString, out Guid uid);
 
-                    // Enregistrer l'utilisateur dans CosmoDb
-                    return await userService.Create(newUser);
-                }
-
-                User u = new User
+                // Créer un nouvel utilisateur
+                User newUser = new User
                 {
+                    Id = uidString,
                     Name = name,
                     LastName = lastname,
                     Email = email,
                     Password = password,
                     BirthDate = birthDate
                 };
-                return u;
+
+                // Enregistrer l'utilisateur dans CosmoDb
+                var user = await userService.CreateAsync(newUser);
+
+                return user;
+
             }
             catch (FirebaseAuthException ex)
             {
                 // Gérer les erreurs d'authentification Firebase
-                Console.WriteLine($"Erreur lors de l'enregistrement de l'utilisateur : {ex.Message}");
+                Console.WriteLine("Erreur lors de l'enregistrement de l'utilisateur : " + ex.Message);
+                throw;
+            }
+
+            catch (Exception ex)
+            {
+                // Gérer les erreurs d'authentification Firebase
+                Console.WriteLine("Erreur lors de l'enregistrement de l'utilisateur : " + ex.Message);
                 throw;
             }
         }
 
-        #endregion 
+        [AllowAnonymous]
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw)
+        {
+            try
+            {
+                // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
+                User user = await userService.GetUserByEmailAsync(email);
+
+                string password = userService.EncryptPassword(psw).Result;
+
+                using (var httpClient = new HttpClient())
+                {
+                    var apiUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + "AIzaSyCfaZTRP3qpC_XqVpZgMAEs2b10E0-j12c";
+
+                    var request = new
+                    {
+                        email,
+                        password,
+                        returnSecureToken = true
+                    };
+
+                    var response = await httpClient.PostAsJsonAsync(apiUrl, request);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+
+                        // Désérialiser la réponse JSON
+                        var responseObject = JsonConvert.DeserializeObject<VerifyPasswordResponse>(responseContent);
+
+                        // Accéder à la propriété idToken
+                        string idToken = responseObject.IdToken;
+
+                        user.Token = idToken;
+                        var userUpdated = await userService.UpdateAsync(user);
+
+                        return userUpdated;
+                    }
+                    else
+                    {
+                        // Gérer les erreurs
+                        Console.WriteLine($"Erreur lors de la connexion de l'utilisateur : {response.StatusCode}");
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine(responseContent);
+                        // Retourner ou jeter une exception indiquant que la connexion a échoué
+                        return null; // ou throw new Exception("La connexion a échoué");
+                    }
+                }
+            }
+            catch (FirebaseAuthException ex)
+            {
+                // Gérer les erreurs d'authentification Firebase
+                Console.WriteLine($"Erreur lors de l'authentification Firebase : {ex.Message}");
+                // Retourner ou jeter une exception indiquant que l'authentification a échoué
+                return null;
+            }
+        }
+
+        [Authorize]
+        public async Task<User> UpdateLastNameUserAsync(IUserService userService, string lastname, CancellationToken cancellationToken, ClaimsPrincipal claimsPrincipal)
+        {
+            try
+            {
+                string userId = claimsPrincipal.FindFirstValue(FirebaseUserClaimType.ID);
+
+                User userToUpdate = await userService.GetByIdAsync(userId);
+
+                if (userToUpdate == null)
+                    throw new GraphQLException(new Error("User not found", "USER_NOT_FOUND"));
+
+                userToUpdate.LastName = lastname;
+
+                await userService.UpdateAsync(userToUpdate);
+
+                return userToUpdate;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<User> UpdateNameUserAsync(IUserService userService, string name, CancellationToken cancellationToken, ClaimsPrincipal claimsPrincipal)
+        {
+            try
+            {
+                string userId = claimsPrincipal.FindFirstValue(FirebaseUserClaimType.ID);
+
+                User userToUpdate = await userService.GetByIdAsync(userId);
+
+                if (userToUpdate == null)
+                    throw new GraphQLException(new Error("User not found", "USER_NOT_FOUND"));
+
+                userToUpdate.Name = name;
+
+                await userService.UpdateAsync(userToUpdate);
+
+                return userToUpdate;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
 
 
+        #endregion
     }
 }

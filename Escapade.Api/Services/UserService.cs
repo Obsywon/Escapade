@@ -1,15 +1,8 @@
 ﻿using EscapadeApi.Models;
 using EscapadeApi.Repositories.Interfaces;
 using EscapadeApi.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace EscapadeApi.Services
@@ -20,7 +13,12 @@ namespace EscapadeApi.Services
 
         public async Task<bool> CheckForConflictingUser(string email)
         {
-            return (await _repository.GetByCondition(x => x.Email == email)).Any();
+            return (await _repository.GetByConditionAsync(x => x.Email == email)).Any();
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return (await _repository.GetByConditionAsync(x => x.Email == email)).FirstOrDefault();
         }
 
         public async Task<string> EncryptPassword(string password)
