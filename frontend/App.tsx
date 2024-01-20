@@ -13,7 +13,7 @@ import LoadingSurface from "./components/LoadingSurface";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'https://func-escapade-dev-fc.azurewebsites.net/api/graphql/',
+  uri: 'https://escapadeapi20240115214733.azurewebsites.net/graphql/',
   cache: new InMemoryCache(),
 });
 
