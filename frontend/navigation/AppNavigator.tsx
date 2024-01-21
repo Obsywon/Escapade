@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import pageBienvenue from '../pages/Bienvenue';
+import pageBienvenue from '../pages/BienvenueScreen';
 import InscriptionScreen from '../pages/InscriptionScreen';
 import ConnexionScreen from '../pages/ConnexionScreen';
 import TabNavigator from './TabNavigator';

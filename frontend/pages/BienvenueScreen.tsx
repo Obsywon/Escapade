@@ -10,11 +10,11 @@ import { ColorScheme, CustomColors } from '../themes/CustomColors';
 
 
 
-interface PageBienvenueProps {
+interface BienvenueScreenProps {
   navigation: any;
 }
 
-const PageBienvenue: React.FC<PageBienvenueProps> = ({ navigation }) => {
+const BienvenueScreen: React.FC<BienvenueScreenProps> = ({ navigation }) => {
   return (
     <ImageBackground
       resizeMode={'stretch'}
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default PageBienvenue;
+export default BienvenueScreen;
