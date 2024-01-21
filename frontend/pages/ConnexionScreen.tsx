@@ -9,12 +9,17 @@ import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
 
+
+interface ConnexionScreenProps {
+  navigation: any;
+}
+
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-export default function ConnexionScreen(): JSX.Element {
+export default function ConnexionScreen({ navigation }: ConnexionScreenProps): JSX.Element {
   const {
     control,
     handleSubmit,
@@ -26,7 +31,10 @@ export default function ConnexionScreen(): JSX.Element {
     },
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+    navigation.navigate('Accueil');
+  });
 
   return (
     <FormLayout>
@@ -45,6 +53,7 @@ export default function ConnexionScreen(): JSX.Element {
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
           <BasicButton label="Connexion" onPress={onSubmit} />
+
         </ScrollView>
       </Surface>
     </FormLayout>

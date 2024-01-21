@@ -16,10 +16,10 @@ interface PageBienvenueProps {
 
 const PageBienvenue: React.FC<PageBienvenueProps> = ({ navigation }) => {
   return (
-    <ImageBackground 
-    resizeMode={'stretch'} 
-    style={{flex: 1}} 
-    source={require('../assets/parcours.png')}>
+    <ImageBackground
+      resizeMode={'stretch'}
+      style={{ flex: 1 }}
+      source={require('../assets/parcours.png')}>
       <ScrollView
         maximumZoomScale={1}
         minimumZoomScale={1}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 16,
   },
- });
+});
 
 
 export default PageBienvenue;

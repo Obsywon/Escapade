@@ -1,22 +1,23 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Accueil from '../pages/Accueil';
-import Recherche from '../pages/Recherche';
-import Favori from '../pages/Favori';
-import Photos from '../pages/Photos';
-import Profile from '../pages/Profile';
+import Accueil from '../pages/AccueilScreen';
+import Recherche from '../pages/RechercheScreen';
+import Favori from '../pages/FavoriScreen';
+import Photos from '../pages/PhotosScreen';
+import Profile from '../pages/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import AccueilScreen from '../pages/AccueilScreen';
 
 
 export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Accueil" component={Accueil} 
+      <Tab.Screen name="Accueil" component={AccueilScreen} 
       options={{
-        tabBarLabel: 'Accuei',
+        tabBarLabel: 'Accueil',
         tabBarIcon: ({color, size}) => (
             <Ionicons name='home' color={color} size={size} />
         )

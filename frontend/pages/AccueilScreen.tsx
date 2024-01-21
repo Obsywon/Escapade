@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function Photos() {
+export default function AccueilScreen() {
   return (
     <View>
-      <Text>Photos</Text>
+      <Text>Accueil</Text>
     </View>
   )
 }
