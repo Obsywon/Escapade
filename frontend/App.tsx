@@ -34,7 +34,6 @@ import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
->>>>>>> 4b7316e (correction bugs connexionscreen / app (affichage écrasée))
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
@@ -49,24 +48,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    // Définissez ici vos différentes polices
-    'Fontastique': require('./assets/fonts/Fontastique.ttf'),
-  });
-};
-
-const App: React.FC = () => {
-  const [dataLoaded, setDataLoaded] = useState(false);
+function App(): JSX.Element {
   const [connected, setConnected] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchFonts();
-      setDataLoaded(true);
-    };
-
-
   const [fonts, fontLoaded] = useCustomFonts();
 
   if (!fontLoaded) {
@@ -81,14 +64,6 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-<<<<<<< HEAD
-      <PaperProvider theme={{...CustomTheme, fonts}}>
-          <NavigationContainer>
-            { connected ? <ConnectedLayout /> : <GuestLayout />}
-          </NavigationContainer>
-        </PaperProvider>
-      </ApolloProvider>
-=======
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
         <NavigationContainer>
           {connected ? (
@@ -111,12 +86,7 @@ const App: React.FC = () => {
         </NavigationContainer>
       </PaperProvider>
     </ApolloProvider>
-<<<<<<< HEAD
->>>>>>> b01440e (page connexion à résoudre)
-  )
-=======
   );
->>>>>>> 4b7316e (correction bugs connexionscreen / app (affichage écrasée))
 }
 
 export default App;
