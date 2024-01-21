@@ -1,20 +1,14 @@
-ï»¿################################################################################
-# Ce fichier .gitignore a Ã©tÃ© automatiquement crÃ©Ã© par Microsoft(R) Visual Studio.
+################################################################################
+# Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
 ################################################################################
 # Ignore les fichiers de configuration ASP.NET
 *.config
 
-# Ignore les fichiers de l'environnement de dÃ©veloppement
+# Ignore les fichiers de l'environnement de développement
 [Dd]ebug/
 [Rr]elease/
 obj/
 [Bb]in/
-
-# Ignore le dossier obj/
-Escapade.Api/obj/
-
-# Ignore le dossier bin/
-Escapade.Api/bin/
 
 # Ignorer le dossier .vs/
 .vs/
@@ -38,7 +32,7 @@ Escapade.Api/bin/
 *.log
 *.logs
 
-# Ignore les fichiers de dÃ©ploiement
+# Ignore les fichiers de déploiement
 [Dd]eploy/
 [Dd]ebugPublic/
 
@@ -83,7 +77,7 @@ packages/
 # Ignore les fichiers de sauvegarde Xamarin
 *.userprefs
 
-# Ignore les fichiers spÃ©cifiques Ã  Windows
+# Ignore les fichiers spécifiques à Windows
 Thumbs.db
 ehthumbs.db
 
@@ -132,7 +126,7 @@ yarn-error.*
 *.tsbuildinfo
 
 
-# Autres fichiers gÃ©nÃ©rÃ©s
+# Autres fichiers générés
 *.cache
 *.props
 *.editorconfig
@@ -143,4 +137,3 @@ firebase-config.json
 appsettings.json
 appsettings.Development.json
 local.settings.json
-firebaseConfig.tsx

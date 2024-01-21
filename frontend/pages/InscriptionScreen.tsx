@@ -13,6 +13,9 @@ import ErrorText from '../components/forms/ErrorText';
 import {useForm} from 'react-hook-form';
 import { UserInCreation, useInscription } from '../UserService/useInscription';
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+
 type InscriptionFormData = {
   nom: string;
   prenom: string;
@@ -43,6 +46,22 @@ function InscriptionScreen(): JSX.Element {
   });
 
   const password = watch('mot_de_passe');
+
+  const submit = handleSubmit((data) => {
+    const email = data.email;
+  
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log("L'utilisateur a bien été enregistré")
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`Error (${errorCode}): ${errorMessage}`);
+        console.log("L'utilisateur existe déjà")
+      });
+  });
 
   const [inscription, data, error, loading] = useInscription();
   async function sendData(values: InscriptionFormData): Promise<any> {
@@ -121,7 +140,7 @@ function InscriptionScreen(): JSX.Element {
             label="Inscription"
             disabled={errors == null}
             loading={loading}
-            onPress={handleSubmit(sendData)}
+            onPress={submit}
           />
           {error != null && error.length > 0 ? (
             <ErrorText>{error}</ErrorText>
