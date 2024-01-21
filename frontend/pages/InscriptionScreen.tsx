@@ -12,9 +12,12 @@ import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
 import {useForm} from 'react-hook-form';
 import { UserInCreation, useInscription } from '../UserService/useInscription';
+<<<<<<< HEAD
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+=======
+>>>>>>> 6cdc18601db41ed8a3a938742262181bdb74921f
 
 type InscriptionFormData = {
   nom: string;

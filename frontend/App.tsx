@@ -11,7 +11,16 @@ import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+import InscriptionScreen from "./pages/InscriptionScreen";
+import ConnexionScreen from "./pages/ConnexionScreen";
+import pageBienvenue from "./pages/Bienvenue";
+
+
+const Stack = createNativeStackNavigator();
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import InscriptionScreen from "./pages/InscriptionScreen";
@@ -34,13 +43,39 @@ function App(): JSX.Element {
       <ApolloProvider client={client}>
         <PaperProvider theme={CustomTheme}>
           <LoadingSurface text="Chargement en cours..." />
+        <PaperProvider theme={CustomTheme}>
+          <LoadingSurface text="Chargement en cours..." />
         </PaperProvider>
       </ApolloProvider>
     );
   }
 
+
   return (
     <ApolloProvider client={client}>
+      <PaperProvider theme={{ ...CustomTheme, fonts }}>
+        <NavigationContainer>
+          {connected ? (
+            <ConnectedLayout />
+          ) : (
+            <GuestLayout>
+              <Stack.Navigator initialRouteName="pageBienvenue">
+                <Stack.Screen name="Bienvenue" component={pageBienvenue} />
+                <Stack.Screen
+                  name="Inscription"
+                  component={InscriptionScreen}
+                />
+                <Stack.Screen
+                  name="Connexion"
+                  component={ConnexionScreen}
+                />
+              </Stack.Navigator>
+            </GuestLayout>
+          )}
+        </NavigationContainer>
+      </PaperProvider>
+    </ApolloProvider>
+  );
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
         <NavigationContainer>
           {connected ? (
