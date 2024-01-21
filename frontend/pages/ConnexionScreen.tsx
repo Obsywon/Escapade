@@ -8,6 +8,8 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig, app, auth } from "../components/firebaseConfig";
 
 type ConnexionFormData = {
   email: string;
@@ -26,7 +28,20 @@ export default function ConnexionScreen(): JSX.Element {
     },
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    const email = data.email; 
+    const password = data.password; 
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        window.alert("Utilisateur connecté : " + user.email);
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`Error (${errorCode}): ${errorMessage}`);
+      });
+  });
 
   return (
     <FormLayout>
