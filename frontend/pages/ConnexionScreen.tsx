@@ -40,6 +40,7 @@ export default function ConnexionScreen(): JSX.Element {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        window.alert("Identifiant éronné");
       });
   });
 

@@ -1,29 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text } from "react-native";
-import * as Font from "expo-font";
 
-<<<<<<< HEAD
-import { NavigationContainer } from '@react-navigation/native';
-
-import { PaperProvider } from 'react-native-paper';
-import GuestLayout from './layouts/GuestLayout';
-import ConnectedLayout from './layouts/ConnectedLayout';
-import pageBienvenue from './pages/pageBienvenue';
-import InscriptionScreen from './pages/InscriptionScreen';
-
-import {CustomTheme} from "./themes/CustomTheme";
-import useCustomFonts from "./hooks/useCustomFonts";
-import LoadingSurface from "./components/LoadingSurface";
-
-const Stack = createNativeStackNavigator();
-
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: 'https://escapadeapi20240115214733.azurewebsites.net/graphql/',
-  cache: new InMemoryCache(),
-});
-=======
 import { NavigationContainer } from "@react-navigation/native";
 
 import { PaperProvider } from "react-native-paper";
@@ -45,7 +21,7 @@ import pageBienvenue from "./pages/Bienvenue";
 
 const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
-  uri: "https://func-escapade-dev-fc.azurewebsites.net/api/graphql/",
+  uri: "https://escapadeapi20240115214733.azurewebsites.net/graphql//",
   cache: new InMemoryCache(),
 });
 
@@ -60,25 +36,6 @@ function App(): JSX.Element {
           <LoadingSurface text="Chargement en cours..." />
         </PaperProvider>
       </ApolloProvider>
-    );
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchFonts();
-      setDataLoaded(true);
-    };
-
-    fetchData();
-  }, []);
-
-  if (!dataLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setDataLoaded(true)}
-        onError={(err) => console.error(err)}
-      />
     );
   }
 
@@ -107,6 +64,6 @@ function App(): JSX.Element {
       </PaperProvider>
     </ApolloProvider>
   );
-};
+}
 
 export default App;

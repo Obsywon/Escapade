@@ -59,6 +59,7 @@ function InscriptionScreen(): JSX.Element {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        console.log("L'utilisateur existe déjà")
       });
   });
 
