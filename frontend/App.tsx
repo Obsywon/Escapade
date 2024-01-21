@@ -11,7 +11,6 @@ import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
@@ -21,14 +20,7 @@ import pageBienvenue from "./pages/Bienvenue";
 
 
 const Stack = createNativeStackNavigator();
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-import InscriptionScreen from "./pages/InscriptionScreen";
-import ConnexionScreen from "./pages/ConnexionScreen";
-import pageBienvenue from "./pages/Bienvenue";
-
-
-const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
   uri: "https://escapadeapi20240115214733.azurewebsites.net/graphql//",
   cache: new InMemoryCache(),
@@ -53,29 +45,6 @@ function App(): JSX.Element {
 
   return (
     <ApolloProvider client={client}>
-      <PaperProvider theme={{ ...CustomTheme, fonts }}>
-        <NavigationContainer>
-          {connected ? (
-            <ConnectedLayout />
-          ) : (
-            <GuestLayout>
-              <Stack.Navigator initialRouteName="pageBienvenue">
-                <Stack.Screen name="Bienvenue" component={pageBienvenue} />
-                <Stack.Screen
-                  name="Inscription"
-                  component={InscriptionScreen}
-                />
-                <Stack.Screen
-                  name="Connexion"
-                  component={ConnexionScreen}
-                />
-              </Stack.Navigator>
-            </GuestLayout>
-          )}
-        </NavigationContainer>
-      </PaperProvider>
-    </ApolloProvider>
-  );
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
         <NavigationContainer>
           {connected ? (
