@@ -1,4 +1,5 @@
 export type CustomColorsType = {
+    secondary: string;
     inputOutline: string;
     AppTitleColor: string;
     MainTitleColor: string;
@@ -18,4 +19,5 @@ export const CustomColors : CustomColorsType = {
     inputOutline: ColorScheme.primary,
     AppTitleColor: ColorScheme.primary,
     MainTitleColor: ColorScheme.secondary,
+    secondary: ColorScheme.secondary,
 };

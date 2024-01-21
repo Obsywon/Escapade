@@ -143,3 +143,4 @@ firebase-config.json
 appsettings.json
 appsettings.Development.json
 local.settings.json
+firebaseConfig.tsx

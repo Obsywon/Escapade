@@ -40,23 +40,28 @@ export default function ConnexionScreen(): JSX.Element {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        window.alert("Identifiant éronné");
       });
   });
 
   return (
     <FormLayout>
       <Surface style={styles.formContainer} elevation={1}>
+        <ScrollView
+          maximumZoomScale={1}
+          minimumZoomScale={1}
+          automaticallyAdjustContentInsets={true}
+          pagingEnabled={true}
+          contentContainerStyle={styles.scrollViewContent}
+        >
           <View style={styles.titles}>
             <AppTitle title="Escapade" />
             <MainTitle title="Connexion" />
           </View>
-          <View style={styles.content}>
-            <View style={styles.formContent}>
-              <EmailInput control={control} name="email" />
-              <PasswordInput control={control} name="password" />
-              <BasicButton label="Connexion" onPress={onSubmit} />
-            </View>
-          </View>
+          <EmailInput control={control} name="email" />
+          <PasswordInput control={control} name="password" />
+          <BasicButton label="Connexion" onPress={onSubmit} />
+        </ScrollView>
       </Surface>
     </FormLayout>
   );
@@ -69,27 +74,12 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     padding: 0,
   },
-  scrollView: {
-    flex: 1,
-    backgroundColor: 'red',
-  },
   scrollViewContent: {
     padding: 8,
     paddingRight: 24,
     paddingLeft: 24,
   },
-  content: {
-    flex: 2,
-    paddingHorizontal: 24,
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-  },
-  formContent: {
-    flex: 0.6,
-    padding: 8,
-    margin: 8,
-  },
   titles: {
     flex: 1,
-  }
+  },
 });

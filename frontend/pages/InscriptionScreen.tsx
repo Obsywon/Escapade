@@ -10,9 +10,8 @@ import DatePicker from '../components/forms/DatePicker';
 import EmailInput from '../components/forms/EmailInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
-import {useInscription} from './UserService/useInscription';
 import {useForm} from 'react-hook-form';
-import {UserInCreation} from './UserService/useInscription';
+import { UserInCreation, useInscription } from '../UserService/useInscription';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig, app, auth } from "../components/firebaseConfig";
@@ -60,6 +59,7 @@ function InscriptionScreen(): JSX.Element {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        console.log("L'utilisateur existe déjà")
       });
   });
 
