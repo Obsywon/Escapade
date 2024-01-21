@@ -35,8 +35,6 @@ function App(): JSX.Element {
       <ApolloProvider client={client}>
         <PaperProvider theme={CustomTheme}>
           <LoadingSurface text="Chargement en cours..." />
-        <PaperProvider theme={CustomTheme}>
-          <LoadingSurface text="Chargement en cours..." />
         </PaperProvider>
       </ApolloProvider>
     );
