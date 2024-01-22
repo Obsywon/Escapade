@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from 'react-native';
 
-import TabNavigation from './navigation/TabNavigator';
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import GuestLayout from "./layouts/GuestLayout";
