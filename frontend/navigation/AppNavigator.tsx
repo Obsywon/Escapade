@@ -16,7 +16,7 @@ const Stack = createStackNavigator<AppNavigator>();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Bienvenue">
+    <Stack.Navigator initialRouteName="Bienvenue" >
       <Stack.Screen name="Bienvenue" component={pageBienvenue} />
       <Stack.Screen name="Inscription" component={InscriptionScreen} />
       <Stack.Screen name="Connexion" component={ConnexionScreen} />
