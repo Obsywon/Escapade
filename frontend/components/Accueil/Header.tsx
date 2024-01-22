@@ -3,6 +3,7 @@ import React from 'react'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import Logo from '../forms/Logo'
 import AppTitle from '../AppTitle'
+import { CustomColors } from '../../themes/CustomColors'
 
 export default function Header() {
     return (
@@ -23,10 +24,10 @@ const styles = StyleSheet.create({
     containerHeader: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',        
+        justifyContent: 'center',      
     },
     titleContainer: {
-        flexDirection: 'row', // Utilisez 'row' pour disposer les éléments horizontalement
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',        
     },
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     },
     searchbar: {
         borderWidth: 1,
-        borderColor: Colors.BLACK,
+        borderColor: CustomColors.black,
         padding: 4,
         borderRadius: 50,
         paddingLeft: 10,
