@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using EscapadeApi.Models.Interfaces;
+using System.Diagnostics;
 
 namespace EscapadeApi.Models
 {
@@ -18,13 +19,22 @@ namespace EscapadeApi.Models
         [JsonProperty(PropertyName = "Email", Required = Required.Always)]
         public string Email { get; set; }
 
-        [JsonProperty(PropertyName = "Mot De Passe", Required = Required.Always)]
+        [JsonProperty(PropertyName = "MotDePasse", Required = Required.Always)]
         public string Password { get; set; }
 
-        [JsonProperty(PropertyName = "Date De Naissance", Required = Required.Always)]
+        [JsonProperty(PropertyName = "DateDeNaissance", Required = Required.Always)]
         public DateTime BirthDate { get; set; }
 
-        [JsonProperty(PropertyName = "Firebase Token")]
+        [JsonProperty(PropertyName = "FirebaseToken")]
         public string Token { get; set; }
+
+        [JsonProperty(PropertyName = "Favorites")]
+        public List<Favorite> Favorites { get; set; }
+
+        [JsonProperty(PropertyName = "Posts")]
+        public List<Post> Posts { get; set; }
+
+        [JsonProperty(PropertyName = "Trajets")]
+        public List<Trajet> Trajets { get; set; }
     }
 }

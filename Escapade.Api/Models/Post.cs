@@ -14,7 +14,7 @@ namespace EscapadeApi.Models
         [JsonProperty(PropertyName = "Photo")]
         public string Picture { get; set; }
 
-        //[JsonProperty(PropertyName = "Utilisateur", Required = Required.Always)]
-        //public User User { get; set; }
+        [JsonProperty(PropertyName = "Utilisateur", Required = Required.Always)]
+        public string UserId { get; set; }
     }
 }

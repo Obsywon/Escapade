@@ -33,18 +33,16 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-string accountEndpointConfig = configuration.GetValue<string>("CosmosDb:AccountEndpoint");
-string accountKeyConfig = configuration.GetValue<string>("CosmosDb:AccountKey");
-string databaseNameConfig = configuration.GetValue<string>("CosmosDb:DatabaseName");
+string databaseName = configuration.GetValue<string>("CosmosDb:DatabaseName");
+string connectionString = configuration.GetValue<string>("CosmosDb:ConnectionString");
 
 
 // Configure CosmoDb
 builder.Services.AddDbContextPool<CosmosContext>((options) =>
 {
     options.UseCosmos(
-        accountEndpoint: accountEndpointConfig,
-        accountKey: accountKeyConfig,
-        databaseName: databaseNameConfig
+        connectionString,
+        databaseName
     );
 });
 
