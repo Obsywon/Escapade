@@ -7,9 +7,6 @@ interface CategoryListProps {
   }
 
 const CategoryList: React.FC<CategoryListProps> = ({ setSelectedCategory }) => {
-
-// export default function CategoryList(setSelectedCategory) {
-
     const categoryList=[
         {
             id:1,

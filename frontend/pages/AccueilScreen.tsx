@@ -9,7 +9,6 @@ import { UserLocationContextType, UserLocationContext } from '../components/Cont
 
 export default function AccueilScreen() {
   const [placeList, setPlacelist] = useState([]);
-  // const {location, setLocation}=useContext(UserLocationContext);    
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
 
 
@@ -17,11 +16,7 @@ export default function AccueilScreen() {
     GetNearBySearchPlace('restaurant');
   }, [location])
 
-  const GetNearBySearchPlace = (value: string) => {
-    // GlobaleApi.nearByPlace(location?.coords.latitude, location?.coords.longitude).then(Resp=>{
-    //     // console.log(Resp.data.results)
-    //     setPlacelist(Resp.data.results);
-    // })
+  const GetNearBySearchPlace = (value: string) => {    
     // console.log("Category", value)
     if (location && location.coords) {
       GlobaleApi.nearByPlace(location.coords.latitude, location.coords.longitude, value).then(Resp => {

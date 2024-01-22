@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
         color: CustomColors.dark_gray,
     },
     itemBigRating: {
-        // display: "flex",
         flexDirection: "row",
         alignItems: "center",
         gap: 5,        

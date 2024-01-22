@@ -16,16 +16,10 @@ export default function GoogleMapView({ placeList }: GoogleMapViewProps) {
         longitude: 6.1727,      // Longitude initiale
         latitudeDelta: 0.0522,   // Variation de latitude (zoom)
         longitudeDelta: 0.0421,  // Variation de longitude (zoom)
-    });
-
-    // const [mapRegion, setMapRegion] = useState([]);
-
-    // const { location, setLocation } = useContext(UserLocationContext);
+    });    
     // console.log("location", location)
 
-    // const userLocationContext = useContext(UserLocationContext);
     const userLocationContext = useContext<UserLocationContextType>(UserLocationContext);
-
 
     useEffect(() => {
         if (userLocationContext && userLocationContext.location) {

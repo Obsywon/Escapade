@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
 import React from 'react'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import Logo from '../forms/Logo'
 import AppTitle from '../AppTitle'
 import { CustomColors } from '../../themes/CustomColors'
