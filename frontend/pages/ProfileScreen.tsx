@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function Recherche() {
+export default function ProfileScreen() {
   return (
     <View>
-      <Text>Recherche</Text>
+      <Text>Profile</Text>
     </View>
   )
 }

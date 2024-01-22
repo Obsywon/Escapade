@@ -8,15 +8,18 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+
+
+interface ConnexionScreenProps {
+  navigation: any;
+}
 
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-export default function ConnexionScreen(): JSX.Element {
+export default function ConnexionScreen({ navigation }: ConnexionScreenProps): JSX.Element {
   const {
     control,
     handleSubmit,
@@ -29,19 +32,8 @@ export default function ConnexionScreen(): JSX.Element {
   });
 
   const onSubmit = handleSubmit((data) => {
-    const email = data.email; 
-    const password = data.password; 
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        window.alert("Utilisateur connecté : " + user.email);
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-        window.alert("Identifiant éronné");
-      });
+    console.log(data);
+    navigation.navigate('Accueil');
   });
 
   return (
@@ -61,6 +53,7 @@ export default function ConnexionScreen(): JSX.Element {
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
           <BasicButton label="Connexion" onPress={onSubmit} />
+
         </ScrollView>
       </Surface>
     </FormLayout>

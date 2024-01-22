@@ -20,11 +20,22 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "googleServicesFile": "./google-services.json",
+        "package": "com.escapade.findplace",
+        "googleMapsApiKey": "AIzaSyAABNPGkjDak4g3bd2_BxB1SVo0omURGck"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Escapade to use your location."
+        }
+      ]
+    ]
   }
 }
