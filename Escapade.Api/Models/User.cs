@@ -28,8 +28,8 @@ public class User : Entity
     [JsonProperty(PropertyName = "Posts")]
     public ICollection<Post>? Posts { get; set; }
 
-    [JsonProperty(PropertyName = "PlacesProposedByUser")]
-    public ICollection<PlaceAddedByUser>? PlacesProposedByUser { get; set; }
+    [JsonProperty(PropertyName = "PlacesAddedByUser")]
+    public ICollection<PlaceAddedByUser>? PlacesAddedByUser { get; set; }
 
     [JsonProperty(PropertyName = "FavoritesPlaces")]
     public ICollection<FavoritePlace> ?FavoritePlaces { get; set; }

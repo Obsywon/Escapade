@@ -1,7 +1,7 @@
 ﻿using EscapadeApi.Models.Interfaces;
 using Newtonsoft.Json;
 
-public class Post : Entity
+public class Post
 {
     [JsonProperty(PropertyName = "Titre", Required = Required.Always)]
     public string Title { get; set; }
