@@ -9,9 +9,6 @@ namespace EscapadeApi
 
         public DbSet<User> Users { get; set; }
         public DbSet<Place> Places { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
-        public DbSet<Trajet> Trajets { get; set; }
 
         public CosmosContext(DbContextOptions<CosmosContext> options) : base(options)
         {
@@ -38,24 +35,21 @@ namespace EscapadeApi
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-            .HasMany(u => u.Favorites)
-            .WithOne()
-            .HasForeignKey(f => f.UserId);
+                .ToContainer("Users")
+                .HasPartitionKey(e => e.Id);
 
             modelBuilder.Entity<Place>()
-                .HasMany(p => p.Favorites)
-                .WithOne()
-                .HasForeignKey(f => f.PlaceId);
+                .ToContainer("Places")
+                .HasPartitionKey(e => e.Id);
 
+
+            modelBuilder.Entity<User>().OwnsMany(u => u.FavoritePlaces);
+            modelBuilder.Entity<User>().OwnsMany(u => u.Posts);
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Posts)
+                .HasMany(u => u.PlacesAddedByUser)
                 .WithOne()
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(fp => fp.UserId);
 
-            modelBuilder.Entity<Trajet>()
-                .HasMany(t => t.Etapes)
-                .WithOne()
-                .HasForeignKey(e => e.TrajetId);
 
             // Appel à la méthode de base pour appliquer d'autres configurations du modèle.
             base.OnModelCreating(modelBuilder);
