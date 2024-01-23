@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Accueil/Header'
 import GoogleMapView from '../components/Accueil/GoogleMapView'
@@ -27,7 +27,7 @@ export default function AccueilScreen() {
     }
   }
   return (
-    <ScrollView style={{ padding: 20 }}>
+    <ScrollView>
       <Header />
       <GoogleMapView placeList={placeList} />
       <CategoryList setSelectedCategory={(value: string) => GetNearBySearchPlace(value)} />

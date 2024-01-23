@@ -1,10 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from 'react';
+import {View, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import {
+  Avatar,
+  Title,
+  Caption,
+  Text,
+  TouchableRipple,
+} from 'react-native-paper';
+import HeaderProfile from '../components/Profile/HeaderProfile';
 
-export default function ProfileScreen() {
+export default function AccueilScreen() {
+  
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <ScrollView>
+      <HeaderProfile />
+      
+    </ScrollView>
   )
 }
