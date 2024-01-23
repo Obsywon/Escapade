@@ -3,14 +3,8 @@ import { ColorScheme, CustomColors } from "../../themes/CustomColors"
 import AppTitle from "../AppTitle"
 import Logo from "../forms/Logo"
 import { Title, Caption } from "react-native-paper"
-import useCustomFonts from "../../hooks/useCustomFonts"
 
-export default function HeaderProfile() {
-    const [fonts, fontLoaded] = useCustomFonts();
-    if (!fontLoaded) {
-        return null;
-    }
-
+export default function HeaderProfile() {  
     return (
         <SafeAreaView
             style={styles.containerHeader}>
@@ -18,7 +12,7 @@ export default function HeaderProfile() {
                 <AppTitle title="Escapade" />
                 <Logo />
             </View>
-            <View style={styles.userInfoSection}>
+            <View style={styles.userInfo}>
                 <Image source={require('./../../assets/user.png')} style={styles.userImage} />
                 <View style={styles.userName}>
                     <Title style={styles.title}>Harry Potter</Title>
@@ -39,7 +33,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         alignItems: 'center',        
     },
-    userInfoSection: {
+    userInfo: {
         flexDirection: 'row',
         marginTop: 10,
         justifyContent: 'center',
@@ -56,19 +50,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: ColorScheme.primary,
-        fontFamily: "Fontastique",
+        // fontFamily: "Fontastique",
     },
     caption: {
         fontSize: 14,
         lineHeight: 14,
         fontWeight: '500',
         color: ColorScheme.secondary,
-        fontFamily: "Fontastique",
+        // fontFamily: "Fontastique",
     },
     textePresentation: {
         marginTop: 8,
         textAlign: 'center',
-        fontFamily: "Fontastique",
+        // fontFamily: "Fontastique",
         color: ColorScheme.primary,
         fontSize: 16,
     },

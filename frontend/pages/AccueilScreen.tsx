@@ -12,7 +12,7 @@ export default function AccueilScreen() {
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);  
   
   useEffect(() => {
-    GetNearBySearchPlace('restaurant');
+    GetNearBySearchPlace('tourist_attraction');
   }, [location])
 
   const GetNearBySearchPlace = (value: string) => {    
