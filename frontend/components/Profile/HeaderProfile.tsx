@@ -1,12 +1,19 @@
-import { View, Dimensions, Image, StyleSheet, ScrollView, SafeAreaView } from "react-native"
-import { CustomColors } from "../../themes/CustomColors"
+import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native"
+import { ColorScheme, CustomColors } from "../../themes/CustomColors"
 import AppTitle from "../AppTitle"
 import Logo from "../forms/Logo"
 import { Title, Caption } from "react-native-paper"
+import useCustomFonts from "../../hooks/useCustomFonts"
 
 export default function HeaderProfile() {
+    const [fonts, fontLoaded] = useCustomFonts();
+    if (!fontLoaded) {
+        return null;
+    }
+
     return (
-        <SafeAreaView style={styles.containerHeader}>
+        <SafeAreaView
+            style={styles.containerHeader}>
             <View style={styles.titleContainer}>
                 <AppTitle title="Escapade" />
                 <Logo />
@@ -18,6 +25,9 @@ export default function HeaderProfile() {
                     <Caption style={styles.caption}>Griffondor</Caption>
                 </View>
             </View>
+            <Text style={styles.textePresentation}>
+                J'aime la magie, les mystères et partir à la découverte
+            </Text>
         </SafeAreaView >
     )
 }
@@ -27,11 +37,11 @@ const styles = StyleSheet.create({
         // flex: 1,        
     },
     titleContainer: {
-        alignItems: 'center',
+        alignItems: 'center',        
     },
     userInfoSection: {
         flexDirection: 'row',
-        marginTop: 15,
+        marginTop: 10,
         justifyContent: 'center',
     },
     userImage: {
@@ -45,11 +55,21 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        color: ColorScheme.primary,
+        fontFamily: "Fontastique",
     },
     caption: {
         fontSize: 14,
         lineHeight: 14,
         fontWeight: '500',
+        color: ColorScheme.secondary,
+        fontFamily: "Fontastique",
     },
-
+    textePresentation: {
+        marginTop: 8,
+        textAlign: 'center',
+        fontFamily: "Fontastique",
+        color: ColorScheme.primary,
+        fontSize: 16,
+    },
 })

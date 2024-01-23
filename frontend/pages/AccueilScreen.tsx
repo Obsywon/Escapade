@@ -9,9 +9,8 @@ import { UserLocationContextType, UserLocationContext } from '../components/Cont
 
 export default function AccueilScreen() {
   const [placeList, setPlacelist] = useState([]);
-  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
-
-
+  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);  
+  
   useEffect(() => {
     GetNearBySearchPlace('restaurant');
   }, [location])

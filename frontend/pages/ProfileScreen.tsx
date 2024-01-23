@@ -9,7 +9,7 @@ import {
 } from 'react-native-paper';
 import HeaderProfile from '../components/Profile/HeaderProfile';
 
-export default function AccueilScreen() {
+export default function ProfileScreen() {
   
   return (
     <ScrollView>
