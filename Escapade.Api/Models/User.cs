@@ -8,7 +8,7 @@ public class User : Entity
     public string Name { get; set; }
 
     [JsonProperty(PropertyName = "Prenom", Required = Required.Always)]
-    public string FirstName { get; set; }
+    public string LastName { get; set; }
 
     [JsonProperty(PropertyName = "Sexe")]
     public string ?Gender { get; set; }

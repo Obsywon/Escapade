@@ -12,25 +12,10 @@ namespace EscapadeApi
 
         public CosmosContext(DbContextOptions<CosmosContext> options) : base(options)
         {
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    IConfigurationRoot configuration = new ConfigurationBuilder()
-        //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-        //    .AddJsonFile("appsettings.json")
-        //    .Build();
-
-        //    string accountEndpoint = configuration.GetValue<string>("CosmosDb:AccountEndpoint");
-        //    string accountKey = configuration.GetValue<string>("CosmosDb:AccountKey");
-        //    string databaseName = configuration.GetValue<string>("CosmosDb:DatabaseName");
-        //    string connectionString = configuration.GetValue<string>("CosmosDb:ConnectionString");
-
-        //    optionsBuilder.UseCosmos(
-        //        connectionString,
-        //        databaseName
-        //    );
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +25,10 @@ namespace EscapadeApi
 
             modelBuilder.Entity<Place>()
                 .ToContainer("Places")
+                .HasPartitionKey(e => e.Id);
+
+            modelBuilder.Entity<PlaceAddedByUser>()
+                .ToContainer("Places")  
                 .HasPartitionKey(e => e.Id);
 
 

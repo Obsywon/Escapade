@@ -9,6 +9,7 @@ using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
+using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
 
@@ -50,10 +51,9 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 // Configure Dependancy Injection
 builder.Services
         .AddScoped<IRepository<User>, UserRepository>() // -- UserService
-        .AddScoped<IRepository<Post>, PostRepository>() // -- PostService
-
         .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
-        .AddScoped<IPostService, PostService>(); // -- PostQuery & PostMutation
+        .AddHttpContextAccessor();
+
 
 
 
@@ -67,7 +67,8 @@ builder.Services
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
-    .RegisterService<IPostService>(ServiceKind.Resolver) // -- PostService
+    .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
+
 
 
     .AddFiltering()
@@ -88,7 +89,13 @@ app.UseEndpoints(endpoints =>
     // -- Dans notre cas : /graphql
     // -- BanacakePop n'est donc pas non plus disponible sans credentials.
     // .RequireAuthorization(); A décommenter par la suite 
-    endpoints.MapGraphQL();//.RequireAuthorization(); 
+    endpoints.MapGraphQL().RequireAuthorization();
+
+
+    endpoints.MapBananaCakePop("/ui").WithOptions(new GraphQLToolOptions
+    {
+        GraphQLEndpoint = "graphql"
+    });
 });
 
 app.Run();
