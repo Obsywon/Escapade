@@ -10,5 +10,6 @@ axios.get(`${BASE_URL}nearbysearch/json?location=${lat},${lng}&radius=1500&type=
 
 export default {
     nearByPlace,
+    API_KEY
     
 };

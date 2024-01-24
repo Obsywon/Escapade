@@ -47,6 +47,7 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        window.alert("Utilisateur non reconnu");
       });
   });
 
@@ -68,7 +69,6 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
           <BasicButton label="Connexion" onPress={onSubmit} />
-
         </ScrollView>
       </Surface>
     </FormLayout>
