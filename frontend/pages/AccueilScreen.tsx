@@ -13,15 +13,12 @@ export default function AccueilScreen() {
 
 
   useEffect(() => {
-    GetNearBySearchPlace('restaurant');
+    GetNearBySearchPlace('tourist_attraction');
   }, [location])
 
   const GetNearBySearchPlace = (value: string) => {    
-    // console.log("Category", value)
     if (location && location.coords) {
       GlobaleApi.nearByPlace(location.coords.latitude, location.coords.longitude, value).then(Resp => {
-        // console.log(Resp.data.results)
-        // console.log("API Response:", Resp.data.results);
         setPlacelist(Resp.data.results);
       });
     }
