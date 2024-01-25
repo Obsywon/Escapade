@@ -13,6 +13,11 @@ namespace EscapadeApi.Services.Interfaces
             _repository = repository;
         }
 
+        public async Task<bool> IsFoundAsync(string userId)
+        {
+            return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
+        }
+
         public virtual async Task<T> GetByIdAsync(string id)
         {
             try

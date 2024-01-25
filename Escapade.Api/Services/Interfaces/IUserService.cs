@@ -6,9 +6,9 @@ namespace EscapadeApi.Services.Interfaces
     {
         public Task<User> GetUserByEmailAsync(string email);
 
-        public Task<bool> CheckForConflictingUser(string email);
+        public Task<bool> CheckForConflictingUserAsync(string email);
 
-        public Task<string> EncryptPassword(string password);
+        public Task<string> EncryptPasswordAsync(string password);
 
         public bool IsPasswordSecure(string password);
 
@@ -17,5 +17,9 @@ namespace EscapadeApi.Services.Interfaces
         public bool IsNameAndLastNameValid(string name, string lastName);
 
         public bool IsBirthDateValid(DateTime birthDate);
+
+        public Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId);
+
+        public Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId);
     }
 }

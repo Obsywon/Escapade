@@ -5,6 +5,8 @@ namespace EscapadeApi.Services.Interfaces
 {
     public interface IService<T> where T : class, IEntity
     {
+        public Task<bool> IsFoundAsync(string userId);
+
         public Task<T> GetByIdAsync(string id);
 
         public Task<IEnumerable<T>> GetAllAsync();

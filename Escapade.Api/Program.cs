@@ -1,5 +1,9 @@
+using Escapade.Api.Repositories;
+using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Queries;
+using Escapade.Api.Services;
+using Escapade.Api.Services.Interfaces;
 using EscapadeApi;
 using EscapadeApi.Models;
 using EscapadeApi.Repositories;
@@ -50,8 +54,12 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 
 // Configure Dependancy Injection
 builder.Services
-        .AddScoped<IRepository<User>, UserRepository>() // -- UserService
+        .AddScoped<IRepositoryUser, UserRepository>() // -- UserService
+        .AddScoped<IRepositoryPlace, PlaceRepository>() // -- PlaceService
+
         .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
+        .AddScoped<IPlaceService, PlaceService>() // -- PlaceQuery & PlaceMutation
+
         .AddHttpContextAccessor();
 
 
@@ -67,6 +75,7 @@ builder.Services
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
+    .RegisterService<IPlaceService>(ServiceKind.Resolver) // -- PlaceService
     .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
 
 
@@ -85,17 +94,13 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    // -- Force l'authentification sur l'endpoint GraphQl
-    // -- Dans notre cas : /graphql
-    // -- BanacakePop n'est donc pas non plus disponible sans credentials.
-    // .RequireAuthorization(); A décommenter par la suite 
-    endpoints.MapGraphQL().RequireAuthorization();
 
+    endpoints.MapGraphQL();
 
-    endpoints.MapBananaCakePop("/ui").WithOptions(new GraphQLToolOptions
-    {
-        GraphQLEndpoint = "graphql"
-    });
+    //endpoints.MapBananaCakePop("/ui").WithOptions(new GraphQLToolOptions
+    //{
+    //    GraphQLEndpoint = "/graphql"
+    //});
 });
 
 app.Run();
