@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { Image, StyleSheet, ImageStyle } from 'react-native';
+import { Image, StyleSheet, ViewStyle } from 'react-native';
 import PropTypes from 'prop-types';
 
 interface LogoProps {
-  style?: ImageStyle;
+  style?: ViewStyle;
 }
 
 const Logo: React.FC<LogoProps> = ({ style }) => (

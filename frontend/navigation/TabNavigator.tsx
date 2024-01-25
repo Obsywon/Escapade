@@ -1,14 +1,15 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Recherche from '../pages/RechercheScreen';
-import Favori from '../pages/FavoriScreen';
-import Photos from '../pages/PhotosScreen';
-import Profile from '../pages/ProfileScreen';
+
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
+import FavoriScreen from '../pages/FavoriScreen';
+import PhotosScreen from '../pages/PhotosScreen';
+import RechercheScreen from '../pages/RechercheScreen';
+import ProfileScreen from '../pages/ProfileScreen';
 
 
 export default function TabNavigator() {
@@ -28,28 +29,28 @@ export default function TabNavigator() {
             <Ionicons name='home' color={color} size={size} />
           )
         }} />
-      <Tab.Screen name="Recherche" component={Recherche}
+      <Tab.Screen name="Recherche" component={RechercheScreen}
         options={{
           tabBarLabel: 'Recherche',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='search' color={color} size={size} />
           )
         }} />
-      <Tab.Screen name="Favori" component={Favori}
+      <Tab.Screen name="Favori" component={FavoriScreen}
         options={{
           tabBarLabel: 'Favori',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='ios-heart' color={color} size={size} />
           )
         }} />
-      <Tab.Screen name="Photos" component={Photos}
+      <Tab.Screen name="Album" component={PhotosScreen}
         options={{
-          tabBarLabel: 'Photos',
+          tabBarLabel: 'Album',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name='photo' color={color} size={size} />
           )
         }} />
-      <Tab.Screen name="Profil" component={Profile}
+      <Tab.Screen name="Profil" component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (

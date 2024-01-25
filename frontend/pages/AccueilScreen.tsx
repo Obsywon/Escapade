@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Accueil/Header'
 import GoogleMapView from '../components/Accueil/GoogleMapView'
@@ -9,9 +9,8 @@ import { UserLocationContextType, UserLocationContext } from '../components/Cont
 
 export default function AccueilScreen() {
   const [placeList, setPlacelist] = useState([]);
-  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
-
-
+  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);  
+  
   useEffect(() => {
     GetNearBySearchPlace('tourist_attraction');
   }, [location])
@@ -24,7 +23,7 @@ export default function AccueilScreen() {
     }
   }
   return (
-    <ScrollView style={{ padding: 20 }}>
+    <ScrollView>
       <Header />
       <GoogleMapView placeList={placeList} />
       <CategoryList setSelectedCategory={(value: string) => GetNearBySearchPlace(value)} />
