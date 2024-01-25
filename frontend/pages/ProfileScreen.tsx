@@ -7,7 +7,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 type ProfileScreenProps = BottomTabScreenProps<BottomTabParamList, 'Profil'>
 
 
-export default function ProfileScreen({} : Readonly<ProfileScreenProps>) {
+export default function ProfileScreen({} : Readonly<ProfileScreenProps>): JSX.Element {
   return (
     <View>
       <Text>Profile</Text>

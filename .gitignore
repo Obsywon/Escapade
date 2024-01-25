@@ -144,3 +144,4 @@ appsettings.json
 appsettings.Development.json
 local.settings.json
 firebaseConfig.tsx
+frontend/.env

@@ -4,10 +4,10 @@ import { BottomTabParamList } from '../navigation/TabNavigator'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 
 
-type RechercheScreenProps = BottomTabScreenProps<BottomTabParamList, 'Rercherche'>
+type RechercheScreenProps = BottomTabScreenProps<BottomTabParamList, 'Recherche'>
 
 
-export default function RechercheScreen({}: Readonly<RechercheScreenProps>) {
+export default function RechercheScreen() {
   return (
     <View>
       <Text>Recherche</Text>

@@ -4,23 +4,58 @@ import Recherche from '../pages/RechercheScreen';
 import Favori from '../pages/FavoriScreen';
 import Photos from '../pages/PhotosScreen';
 import Profile from '../pages/ProfileScreen';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
 
 
 export type BottomTabParamList = {
   Accueil: undefined;
-  Rercherche: undefined;
+  Recherche: undefined;
   Favori: undefined;
   Photos: undefined;
   Profil: undefined;
 };
 
+type TabElement = {
+  label: keyof BottomTabParamList,
+  component: (T: any)=> JSX.Element,
+  icon: 'home' | 'search' | 'ios-heart' | 'photo' |'user-circle-o',
+};
+
+const tabs : TabElement[] = [
+  {
+    label: 'Accueil',
+    component: AccueilScreen,
+    icon: 'home',
+  },
+  {
+    label: 'Recherche',
+    component: Recherche,
+    icon: 'search',
+  },
+  {
+    label: 'Favori',
+    component: Favori,
+    icon: 'ios-heart'
+  },
+  {
+    label: 'Photos',
+    component: Photos,
+    icon: 'photo'
+  },{
+    label: 'Profil',
+    component: Profile,
+    icon: 'user-circle-o'
+  }
+]
+
 
 
 export default function TabNavigator() {
   const Tab = createBottomTabNavigator<BottomTabParamList>();
+
+
   return (
     <Tab.Navigator
       screenOptions={{ 
@@ -29,41 +64,15 @@ export default function TabNavigator() {
         tabBarInactiveTintColor: ColorScheme.primary,
       }}
        >
-      <Tab.Screen name="Accueil" component={AccueilScreen}
-        options={{
-          tabBarLabel: 'Accueil',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='home' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Recherche" component={Recherche}
-        options={{
-          tabBarLabel: 'Recherche',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='search' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Favori" component={Favori}
-        options={{
-          tabBarLabel: 'Favori',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='ios-heart' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Photos" component={Photos}
-        options={{
-          tabBarLabel: 'Photos',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name='photo' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Profil" component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name='user-circle-o' color={color} size={size} />
-          )
-        }} />
+        {tabs.map(tab =>(
+          <Tab.Screen key={tab.label} name={tab.label} component={tab.component}
+          options={{
+            tabBarLabel: tab.label,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name={tab.icon} color={color} size={size} />
+            )
+          }} />
+        ))}
     </Tab.Navigator>
   )
 }
