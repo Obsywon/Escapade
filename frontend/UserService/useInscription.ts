@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($entity: UserInput) {
-    create(input: $entity) {
-      id
-      name
-      lastName
-      gender
-      email
-      birthDate
-    }
+mutation CreateUser($entity: UserInput) {
+  registerUser(input: $entity) {
+    id
+    name
+    password
+    lastName
+    gender
+    email
+    birthDate
   }
+}
 `;
 
 export interface UserInCreation {

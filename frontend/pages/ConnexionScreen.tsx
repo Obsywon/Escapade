@@ -8,24 +8,17 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig, app, auth } from "../components/firebaseConfig";
 import { AppNavigatorParamList } from "../navigation/AppNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
-
-type ConnexionScreenProps = StackNavigationProp<
-  AppNavigatorParamList,
-  "Connexion"
->;
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { useNavigation } from "@react-navigation/native";
 
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-export default function ConnexionScreen({
-  navigate,
-}: ConnexionScreenProps): JSX.Element {
+export default function ConnexionScreen(): JSX.Element {
   const {
     control,
     handleSubmit,
@@ -37,22 +30,23 @@ export default function ConnexionScreen({
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const navigation =
+    useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+
+  const { connectUserToFirebase } = useFirebaseAuth();
+  //const user = useSelector<UserState>(state => state.user)
+
+  const onSubmit = handleSubmit(async (data) => {
     const email = data.email;
     const password = data.password;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        window.alert("Utilisateur connecté : " + user.email);
-        navigate("Accueil");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-        window.alert("Utilisateur non reconnu");
-      });
+    try {
+      const user = await connectUserToFirebase(email, password);
+      window.alert("Utilisateur connecté : " + user);
+      navigation.navigate("Accueil");
+    } catch (error) {
+      window.alert("Utilisateur non reconnu");
+    }
   });
 
   return (

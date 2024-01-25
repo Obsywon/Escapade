@@ -13,10 +13,11 @@ import ErrorText from '../components/forms/ErrorText';
 import {useForm} from 'react-hook-form';
 import { UserInCreation, useInscription } from '../UserService/useInscription';
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+
 import { AppNavigatorParamList } from '../navigation/AppNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import { useNavigation } from '@react-navigation/native';
 
 type InscriptionFormData = {
   nom: string;
@@ -28,7 +29,6 @@ type InscriptionFormData = {
 };
 
 
-type InscriptionScreenProps = StackNavigationProp<AppNavigatorParamList, 'Inscription'>
 
 const defaultValues: InscriptionFormData = {
   nom: '',
@@ -38,7 +38,7 @@ const defaultValues: InscriptionFormData = {
   verify_mdp: '',
 };
 
-function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
+function InscriptionScreen(): JSX.Element {
   const [date, setDate] = useState<Date>();
   const {
     control,
@@ -49,23 +49,26 @@ function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
   } = useForm<InscriptionFormData>({
     defaultValues: defaultValues,
   });
+  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   const password = watch('mot_de_passe');
 
-  const submit = handleSubmit((data) => {
+  const {registerUserToFirebase} = useFirebaseAuth();
+
+  const submit = handleSubmit(async (data) => {
     const email = data.email;
-  
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        window.alert("L'utilisateur a bien été enregistré")
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-        window.alert("L'utilisateur existe déjà");
-      });
+
+    try{
+      const user = await registerUserToFirebase(email, password);
+      if (user){
+        window.alert("L'utilisateur a bien été enregistré");
+        console.log(user);
+        navigation.navigate('Accueil');
+      }
+    }catch(error){
+      console.error(error);
+      window.alert("L'utilisateur existe déjà");
+    }
   });
 
   const [inscription, data, error, loading] = useInscription();
@@ -75,7 +78,7 @@ function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
       mot_de_passe: values.mot_de_passe,
       prenom: values.prenom,
       nom: values.nom,
-      date_de_naissance: date != null ? date : '',
+      date_de_naissance: date!,
     };
 
     await inscription(user);
@@ -83,7 +86,7 @@ function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
     if (!loading && data) {
       reset(defaultValues);
       setDate(undefined);
-      navigate('Accueil');
+      navigation.navigate('Accueil');
     }
   }
 

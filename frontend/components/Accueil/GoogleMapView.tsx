@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import PlaceMarker from './PlaceMarker';
+import PlaceMarker, { PlaceMarkerProps } from './PlaceMarker';
 import GlobaleApi from '../../Services/GlobaleApi';
 import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
@@ -11,7 +11,7 @@ interface GoogleMapViewProps {
   userLocationContext?: UserLocationContextType;
 }
 
-export default function GoogleMapView({ placeList }: GoogleMapViewProps) {
+export default function GoogleMapView({ placeList }: Readonly<GoogleMapViewProps>) {
   const [mapRegion, setMapRegion] = useState<Region>({
     latitude: 49.1193,
     longitude: 6.1727,
@@ -24,7 +24,7 @@ export default function GoogleMapView({ placeList }: GoogleMapViewProps) {
   const [startPoint, setStartPoint] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
   useEffect(() => {
-    if (userLocationContext && userLocationContext.location) {
+    if (userLocationContext?.location) {
       setMapRegion({
         latitude: userLocationContext.location.coords.latitude,
         longitude: userLocationContext.location.coords.longitude,
@@ -40,8 +40,8 @@ export default function GoogleMapView({ placeList }: GoogleMapViewProps) {
   }, [userLocationContext]);
 
   const extractCoordinates = (place) => ({
-    latitude: place.geometry?.location?.lat || 0,
-    longitude: place.geometry?.location?.lng || 0,
+    latitude: place?.geometry?.location?.lat || 0,
+    longitude: place?.geometry?.location?.lng || 0,
   });
 
   const waypoints = placeList.slice(0, 4).map(extractCoordinates);

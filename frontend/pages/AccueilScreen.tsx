@@ -7,7 +7,7 @@ import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 
-export default function AccueilScreen() {
+export default function AccueilScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
 
@@ -16,12 +16,11 @@ export default function AccueilScreen() {
     GetNearBySearchPlace('tourist_attraction');
   }, [location])
 
-  const GetNearBySearchPlace = (value: string) => {    
+  const GetNearBySearchPlace = async (value: string) => {    
     // console.log("Category", value)
     if (location?.coords) {
-      GlobaleApi.nearByPlace(location.coords.latitude, location.coords.longitude, value).then(Resp => {
-        setPlacelist(Resp.data.results);
-      });
+      const response = await GlobaleApi.nearByPlace(location.coords.latitude, location.coords.longitude, value);
+      setPlacelist(response.data.results);
     }
   }
   return (

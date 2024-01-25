@@ -2,17 +2,20 @@ import React from "react";
 import { View, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import MainTitle from "../components/MainTitle";
 import BasicButton from "../components/forms/BasicButton";
-import FormLayout from "../layouts/FormLayout";
 import { Text, Surface } from "react-native-paper";
 import Logo from "../components/forms/Logo";
 import AppTitle from "../components/AppTitle";
-import { ColorScheme, CustomColors } from "../themes/CustomColors";
+import { ColorScheme } from "../themes/CustomColors";
 import { AppNavigatorParamList } from "../navigation/AppNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 type BienvenueScreenProps = StackNavigationProp<AppNavigatorParamList, 'Bienvenue'>
 
-const BienvenueScreen: React.FC<BienvenueScreenProps> = ({navigate}) => {
+const BienvenueScreen = () : JSX.Element => {
+
+  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+  
   return (
     <ImageBackground
       resizeMode={"stretch"}
@@ -58,7 +61,7 @@ const BienvenueScreen: React.FC<BienvenueScreenProps> = ({navigate}) => {
           <View style={styles.buttonContainer}>
             <BasicButton
               label="Créer un compte"
-              onPress={() => navigate("Inscription")}
+              onPress={() => navigation.navigate("Inscription")}
               color={ColorScheme.secondary}
             />
           </View>
@@ -66,7 +69,7 @@ const BienvenueScreen: React.FC<BienvenueScreenProps> = ({navigate}) => {
           <View style={styles.buttonContainer}>
             <BasicButton
               label="Se connecter"
-              onPress={() => navigate("Connexion")}
+              onPress={() => navigation.navigate("Connexion")}
             />
           </View>
         </Surface>
@@ -81,7 +84,6 @@ const styles = StyleSheet.create({
   },
 
   scrollViewContent: {
-    flex: 1,
     justifyContent: 'space-around',
     padding: 8,
     paddingRight: 24,
