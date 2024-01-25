@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
     },    
     textUser: {
         color:ColorScheme.secondary,
-        marginLeft: 10,
+        marginLeft: 8,
     },
 });

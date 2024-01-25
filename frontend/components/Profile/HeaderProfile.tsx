@@ -1,8 +1,8 @@
-import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native"
+import { View, Image, StyleSheet, SafeAreaView } from "react-native"
 import { ColorScheme, CustomColors } from "../../themes/CustomColors"
 import AppTitle from "../AppTitle"
 import Logo from "../forms/Logo"
-import { Title, Caption } from "react-native-paper"
+import { Title, Caption, Text } from "react-native-paper"
 
 export default function HeaderProfile() {  
     return (

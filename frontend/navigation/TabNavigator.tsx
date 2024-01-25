@@ -43,9 +43,9 @@ export default function TabNavigator() {
             <Ionicons name='ios-heart' color={color} size={size} />
           )
         }} />
-      <Tab.Screen name="Photos" component={PhotosScreen}
+      <Tab.Screen name="Album" component={PhotosScreen}
         options={{
-          tabBarLabel: 'Photos',
+          tabBarLabel: 'Album',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name='photo' color={color} size={size} />
           )
