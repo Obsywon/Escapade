@@ -11,7 +11,7 @@ import EmailInput from '../components/forms/EmailInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
 import {useForm} from 'react-hook-form';
-import { UserInCreation, useInscription } from '../UserService/useInscription';
+import { UserInCreation, useInscription } from '../hooks/useInscription';
 
 
 import { AppNavigatorParamList } from '../navigation/AppNavigator';
@@ -53,7 +53,8 @@ function InscriptionScreen(): JSX.Element {
 
   const password = watch('mot_de_passe');
 
-  const {registerUserToFirebase} = useFirebaseAuth();
+  /*const {registerUserToFirebase} = useFirebaseAuth();
+
 
   const submit = handleSubmit(async (data) => {
     const email = data.email;
@@ -70,9 +71,11 @@ function InscriptionScreen(): JSX.Element {
       window.alert("L'utilisateur existe déjà");
     }
   });
+  */
 
   const [inscription, data, error, loading] = useInscription();
-  async function sendData(values: InscriptionFormData): Promise<any> {
+
+  const submit = handleSubmit(async (values: InscriptionFormData) => {
     const user: UserInCreation = {
       email: values.email,
       mot_de_passe: values.mot_de_passe,
@@ -88,7 +91,8 @@ function InscriptionScreen(): JSX.Element {
       setDate(undefined);
       navigation.navigate('Accueil');
     }
-  }
+  });
+
 
   return (
     <FormLayout>

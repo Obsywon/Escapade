@@ -1,38 +1,38 @@
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 
 const CREATE_USER_MUTATION = gql`
-mutation CreateUser($entity: UserInput) {
-  registerUser(input: $entity) {
-    id
-    name
-    password
-    lastName
-    gender
-    email
-    birthDate
+  mutation CreateUser($entity: UserInput) {
+    registerUser(input: $entity) {
+      id
+      name
+      password
+      lastName
+      gender
+      email
+      birthDate
+    }
   }
-}
 `;
 
-export interface UserInCreation {
+export type UserInCreation = {
   email: string;
   mot_de_passe: string;
   prenom: string;
   nom: string;
   date_de_naissance: Date | string;
   sexe?: string | undefined;
-}
+};
 
-interface User extends UserInCreation {
+export type User = UserInCreation & {
   id: string;
-}
+};
 
 export const useInscription = (): [
   (newUser: UserInCreation) => Promise<void>,
   User | undefined,
   string | undefined,
-  boolean,
+  boolean
 ] => {
   const [data, setData] = useState<User | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -60,7 +60,7 @@ export const useInscription = (): [
       });
 
       console.table(response);
-      const user = response.data.create; 
+      const user = response.data.create;
 
       setData(user);
     } catch (err) {

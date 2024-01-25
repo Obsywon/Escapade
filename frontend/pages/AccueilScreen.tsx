@@ -2,7 +2,7 @@ import { ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Accueil/Header'
 import GoogleMapView from '../components/Accueil/GoogleMapView'
-import GlobaleApi from '../Services/GlobaleApi';
+import GlobaleApi from '../services/GlobaleApi';
 import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';

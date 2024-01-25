@@ -3,7 +3,7 @@ import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import PlaceMarker, { PlaceMarkerProps } from './PlaceMarker';
-import GlobaleApi from '../../Services/GlobaleApi';
+import GlobaleApi from '../../services/GlobaleApi';
 import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
 interface GoogleMapViewProps {
