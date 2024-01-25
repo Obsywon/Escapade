@@ -55,10 +55,11 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 // Configure Dependancy Injection
 builder.Services
         .AddScoped<IRepositoryUser, UserRepository>() // -- UserService
-        .AddScoped<IRepository<Place>, PlaceRepository>() // -- PlaceService
+        .AddScoped<IRepositoryPlace, PlaceRepository>() // -- PlaceService
 
         .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
         .AddScoped<IPlaceService, PlaceService>() // -- PlaceQuery & PlaceMutation
+
         .AddHttpContextAccessor();
 
 
@@ -74,6 +75,7 @@ builder.Services
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
+    .RegisterService<IPlaceService>(ServiceKind.Resolver) // -- PlaceService
     .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
 
 
@@ -92,17 +94,13 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    // -- Force l'authentification sur l'endpoint GraphQl
-    // -- Dans notre cas : /graphql
-    // -- BanacakePop n'est donc pas non plus disponible sans credentials.
-    // .RequireAuthorization(); A décommenter par la suite 
-    endpoints.MapGraphQL().RequireAuthorization();
 
+    endpoints.MapGraphQL();
 
-    endpoints.MapBananaCakePop("/ui").WithOptions(new GraphQLToolOptions
-    {
-        GraphQLEndpoint = "graphql"
-    });
+    //endpoints.MapBananaCakePop("/ui").WithOptions(new GraphQLToolOptions
+    //{
+    //    GraphQLEndpoint = "/graphql"
+    //});
 });
 
 app.Run();

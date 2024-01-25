@@ -17,6 +17,13 @@ namespace Escapade.Api.Schema.Mutations
     {
         #region HotChocolate
 
+        private readonly IConfiguration _configuration;
+
+        public UserMutation(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [AllowAnonymous]
         public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
@@ -50,7 +57,7 @@ namespace Escapade.Api.Schema.Mutations
                     Email = email,
                     Password = password,
                     EmailVerified = true,
-                    Disabled = true,
+                    Disabled = false,
                 }, cancellationToken);
 
 
@@ -97,19 +104,19 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
-        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw)
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string password)
         {
             try
             {
                 // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
                 User user = await userService.GetUserByEmailAsync(email);
 
-
-                string password = userService.EncryptPasswordAsync(psw).Result;
-
                 using (var httpClient = new HttpClient())
                 {
-                    var apiUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + "AIzaSyCfaZTRP3qpC_XqVpZgMAEs2b10E0-j12c";
+                    string firebaseUri = _configuration["Firebase:Uri"];
+                    string firebaseApiKey = _configuration["Firebase:ApiKey"];
+
+                    string apiUrl = $"{firebaseUri}{firebaseApiKey}";
 
                     var request = new
                     {
@@ -155,6 +162,7 @@ namespace Escapade.Api.Schema.Mutations
             }
         }
 
+        [Authorize]
         public async Task AddNewFavoritePlace(IUserService userService, IPlaceService placeService, ClaimsPrincipal claimsPrincipal, string placeId, CancellationToken cancellationToken)
         {
             var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -176,7 +184,23 @@ namespace Escapade.Api.Schema.Mutations
             await userService.UpdateAsync(currentUser);
         }
 
+        [Authorize]
+        public async Task UpdateUserAsync(IUserService userService, ClaimsPrincipal claimsPrincipal, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
+        {
+            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            User currentUser = null;
+
+            if (await userService.IsFoundAsync(userId))
+                currentUser = await userService.GetByIdAsync(userId);
+
+            currentUser.Name = name;
+            currentUser.LastName = lastname;
+            currentUser.BirthDate = birthDate;
+            currentUser.Gender = gender;
+
+            await userService.UpdateAsync(currentUser);
+        }
 
         #endregion
     }
