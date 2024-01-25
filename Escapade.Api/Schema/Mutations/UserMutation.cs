@@ -21,7 +21,7 @@ namespace Escapade.Api.Schema.Mutations
             try
             {
                 // Vérifier les informations de l'utilisateur
-                if (await userService.CheckForConflictingUser(email))
+                if (await userService.CheckForConflictingUserAsync(email))
                 {
                     throw new InvalidOperationException("email address is already in use.");
                 }
@@ -39,7 +39,7 @@ namespace Escapade.Api.Schema.Mutations
                 }
 
                 // Cryptage du mdp
-                password = await userService.EncryptPassword(password);
+                password = await userService.EncryptPasswordAsync(password);
 
                 // Créer un nouvel utilisateur dans Firebase
                 var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
@@ -101,7 +101,7 @@ namespace Escapade.Api.Schema.Mutations
                 // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
                 User user = await userService.GetUserByEmailAsync(email);
 
-                string password = userService.EncryptPassword(psw).Result;
+                string password = userService.EncryptPasswordAsync(psw).Result;
 
                 using (var httpClient = new HttpClient())
                 {
@@ -151,51 +151,14 @@ namespace Escapade.Api.Schema.Mutations
             }
         }
 
-        [Authorize]
-        public async Task<User> UpdateLastNameUserAsync(IUserService userService, string lastname, CancellationToken cancellationToken, ClaimsPrincipal claimsPrincipal)
+        public async Task AddNewFavoritePlace(IUserService userService, ClaimsPrincipal claimsPrincipal, string placeId, CancellationToken cancellationToken)
         {
-            try
-            {
-                string userId = claimsPrincipal.FindFirstValue(FirebaseUserClaimType.ID);
+            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                User userToUpdate = await userService.GetByIdAsync(userId);
+            User currentUser;
 
-                if (userToUpdate == null)
-                    throw new GraphQLException(new Error("User not found", "USER_NOT_FOUND"));
-
-                userToUpdate.LastName = lastname;
-
-                await userService.UpdateAsync(userToUpdate);
-
-                return userToUpdate;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public async Task<User> UpdateNameUserAsync(IUserService userService, string name, CancellationToken cancellationToken, ClaimsPrincipal claimsPrincipal)
-        {
-            try
-            {
-                string userId = claimsPrincipal.FindFirstValue(FirebaseUserClaimType.ID);
-
-                User userToUpdate = await userService.GetByIdAsync(userId);
-
-                if (userToUpdate == null)
-                    throw new GraphQLException(new Error("User not found", "USER_NOT_FOUND"));
-
-                userToUpdate.Name = name;
-
-                await userService.UpdateAsync(userToUpdate);
-
-                return userToUpdate;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
+            if (await userService.UserIsFoundAsync(userId))
+                currentUser = await userService.GetByIdAsync(userId);
         }
 
 

@@ -11,9 +11,14 @@ namespace EscapadeApi.Services
     {
         public UserService(IRepository<User> repository) : base(repository) { }
 
-        public async Task<bool> CheckForConflictingUser(string email)
+        public async Task<bool> CheckForConflictingUserAsync(string email)
         {
             return (await _repository.GetByConditionAsync(x => x.Email == email)).Any();
+        }
+
+        public async Task<bool> UserIsFoundAsync(string userId)
+        {
+            return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
@@ -21,7 +26,7 @@ namespace EscapadeApi.Services
             return (await _repository.GetByConditionAsync(x => x.Email == email)).FirstOrDefault();
         }
 
-        public async Task<string> EncryptPassword(string password)
+        public async Task<string> EncryptPasswordAsync(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
             {

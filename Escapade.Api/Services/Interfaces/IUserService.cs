@@ -6,9 +6,11 @@ namespace EscapadeApi.Services.Interfaces
     {
         public Task<User> GetUserByEmailAsync(string email);
 
-        public Task<bool> CheckForConflictingUser(string email);
+        public Task<bool> CheckForConflictingUserAsync(string email);
 
-        public Task<string> EncryptPassword(string password);
+        public Task<bool> UserIsFoundAsync(string userId);
+
+        public Task<string> EncryptPasswordAsync(string password);
 
         public bool IsPasswordSecure(string password);
 
