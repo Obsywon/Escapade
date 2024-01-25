@@ -10,21 +10,21 @@ const CategoryList: React.FC<CategoryListProps> = ({ setSelectedCategory }) => {
     const categoryList=[
         {
             id:1,
-            name:'Gas Station',
-            value:'gas_station',
-            icon:require('./../../assets/gas.png')
+            name:'Lieux touristiques',
+            value:'tourist_attraction',
+            icon:require('./../../assets/tourist.png')
         },
         {
             id:2,
-            name:'Restaurants',
-            value:'restaurant',
-            icon:require('./../../assets/food.png')
+            name:'Musées',
+            value:'museum',
+            icon:require('./../../assets/musee.png')
         },
         {
             id:3,
-            name:'Touriste-Attraction',
-            value:'tourist_attraction',
-            icon:require('./../../assets/musee.png')
+            name:'Galleries d\'art',
+            value:'art_gallery',
+            icon:require('./../../assets/art.png')
         },
     ]
 

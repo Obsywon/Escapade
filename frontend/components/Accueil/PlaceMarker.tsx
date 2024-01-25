@@ -16,7 +16,6 @@ interface PlaceMarkerProps {
 
 export default function PlaceMarker({ item }: PlaceMarkerProps) {
     if (!item || !item.geometry || !item.geometry.location) {
-        // Si certaines propriétés sont manquantes, renvoyer null pour éviter l'erreur.
         return null;
     }
     return (
