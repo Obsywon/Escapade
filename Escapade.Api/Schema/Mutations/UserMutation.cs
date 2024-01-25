@@ -104,19 +104,21 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
-        public async Task<User> LoginUserAsync(IUserService userService, string email, string password)
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw)
         {
             try
             {
                 // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
                 User user = await userService.GetUserByEmailAsync(email);
 
+                var password = userService.EncryptPasswordAsync(psw).Result;
+
                 using (var httpClient = new HttpClient())
                 {
                     string firebaseUri = _configuration["Firebase:Uri"];
                     string firebaseApiKey = _configuration["Firebase:ApiKey"];
 
-                    string apiUrl = $"{firebaseUri}{firebaseApiKey}";
+                    var apiUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + "AIzaSyCfaZTRP3qpC_XqVpZgMAEs2b10E0-j12c";
 
                     var request = new
                     {
