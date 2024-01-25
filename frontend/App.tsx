@@ -14,8 +14,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import AppNavigator from "./navigation/AppNavigator";
 
 import * as Location from 'expo-location';
-import { UserLocationContext } from './components/Context/UserLocationContext';
+import { UserLocationContext } from './contexts/UserLocationContext';
 import { useFonts } from 'expo-font';
+import { AuthProvider } from "./hooks/useFirebase";
 
 
 const Stack = createNativeStackNavigator();
@@ -64,7 +65,8 @@ function App(): JSX.Element {
   }
 
   return (
-    <ApolloProvider client={client}>
+    <AuthProvider>
+      <ApolloProvider client={client}>
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
@@ -79,6 +81,7 @@ function App(): JSX.Element {
         </UserLocationContext.Provider>
       </PaperProvider>
     </ApolloProvider>
+    </AuthProvider>
   );
 }
 

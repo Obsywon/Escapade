@@ -5,14 +5,14 @@ import InscriptionScreen from '../pages/InscriptionScreen';
 import ConnexionScreen from '../pages/ConnexionScreen';
 import TabNavigator from './TabNavigator';
 
-export type AppNavigator = {
+export type AppNavigatorParamList = {
   Bienvenue: undefined,
   Inscription: undefined,
   Connexion: undefined,
   Accueil: undefined
 }
 
-const Stack = createStackNavigator<AppNavigator>();
+const Stack = createStackNavigator<AppNavigatorParamList>();
 
 const AppNavigator = () => {
   return (

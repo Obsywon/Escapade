@@ -15,6 +15,8 @@ import { UserInCreation, useInscription } from '../UserService/useInscription';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+import { AppNavigatorParamList } from '../navigation/AppNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type InscriptionFormData = {
   nom: string;
@@ -25,6 +27,9 @@ type InscriptionFormData = {
   verify_mdp: string;
 };
 
+
+type InscriptionScreenProps = StackNavigationProp<AppNavigatorParamList, 'Inscription'>
+
 const defaultValues: InscriptionFormData = {
   nom: '',
   prenom: '',
@@ -33,7 +38,7 @@ const defaultValues: InscriptionFormData = {
   verify_mdp: '',
 };
 
-function InscriptionScreen(): JSX.Element {
+function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
   const [date, setDate] = useState<Date>();
   const {
     control,
@@ -78,6 +83,7 @@ function InscriptionScreen(): JSX.Element {
     if (!loading && data) {
       reset(defaultValues);
       setDate(undefined);
+      navigate('Accueil');
     }
   }
 

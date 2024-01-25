@@ -1,18 +1,26 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Recherche from '../pages/RechercheScreen';
 import Favori from '../pages/FavoriScreen';
 import Photos from '../pages/PhotosScreen';
 import Profile from '../pages/ProfileScreen';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
 
 
+export type BottomTabParamList = {
+  Accueil: undefined;
+  Rercherche: undefined;
+  Favori: undefined;
+  Photos: undefined;
+  Profil: undefined;
+};
+
+
+
 export default function TabNavigator() {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator<BottomTabParamList>();
   return (
     <Tab.Navigator
       screenOptions={{ 

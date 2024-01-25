@@ -4,7 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import PlaceMarker from './PlaceMarker';
 import GlobaleApi from '../../Services/GlobaleApi';
-import { UserLocationContextType, UserLocationContext } from '../Context/UserLocationContext';
+import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
 interface GoogleMapViewProps {
   placeList: any[];

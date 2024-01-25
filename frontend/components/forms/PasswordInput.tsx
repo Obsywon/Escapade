@@ -9,7 +9,7 @@ interface PasswordInputProps {
   control: Control<any>;
   name: string;
   label?: string;
-  rules:
+  rules?:
     | Omit<
         RegisterOptions<any, string>,
         'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'

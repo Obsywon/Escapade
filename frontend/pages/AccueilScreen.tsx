@@ -1,11 +1,11 @@
-import { View, Text, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Accueil/Header'
 import GoogleMapView from '../components/Accueil/GoogleMapView'
 import GlobaleApi from '../Services/GlobaleApi';
 import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
-import { UserLocationContextType, UserLocationContext } from '../components/Context/UserLocationContext';
+import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 
 export default function AccueilScreen() {
   const [placeList, setPlacelist] = useState([]);
@@ -17,7 +17,8 @@ export default function AccueilScreen() {
   }, [location])
 
   const GetNearBySearchPlace = (value: string) => {    
-    if (location && location.coords) {
+    // console.log("Category", value)
+    if (location?.coords) {
       GlobaleApi.nearByPlace(location.coords.latitude, location.coords.longitude, value).then(Resp => {
         setPlacelist(Resp.data.results);
       });
