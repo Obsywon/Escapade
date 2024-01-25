@@ -1,7 +1,6 @@
-﻿using EscapadeApi.Models;
-using EscapadeApi.Services.Interfaces;
+﻿using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin.Auth;
-using HotChocolate.Authorization;
+using System.Security.Claims;
 
 namespace Escapade.Api.Schema.Queries
 {
@@ -10,7 +9,6 @@ namespace Escapade.Api.Schema.Queries
     {
         public UserQuery() : base() { }
 
-        [Authorize]
         public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             // Récupérer le token depuis l'en-tête Authorization
@@ -23,20 +21,29 @@ namespace Escapade.Api.Schema.Queries
             FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
             string uid = decodedToken.Uid;
 
-            // Utiliser uid comme nécessaire, par exemple, pour récupérer les utilisateurs
+            //Utiliser uid comme nécessaire, par exemple, pour récupérer les utilisateurs
             return await service.GetAllAsync();
             
         }
 
-        public async Task<User> GetUserById(IUserService service, string id, CancellationToken cancellation)
+        public async Task<User> GetUserByIdAsync(IUserService service, string id, CancellationToken cancellation)
         {
             return await service.GetByIdAsync(id);
         }
 
-        public async Task<User> GetUserByEmail(IUserService service, string email, CancellationToken cancellation)
+        public async Task<User> GetUserByEmailAsync(IUserService service, string email, CancellationToken cancellation)
         {
             return await service.GetUserByEmailAsync(email);
         }
 
+        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, ClaimsPrincipal claimsPrincipal, CancellationToken cancellation)
+        {
+            return await service.GetAllFavoritePlacesAsync(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier));
+        }
+
+        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(IUserService service, ClaimsPrincipal claimsPrincipal, CancellationToken cancellation)
+        {
+            return await service.GetAllPostByUserIdAsync(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier));
+        }
     }
 }

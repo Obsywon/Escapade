@@ -4,21 +4,18 @@ using EscapadeApi.Services.Interfaces;
 using System.Text;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Escapade.Api.Repositories.Interfaces;
+using EscapadeApi.Repositories;
 
 namespace EscapadeApi.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        public UserService(IRepository<User> repository) : base(repository) { }
+        public UserService(IRepositoryUser repository) : base(repository) { }
 
         public async Task<bool> CheckForConflictingUserAsync(string email)
         {
             return (await _repository.GetByConditionAsync(x => x.Email == email)).Any();
-        }
-
-        public async Task<bool> UserIsFoundAsync(string userId)
-        {
-            return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
@@ -95,6 +92,16 @@ namespace EscapadeApi.Services
 
             // Vérifier si la date de naissance correspond au format attendu
             return regex.IsMatch(birthDate.ToString("dd-mm-yyyy"));
+        }
+
+        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId)
+        {
+            return await (_repository as UserRepository).GetFavoritePlacesByIUserdsAsync(userId);
+        }
+
+        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId)
+        {
+            return await (_repository as UserRepository).GetAllPostByUserIdAsync(userId);
         }
     }
 }

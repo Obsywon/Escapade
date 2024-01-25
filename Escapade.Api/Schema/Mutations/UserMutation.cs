@@ -1,10 +1,12 @@
-﻿using EscapadeApi.Models;
+﻿using Escapade.Api.Services.Interfaces;
+using EscapadeApi.Models;
 using EscapadeApi.Services.Interfaces;
 using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using FirebaseAdminAuthentication.DependencyInjection.Models;
 using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -16,7 +18,7 @@ namespace Escapade.Api.Schema.Mutations
         #region HotChocolate
 
         [AllowAnonymous]
-        public async Task<User> RegisterUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
             {
@@ -47,7 +49,7 @@ namespace Escapade.Api.Schema.Mutations
                     DisplayName = $"{name} {lastname}",
                     Email = email,
                     Password = password,
-                    EmailVerified = false,
+                    EmailVerified = true,
                     Disabled = true,
                 }, cancellationToken);
 
@@ -69,7 +71,8 @@ namespace Escapade.Api.Schema.Mutations
                     LastName = lastname,
                     Email = email,
                     Password = password,
-                    BirthDate = birthDate
+                    BirthDate = birthDate,
+                    Token = firebaseToken,
                 };
 
                 // Enregistrer l'utilisateur dans CosmoDb
@@ -100,6 +103,7 @@ namespace Escapade.Api.Schema.Mutations
             {
                 // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
                 User user = await userService.GetUserByEmailAsync(email);
+
 
                 string password = userService.EncryptPasswordAsync(psw).Result;
 
@@ -151,14 +155,25 @@ namespace Escapade.Api.Schema.Mutations
             }
         }
 
-        public async Task AddNewFavoritePlace(IUserService userService, ClaimsPrincipal claimsPrincipal, string placeId, CancellationToken cancellationToken)
+        public async Task AddNewFavoritePlace(IUserService userService, IPlaceService placeService, ClaimsPrincipal claimsPrincipal, string placeId, CancellationToken cancellationToken)
         {
             var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            User currentUser;
+            User currentUser = null;
+            Place currentPlace;
 
-            if (await userService.UserIsFoundAsync(userId))
+            if (await userService.IsFoundAsync(userId))
                 currentUser = await userService.GetByIdAsync(userId);
+
+            if(await placeService.IsFoundAsync(placeId))
+                currentPlace = await placeService.GetByIdAsync(userId);
+
+            FavoritePlace favoritePlace = new FavoritePlace();
+            favoritePlace.PlaceId = placeId;
+
+            currentUser.FavoritePlaces.Add(favoritePlace);
+
+            await userService.UpdateAsync(currentUser);
         }
 
 
