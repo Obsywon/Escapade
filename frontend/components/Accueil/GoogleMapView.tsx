@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps'
 import CustomMarkerImage from '../../assets/logo.png'
 import PlaceMarker from './PlaceMarker'
-import { UserLocationContextType, UserLocationContext } from '../Context/UserLocationContext'
+import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext'
 
 interface GoogleMapViewProps {
     placeList: any[];

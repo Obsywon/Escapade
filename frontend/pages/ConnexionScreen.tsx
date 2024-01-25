@@ -10,18 +10,22 @@ import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseConfig, app, auth } from "../components/firebaseConfig";
+import { AppNavigatorParamList } from "../navigation/AppNavigator";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-
-interface ConnexionScreenProps {
-  navigation: any;
-}
+type ConnexionScreenProps = StackNavigationProp<
+  AppNavigatorParamList,
+  "Connexion"
+>;
 
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-export default function ConnexionScreen({ navigation }: ConnexionScreenProps): JSX.Element {
+export default function ConnexionScreen({
+  navigate,
+}: ConnexionScreenProps): JSX.Element {
   const {
     control,
     handleSubmit,
@@ -34,22 +38,21 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
   });
 
   const onSubmit = handleSubmit((data) => {
-
-    const email = data.email; 
-    const password = data.password; 
+    const email = data.email;
+    const password = data.password;
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         window.alert("Utilisateur connecté : " + user.email);
-        navigation.navigate('Accueil');
-      }).catch((error) => {
+        navigate("Accueil");
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
       });
   });
-
 
   return (
     <FormLayout>
@@ -68,7 +71,6 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
           <BasicButton label="Connexion" onPress={onSubmit} />
-
         </ScrollView>
       </Surface>
     </FormLayout>
