@@ -21,6 +21,7 @@ export default function PlaceList({placeList}: PlaceListProps) {
         : <PlaceItem place={item} />
       )}
       />
+      
     </View>
   )
 }

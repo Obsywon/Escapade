@@ -20,7 +20,7 @@ import { useFonts } from 'expo-font';
 
 const Stack = createNativeStackNavigator();
 const client = new ApolloClient({
-  uri: "https://func-escapade-dev-fc.azurewebsites.net/api/graphql/",
+  uri: "https://escapadeapi20240115214733.azurewebsites.net/graphql/",
   cache: new InMemoryCache(),
 });
 
