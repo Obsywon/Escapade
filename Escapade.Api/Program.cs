@@ -1,5 +1,8 @@
+using Escapade.Api.Repositories;
 using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Queries;
+using Escapade.Api.Services;
+using Escapade.Api.Services.Interfaces;
 using EscapadeApi;
 using EscapadeApi.Models;
 using EscapadeApi.Repositories;
@@ -51,7 +54,10 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 // Configure Dependancy Injection
 builder.Services
         .AddScoped<IRepository<User>, UserRepository>() // -- UserService
+        .AddScoped<IRepository<Place>, PlaceRepository>() // -- PlaceService
+
         .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
+        .AddScoped<IPlaceService, PlaceService>() // -- PlaceQuery & PlaceMutation
         .AddHttpContextAccessor();
 
 
