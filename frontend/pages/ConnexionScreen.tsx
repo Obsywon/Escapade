@@ -51,6 +51,7 @@ export default function ConnexionScreen({
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
+        window.alert("Utilisateur non reconnu");
       });
   });
 

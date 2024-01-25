@@ -59,12 +59,12 @@ function InscriptionScreen({navigate} : InscriptionScreenProps): JSX.Element {
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        console.log("L'utilisateur a bien été enregistré")
+        window.alert("L'utilisateur a bien été enregistré")
       }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Error (${errorCode}): ${errorMessage}`);
-        console.log("L'utilisateur existe déjà")
+        window.alert("L'utilisateur existe déjà");
       });
   });
 

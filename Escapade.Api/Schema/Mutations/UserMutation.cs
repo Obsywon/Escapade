@@ -4,6 +4,7 @@ using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using FirebaseAdminAuthentication.DependencyInjection.Models;
 using HotChocolate.Authorization;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -15,7 +16,7 @@ namespace Escapade.Api.Schema.Mutations
         #region HotChocolate
 
         [AllowAnonymous]
-        public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
+        public async Task<User> RegisterUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace Escapade.Api.Schema.Mutations
                     Email = email,
                     Password = password,
                     EmailVerified = false,
-                    Disabled = false,
+                    Disabled = true,
                 }, cancellationToken);
 
 
