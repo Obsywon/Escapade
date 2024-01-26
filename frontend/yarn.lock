@@ -2271,6 +2271,26 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@ouroboros/clone@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@ouroboros/clone/-/clone-1.0.1.tgz"
+  integrity sha512-nvwwe/ChnOEmhl4cAFJ2BcEDR2URH1DGPQfTkgG2Urncds2gfG5vxuX8O2Lu2CQzJCjjAnZcgf4fU/Gntj4wuw==
+
+"@ouroboros/react-native-picker@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/@ouroboros/react-native-picker/-/react-native-picker-0.3.1.tgz"
+  integrity sha512-mAJvIk3dcxGNs9N2KvMZTLcWUvHWrjmRVP9hW8akmh2eWKRa3v1IcKATpoqYmMgwCsHngdsbwxbCgBSsB4fHTQ==
+  dependencies:
+    "@ouroboros/clone" "^1.0.1"
+    "@ouroboros/tools" "^0.5.0"
+
+"@ouroboros/tools@^0.5.0":
+  version "0.5.3"
+  resolved "https://registry.npmjs.org/@ouroboros/tools/-/tools-0.5.3.tgz"
+  integrity sha512-4pG/4LTCvfpyT3Rk74BBLJx9WqTB0/0XNgb70cYlxpITwpz87f8Uoqkm0iLuO6pYe5DcX0+KsoGskh+AR2Da3g==
+  dependencies:
+    "@ouroboros/clone" "^1.0.1"
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@protobufjs/aspromise/-/aspromise-1.1.2.tgz"
@@ -2506,6 +2526,11 @@
   version "0.1.11"
   resolved "https://registry.npmjs.org/@react-native-community/masked-view/-/masked-view-0.1.11.tgz"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
+
+"@react-native-picker/picker@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.6.1.tgz"
+  integrity sha512-oJftvmLOj6Y6/bF4kPcK6L83yNBALGmqNYugf94BzP0FQGpHBwimVN2ygqkQ2Sn2ZU3pGUZMs0jV6+Gku2GyYg==
 
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
@@ -3921,6 +3946,11 @@ data-urls@^3.0.2:
     abab "^2.0.6"
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
+
+date-fns@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/date-fns/-/date-fns-3.3.1.tgz"
+  integrity sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==
 
 dayjs@^1.8.15:
   version "1.11.10"
@@ -7202,6 +7232,11 @@ react-is@^18.2.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-google-maps-directions@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/react-native-google-maps-directions/-/react-native-google-maps-directions-2.1.1.tgz"
+  integrity sha512-hsq2T3cJsZZ31akEq08nBCdRlYQ+o+07R7wTb9QclrTQHJRIKR78mI9lgizOpKm4NFSYUOxGtbL7LfhJw1OANQ==
+
 react-native-maps-directions@^1.9.0:
   version "1.9.0"
   resolved "https://registry.npmjs.org/react-native-maps-directions/-/react-native-maps-directions-1.9.0.tgz"
@@ -7257,7 +7292,7 @@ react-native-vector-icons@*:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", "react-native@>= 0.64.3", react-native@>=0.57, react-native@>=0.59, react-native@0.72.6:
+react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", "react-native@>= 0.64.3", react-native@>=0.57, react-native@>=0.59, react-native@>=0.66, react-native@0.72.6:
   version "0.72.6"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.6.tgz"
   integrity sha512-RafPY2gM7mcrFySS8TL8x+TIO3q7oAlHpzEmC7Im6pmXni6n1AuufGaVh0Narbr1daxstw7yW7T9BKW5dpVc2A==
@@ -7338,7 +7373,7 @@ react-test-renderer@18.2.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", react@^18.2.0, "react@>= 17.0.1", react@>=16.0, react@>=16.3.0, react@>=16.8, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", react@^18.2.0, "react@>= 17.0.1", react@>=16, react@>=16.0, react@>=16.3.0, react@>=16.8, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
