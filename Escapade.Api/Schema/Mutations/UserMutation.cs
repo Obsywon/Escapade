@@ -126,7 +126,7 @@ namespace Escapade.Api.Schema.Mutations
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenException))]
-        public async Task AddNewFavoritePlaceToThisUser(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
+        public async Task<User> AddNewFavoritePlaceToThisUserAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
         {
            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
@@ -144,14 +144,14 @@ namespace Escapade.Api.Schema.Mutations
 
             currentUser.FavoritePlaces.Add(favoritePlace);
 
-            await userService.UpdateAsync(currentUser);
+            return await userService.UpdateAsync(currentUser);
         }
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenException))]
-        public async Task UpdateThisUserAsync(IUserService userService, ClaimsPrincipal claimsPrincipal, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
+        public async Task<User> UpdateThisUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
         {
-            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 
@@ -163,7 +163,7 @@ namespace Escapade.Api.Schema.Mutations
             currentUser.BirthDate = birthDate;
             currentUser.Gender = gender;
 
-            await userService.UpdateAsync(currentUser);
+            return await userService.UpdateAsync(currentUser);
         }
 
         #endregion
