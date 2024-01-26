@@ -1,12 +1,10 @@
 import {
-  Auth,
   User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { setUser, unsetUser } from "../slices/userSlice";
-import { useEffect, useState } from "react";
 import { firebaseAuth } from "../services/AuthService";
 
 
@@ -22,6 +20,8 @@ type UseAuthContent = {
   ) => Promise<User | undefined>;
   disconnectUserFromFirebase: () => Promise<void>;
 };
+
+
 
 
 
@@ -49,18 +49,22 @@ export default function useFirebaseAuth(): UseAuthContent {
     email: string,
     password: string
   ): Promise<User | undefined> => {
-    const userCredentials = await signInWithEmailAndPassword(
-      firebaseAuth,
-      email,
-      password
-    );
-    if (userCredentials.user) {
-      const user = userCredentials.user;
-      setUser(user);
-      console.log(user);
-      return user;
+    try{
+      const userCredentials = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+      if (userCredentials.user) {
+        const user = userCredentials.user;
+        setUser(user);
+        console.log(user);
+        return user;
+      }
+      return undefined;
+    }catch(error : {message?: string, code?: number}){
+      console.log(error?.code, error?.message)
     }
-    return undefined;
   };
 
   const disconnectUserFromFirebase = async (): Promise<void> => {
