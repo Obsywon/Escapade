@@ -1,9 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Recherche from '../pages/RechercheScreen';
-import Favori from '../pages/FavoriScreen';
-import Photos from '../pages/PhotosScreen';
-import Profile from '../pages/ProfileScreen';
+
 import { Ionicons } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';

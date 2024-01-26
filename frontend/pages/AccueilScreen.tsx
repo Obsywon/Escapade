@@ -9,9 +9,8 @@ import { UserLocationContextType, UserLocationContext } from '../contexts/UserLo
 
 export default function AccueilScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);
-  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
-
-
+  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);  
+  
   useEffect(() => {
     GetNearBySearchPlace('tourist_attraction');
   }, [location])
@@ -24,7 +23,7 @@ export default function AccueilScreen(): JSX.Element {
     }
   }
   return (
-    <ScrollView style={{ padding: 20 }}>
+    <ScrollView>
       <Header />
       <GoogleMapView placeList={placeList} />
       <CategoryList setSelectedCategory={(value: string) => GetNearBySearchPlace(value)} />
