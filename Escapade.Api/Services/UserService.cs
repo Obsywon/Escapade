@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Escapade.Api.Repositories.Interfaces;
 using EscapadeApi.Repositories;
+using Escapade.Api.Exceptions;
 
 namespace EscapadeApi.Services
 {
@@ -48,12 +49,12 @@ namespace EscapadeApi.Services
             }
         }
 
-        public bool IsPasswordSecure(string password)
+        public void IsPasswordSecure(string password)
         {
             // Vérifier si le mot de passe a au moins 8 caractères
             if (password.Length < 8)
             {
-                return false;
+                throw new PasswordInvalidException(password);
             }
 
             // Vérifier la présence de lettres minuscules, majuscules et chiffres dans le mot de passe
@@ -61,47 +62,76 @@ namespace EscapadeApi.Services
             Regex regex = new Regex(passwordPattern);
 
             // Vérifier si le mot de passe correspond au format attendu
-            return regex.IsMatch(password);
+            if (!regex.IsMatch(password))
+            {
+                throw new PasswordInvalidException(password);
+            }
         }
 
-        public bool IsEmailFormatValid(string email)
+        public void IsEmailFormatValid(string email)
         {
             // Utiliser une expression régulière pour valider le format de l'e-mail
             string emailPattern = @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
             Regex regex = new Regex(emailPattern);
 
             // Vérifier si l'e-mail correspond au format attendu
-            return regex.IsMatch(email);
+            if (!regex.IsMatch(email))
+            {
+                throw new EmailInvalidFormatException(email);
+            }
         }
 
-        public bool IsNameAndLastNameValid(string name, string lastName)
+        public void IsNameAndLastNameValid(string name, string lastName)
         {
             // Vérifier si le champ a au moins 3 caractères alphabétiques
             string nameAndLastNamePattern = @"^[a-zA-Z]{3,}$";
             Regex regex = new Regex(nameAndLastNamePattern);
 
-            // Vérifier si le nom correspond au format attendu
-            return (regex.IsMatch(name) && regex.IsMatch(lastName));
+            // Vérifier si le prénom correspond au format attendu
+            if (!regex.IsMatch(name))
+                throw new NameOrLastNameInvalidFormatException(name);
+
+            // Vérifier si le prénom correspond au format attendu
+            if (!regex.IsMatch(lastName))
+                throw new NameOrLastNameInvalidFormatException(lastName);
         }
 
-        public bool IsBirthDateValid(DateTime birthDate)
+        public void IsBirthDateValid(DateTime birthDate)
         {
             // Vérifier si la date de naissance est au format "DD-MM-YYYY"
             string datePattern = @"^\d{2}-\d{2}-\d{4}$";
             Regex regex = new Regex(datePattern);
 
             // Vérifier si la date de naissance correspond au format attendu
-            return regex.IsMatch(birthDate.ToString("dd-mm-yyyy"));
+            if (!regex.IsMatch(birthDate.ToString("dd-MM-yyyy")))
+            {
+                throw new BirthDateInvalidFormatException(birthDate);
+            }
         }
 
         public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId)
         {
-            return await (_repository as UserRepository).GetFavoritePlacesByIUserdsAsync(userId);
+            try
+            {
+                return await (_repository as UserRepository).GetFavoritePlacesByIUserdsAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotFoundException(userId);
+            }
+            
         }
 
         public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId)
-        {
-            return await (_repository as UserRepository).GetAllPostByUserIdAsync(userId);
+        {         
+            try
+            {
+                return await (_repository as UserRepository).GetAllPostByUserIdAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotFoundException(userId);
+            }
         }
     }
 }
