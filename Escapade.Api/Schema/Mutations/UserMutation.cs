@@ -67,8 +67,6 @@ namespace Escapade.Api.Schema.Mutations
                 // Récupérer le token Firebase associé à l'utilisateur
                 string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
 
-                // Convertir la chaîne en Guid
-                //Guid.TryParse(uidString, out Guid uid);
 
                 // Créer un nouvel utilisateur
                 User newUser = new User
@@ -111,19 +109,19 @@ namespace Escapade.Api.Schema.Mutations
                 // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
                 User user = await userService.GetUserByEmailAsync(email);
 
-                var password = userService.EncryptPasswordAsync(psw).Result;
+                psw = userService.EncryptPasswordAsync(psw).Result;
 
                 using (var httpClient = new HttpClient())
                 {
                     string firebaseUri = _configuration["Firebase:Uri"];
                     string firebaseApiKey = _configuration["Firebase:ApiKey"];
 
-                    var apiUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + "AIzaSyCfaZTRP3qpC_XqVpZgMAEs2b10E0-j12c";
+                    string apiUrl = $"{firebaseUri}{firebaseApiKey}";
 
                     var request = new
                     {
                         email,
-                        password,
+                        password=psw,
                         returnSecureToken = true
                     };
 

@@ -11,19 +11,18 @@ namespace Escapade.Api.Schema.Queries
         public UserQuery() : base() { }
 
         [Authorize]
-        public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, ClaimsPrincipal claimsPrincipal, CancellationToken cancellation)
         {
-            //// Récupérer le token depuis l'en-tête Authorization
-            //string authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+            // Récupérer le token depuis l'en-tête Authorization
+            string authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"];
 
-            //// Extraire le token en enlevant "Bearer " du début
-            //string token = authorizationHeader.Substring("Bearer ".Length);
+            // Extraire le token en enlevant "Bearer " du début
+            string token = authorizationHeader.Substring("Bearer ".Length);
 
-            //// Utiliser le token comme nécessaire
-            //FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
-            //string uid = decodedToken.Uid;
+            // Utiliser le token comme nécessaire
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
+            string uid = decodedToken.Uid;
 
-            //Utiliser uid comme nécessaire, par exemple, pour récupérer les utilisateurs
             return await service.GetAllAsync();
             
         }
