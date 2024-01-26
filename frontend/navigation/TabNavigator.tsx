@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
 import RechercheScreen from '../pages/RechercheScreen';
@@ -18,36 +18,51 @@ export type BottomTabParamList = {
   Profil: undefined;
 };
 
+type IconProps = {
+  color: string,
+  size: number,
+};
+
 type TabElement = {
   label: keyof BottomTabParamList,
   component: (T: any)=> JSX.Element,
-  icon: 'home' | 'search' | 'ios-heart' | 'photo' |'user-circle-o',
+  iconComponent?: ({color, size}: IconProps) => JSX.Element
 };
 
 const tabs : TabElement[] = [
   {
     label: 'Accueil',
     component: AccueilScreen,
-    icon: 'home',
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='home' color={color} size={size} />
+    ),
   },
   {
     label: 'Recherche',
     component: RechercheScreen,
-    icon: 'search',
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='search' color={color} size={size} />
+    ),
   },
   {
     label: 'Favori',
     component: FavoriScreen,
-    icon: 'search'
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='ios-heart' color={color} size={size} />
+    ),
   },
   {
     label: 'Photos',
     component: PhotosScreen,
-    icon: 'search'
+    iconComponent: ({ color, size }: IconProps) => (
+      <FontAwesome name='photo' color={color} size={size} />
+    ),
   },{
     label: 'Profil',
     component: ProfileScreen,
-    icon: 'search'
+    iconComponent: ({ color, size }: IconProps) => (
+      <FontAwesome name='user-circle-o' color={color} size={size} />
+    ),
   }
 ]
 
@@ -69,11 +84,10 @@ export default function TabNavigator(): JSX.Element {
           <Tab.Screen key={tab.label} name={tab.label} component={tab.component}
           options={{
             tabBarLabel: tab.label,
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name={tab.icon} color={color} size={size} />
-            )
+            tabBarIcon: tab.iconComponent,
           }} />
         ))}
     </Tab.Navigator>
   )
 }
+
