@@ -32,7 +32,7 @@ namespace Escapade.Api.Schema.Queries
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenException))]
         [Error(typeof(NotFoundException))]
-        public async Task<User> GetUserByEmailAsync(IUserService service, string email, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<User> GetUserByEmailAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string email, CancellationToken cancellation)
         {
             await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetUserByEmailAsync(email);

@@ -57,7 +57,7 @@ namespace Escapade.Api.Schema.Mutations
             string uidString = firebaseUser.Uid;
 
             // Récupérer le token Firebase associé à l'utilisateur
-            string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
+            //string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
 
 
             // Créer un nouvel utilisateur
@@ -69,7 +69,7 @@ namespace Escapade.Api.Schema.Mutations
                 Email = email,
                 Password = password,
                 BirthDate = birthDate,
-                Token = firebaseToken,
+                //Token = firebaseToken,
             };
 
             // Enregistrer l'utilisateur dans CosmoDb
@@ -81,7 +81,7 @@ namespace Escapade.Api.Schema.Mutations
         [AllowAnonymous]
         [Error(typeof(VerifyFirebaseTokenException))]
         [Error(typeof(BadRequestException))]
-        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw)
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw, CancellationToken cancellation)
         {
             // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
             User user = await userService.GetUserByEmailAsync(email);
