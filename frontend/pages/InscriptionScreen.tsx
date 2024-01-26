@@ -85,7 +85,7 @@ function InscriptionScreen(): JSX.Element {
     };
 
     console.log(values);
-    window.alert(date);
+    //window.alert(date);
 
     await inscription(user);
     console.table(data);
