@@ -1,6 +1,8 @@
-﻿using Escapade.Api.Services.Interfaces;
+﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Services.Interfaces;
 using EscapadeApi.Services.Interfaces;
 using HotChocolate.Authorization;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace Escapade.Api.Schema.Queries
@@ -11,26 +13,46 @@ namespace Escapade.Api.Schema.Queries
         public PlaceQuery() : base() { }
 
         [Authorize]
-        public async Task<IEnumerable<Place>> GetAllPlaceAsync(IPlaceService service, CancellationToken cancellation)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        public async Task<IEnumerable<Place>> GetAllPlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllAsync();
         }
 
         [Authorize]
-        public async Task<Place> GetPlaceByIdAsync(IPlaceService service, string id, CancellationToken cancellation)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        [Error(typeof(NotFoundException))]
+        public async Task<Place> GetPlaceByIdAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
         {
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetByIdAsync(id);
         }
 
         [Authorize]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUserAsync(IPlaceService service, string userId, CancellationToken cancellation)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        [Error(typeof(NotFoundException))]
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            return await service.GetAllPlaceAddedByUser(userId);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            return await service.GetAllPlaceAddedByAUser(userId);
         }
 
         [Authorize]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAllUserAsync(IPlaceService service, CancellationToken cancellation)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        [Error(typeof(NotFoundException))]
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByThisUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            return await service.GetAllPlaceAddedByAUser(userId);
+        }
+
+        [Authorize]
+        [Error(typeof(VerifyFirebaseTokenException))]
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAllUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        {
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
+
             // Récupérer toutes les places
             var allPlaces = await service.GetAllAsync();
 
