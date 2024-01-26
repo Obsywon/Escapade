@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Surface } from "react-native-paper";
 import AppTitle from "../components/AppTitle";
@@ -30,6 +30,8 @@ export default function ConnexionScreen(): JSX.Element {
     },
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
+ 
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
@@ -40,11 +42,13 @@ export default function ConnexionScreen(): JSX.Element {
     const email = data.email;
     const password = data.password;
 
+
     try {
       const user = await connectUserToFirebase(email, password);
       window.alert("Utilisateur connecté : " + user);
       navigation.navigate("Accueil");
     } catch (error) {
+      console.log(error);
       window.alert("Utilisateur non reconnu");
     }
   });
@@ -65,7 +69,7 @@ export default function ConnexionScreen(): JSX.Element {
           </View>
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
-          <BasicButton label="Connexion" onPress={onSubmit} />
+          <BasicButton label="Connexion" onPress={onSubmit} loading={loading} />
         </ScrollView>
       </Surface>
     </FormLayout>

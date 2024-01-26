@@ -1,7 +1,8 @@
 import axios from "axios";
+import env from "../env";
 
-const BASE_URL = process.env.GOOGLE_BASE_URL;
-const API_KEY = process.env.GOOGLE_API_KEY;
+const BASE_URL = env.GOOGLE_BASE_URL;
+const API_KEY = env.GOOGLE_API_KEY;
 
 export default async function nearByPlace(
   lat: number,

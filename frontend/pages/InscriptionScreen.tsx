@@ -49,6 +49,7 @@ function InscriptionScreen(): JSX.Element {
   } = useForm<InscriptionFormData>({
     defaultValues: defaultValues,
   });
+
   const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   const password = watch('mot_de_passe');
@@ -74,7 +75,6 @@ function InscriptionScreen(): JSX.Element {
   */
 
   const [inscription, data, error, loading] = useInscription();
-
   const submit = handleSubmit(async (values: InscriptionFormData) => {
     const user: UserInCreation = {
       email: values.email,
@@ -83,6 +83,8 @@ function InscriptionScreen(): JSX.Element {
       nom: values.nom,
       date_de_naissance: date!,
     };
+
+    console.log(values);
 
     await inscription(user);
     console.table(data);
@@ -151,7 +153,7 @@ function InscriptionScreen(): JSX.Element {
 
           <BasicButton
             label="Inscription"
-            disabled={errors == null}
+            disabled={ errors != null}
             loading={loading}
             onPress={submit}
           />

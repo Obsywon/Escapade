@@ -16,9 +16,10 @@ import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
 import { Provider } from "react-redux";
 import store from "./store";
+import env from "./env";
 
 const client = new ApolloClient({
-  uri: process.env.BACKEND_APP_URI,
+  uri:env.BACKEND_APP_URI,
   cache: new InMemoryCache(),
 });
 

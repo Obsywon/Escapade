@@ -59,9 +59,9 @@ export const useInscription = (): [
         },
       });
 
-      console.table(response);
+      
       const user = response.data.create;
-
+      console.log(user, response);
       setData(user);
     } catch (err) {
       let message = "Erreur lors de l'inscription";
