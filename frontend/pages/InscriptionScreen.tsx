@@ -10,11 +10,8 @@ import DatePicker from '../components/forms/DatePicker';
 import EmailInput from '../components/forms/EmailInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
+import {UserInCreation, useInscription} from '../UserService/useInscription';
 import {useForm} from 'react-hook-form';
-import { UserInCreation, useInscription } from '../UserService/useInscription';
-
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig, app, auth } from "../components/firebaseConfig";
 
 type InscriptionFormData = {
   nom: string;
@@ -47,22 +44,6 @@ function InscriptionScreen(): JSX.Element {
 
   const password = watch('mot_de_passe');
 
-  const submit = handleSubmit((data) => {
-    const email = data.email;
-  
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        window.alert("L'utilisateur a bien été enregistré")
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-        window.alert("L'utilisateur existe déjà");
-      });
-  });
-
   const [inscription, data, error, loading] = useInscription();
   async function sendData(values: InscriptionFormData): Promise<any> {
     const user: UserInCreation = {
@@ -72,6 +53,7 @@ function InscriptionScreen(): JSX.Element {
       nom: values.nom,
       date_de_naissance: date != null ? date : '',
     };
+    window.alert(date);
 
     await inscription(user);
     console.table(data);
@@ -140,7 +122,7 @@ function InscriptionScreen(): JSX.Element {
             label="Inscription"
             disabled={errors == null}
             loading={loading}
-            onPress={submit}
+            onPress={handleSubmit(sendData)}
           />
           {error != null && error.length > 0 ? (
             <ErrorText>{error}</ErrorText>
