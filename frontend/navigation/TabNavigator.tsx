@@ -4,6 +4,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
+import RechercheScreen from '../pages/RechercheScreen';
+import FavoriScreen from '../pages/FavoriScreen';
+import PhotosScreen from '../pages/PhotosScreen';
+import ProfileScreen from '../pages/ProfileScreen';
 
 
 export type BottomTabParamList = {
@@ -28,28 +32,28 @@ const tabs : TabElement[] = [
   },
   {
     label: 'Recherche',
-    component: Recherche,
+    component: RechercheScreen,
     icon: 'search',
   },
   {
     label: 'Favori',
-    component: Favori,
-    icon: 'ios-heart'
+    component: FavoriScreen,
+    icon: 'search'
   },
   {
     label: 'Photos',
-    component: Photos,
-    icon: 'photo'
+    component: PhotosScreen,
+    icon: 'search'
   },{
     label: 'Profil',
-    component: Profile,
-    icon: 'user-circle-o'
+    component: ProfileScreen,
+    icon: 'search'
   }
 ]
 
 
 
-export default function TabNavigator() {
+export default function TabNavigator(): JSX.Element {
   const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 

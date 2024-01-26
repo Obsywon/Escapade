@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import PlaceMarker, { PlaceMarkerProps } from './PlaceMarker';
-import GlobaleApi from '../../services/GlobaleApi';
+import PlaceMarker from './PlaceMarker';
+import { API_KEY } from '../../services/GlobaleApi';
 import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
 interface GoogleMapViewProps {
@@ -57,7 +57,7 @@ export default function GoogleMapView({ placeList }: Readonly<GoogleMapViewProps
             origin={startPoint}
             waypoints={waypoints}
             destination={startPoint}
-            apikey={GlobaleApi.API_KEY}
+            apikey={API_KEY}
             strokeWidth={3}
             strokeColor="hotpink"
             mode="WALKING"

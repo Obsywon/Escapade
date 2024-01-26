@@ -6,7 +6,7 @@ interface CategoryListProps {
     setSelectedCategory: (value: string) => void;
   }
 
-const CategoryList: React.FC<CategoryListProps> = ({ setSelectedCategory }) => {
+const CategoryList = ({ setSelectedCategory }: CategoryListProps) : JSX.Element => {
     const categoryList=[
         {
             id:1,

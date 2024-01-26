@@ -18,7 +18,8 @@ type ConnexionFormData = {
   password: string;
 };
 
-export default function ConnexionScreen(): JSX.Element {
+function ConnexionScreen(): JSX.Element {
+
   const {
     control,
     handleSubmit,
@@ -31,25 +32,25 @@ export default function ConnexionScreen(): JSX.Element {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
- 
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   const { connectUserToFirebase } = useFirebaseAuth();
-  //const user = useSelector<UserState>(state => state.user)
 
   const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
     const email = data.email;
     const password = data.password;
 
-
     try {
-      const user = await connectUserToFirebase(email, password);
-      window.alert("Utilisateur connecté : " + user);
-      navigation.navigate("Accueil");
+      const receivedUser = await connectUserToFirebase(email, password);
+      console.log(receivedUser);
+      //window.alert("Utilisateur connecté : " + receivedUser);
+      navigation.navigate("Dashboard");
     } catch (error) {
-      console.log(error);
-      window.alert("Utilisateur non reconnu");
+      window.alert("Utilisateur non reconnu.");
+    }finally{
+      setLoading(false);
     }
   });
 
@@ -69,7 +70,7 @@ export default function ConnexionScreen(): JSX.Element {
           </View>
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
-          <BasicButton label="Connexion" onPress={onSubmit} loading={loading} />
+          <BasicButton label="Connexion" onPress={onSubmit} loading={loading} disabled={loading} />
         </ScrollView>
       </Surface>
     </FormLayout>
@@ -92,3 +93,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default ConnexionScreen

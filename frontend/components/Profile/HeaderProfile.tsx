@@ -8,10 +8,7 @@ export default function HeaderProfile() {
     return (
         <SafeAreaView
             style={styles.containerHeader}>
-            <View style={styles.titleContainer}>
-                <AppTitle title="Escapade" />
-                <Logo />
-            </View>
+
             <View style={styles.userInfo}>
                 <Image source={require('./../../assets/user.png')} style={styles.userImage} />
                 <View style={styles.userName}>

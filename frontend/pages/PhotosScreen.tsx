@@ -6,7 +6,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 
 type PhotosScreenProps = BottomTabScreenProps<BottomTabParamList, 'Photos'>
 
-export default function PhotosScreen({}: Readonly<PhotosScreenProps>) {
+export default function PhotosScreen({}: Readonly<PhotosScreenProps>): JSX.Element {
   return (
     <View>
       <Text>Photos</Text>

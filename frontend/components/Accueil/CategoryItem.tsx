@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import { ColorScheme, CustomColors } from '../../themes/CustomColors';
+import { CustomColors } from '../../themes/CustomColors';
 
 interface Category {
     id: number;
@@ -13,7 +13,7 @@ interface CategoryItemProps {
     category: Category;
 }
 
-export default function CategoryItem({ category }: CategoryItemProps) {
+export default function CategoryItem({ category }: Readonly<CategoryItemProps>) {
     return (
         <View style={styles.itemContainer}>
             <Image source={category.icon}

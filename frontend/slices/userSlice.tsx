@@ -30,4 +30,8 @@ export const userSlice = createSlice({
 
 export const {setUser, unsetUser} = userSlice.actions;
 
+export const getAccessToken = (state: UserState) => state?.user?.getIdTokenResult();
+
+export const getEmail = (state: UserState) => state?.user?.email;
+
 export default userSlice.reducer;

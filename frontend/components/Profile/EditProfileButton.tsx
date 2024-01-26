@@ -5,20 +5,20 @@ import BasicButton from '../forms/BasicButton'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface EditProfileButtonProps {
-    navigation: any;
+    onPress: ()=>void;
 };
 
-export default function EditProfileButton({ navigation }: EditProfileButtonProps) {
+export default function EditProfileButton({ onPress }: EditProfileButtonProps) {
     return (
-        <SafeAreaView style={{alignItems: 'center'}} >
+        <View style={{alignItems: 'center'}} >
         <View style={styles.buttonContainer}>
             <BasicButton
                 label="Modifier le profil"
-                onPress={() => navigation.navigate('EditProfileScreen')}
+                onPress={onPress}
                 color={ColorScheme.secondary}
             />
         </View>
-        </SafeAreaView>
+        </View>
     )
 }
 

@@ -7,7 +7,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 type FavoriScreenProps = BottomTabScreenProps<BottomTabParamList, 'Favori'>;
 
 
-export default function FavoriScreen({}: Readonly<FavoriScreenProps>) {
+export default function FavoriScreen({}: Readonly<FavoriScreenProps>): JSX.Element {
   return (
     <View>
       <Text>Favori</Text>

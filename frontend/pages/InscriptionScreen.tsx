@@ -65,7 +65,7 @@ function InscriptionScreen(): JSX.Element {
       if (user){
         window.alert("L'utilisateur a bien été enregistré");
         console.log(user);
-        navigation.navigate('Accueil');
+        navigation.navigate('Dashboard');
       }
     }catch(error){
       console.error(error);
@@ -92,7 +92,7 @@ function InscriptionScreen(): JSX.Element {
     if (!loading && data) {
       reset(defaultValues);
       setDate(undefined);
-      navigation.navigate('Accueil');
+      navigation.navigate('Dashboard');
     }
   });
 

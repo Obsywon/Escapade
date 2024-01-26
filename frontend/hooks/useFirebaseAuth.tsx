@@ -4,8 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { setUser, unsetUser } from "../slices/userSlice";
 import { firebaseAuth } from "../services/AuthService";
+import { useAuth } from "../contexts/AuthContext";
 
 
 
@@ -26,7 +26,7 @@ type UseAuthContent = {
 
 
 export default function useFirebaseAuth(): UseAuthContent {
-
+  const { user, updateUser, setAccessToken } = useAuth();
   const registerUserToFirebase = async (
     email: string,
     password: string
@@ -38,8 +38,7 @@ export default function useFirebaseAuth(): UseAuthContent {
       password
     );
     if (userCredentials.user) {
-      const user = userCredentials.user;
-      setUser(user);
+      const user = userCredentials.user;     
       return user;
     }
     return undefined;
@@ -57,19 +56,22 @@ export default function useFirebaseAuth(): UseAuthContent {
       );
       if (userCredentials.user) {
         const user = userCredentials.user;
-        setUser(user);
-        console.log(user);
+        updateUser(user);
+        const token = await user.getIdTokenResult();
+        setAccessToken(token);
+        console.log("USER:",  user);
         return user;
       }
       return undefined;
-    }catch(error : {message?: string, code?: number}){
-      console.log(error?.code, error?.message)
+    }catch(error : any){
+      console.error(error?.code, error?.message)
+      throw error;
     }
   };
 
   const disconnectUserFromFirebase = async (): Promise<void> => {
     await signOut(firebaseAuth);
-    unsetUser();
+    updateUser(null);
   };
 
   return {
