@@ -1,37 +1,40 @@
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($entity: UserInput) {
-    create(input: $entity) {
-      id
-      name
-      lastName
-      gender
-      email
-      birthDate
+  mutation CreateUser($entity: RegisterUserInput!) {
+    registerUser(input: $entity) {
+      user{
+        id
+        name
+        password
+        lastName
+        email
+        birthDate
+      }
     }
   }
 `;
 
-export interface UserInCreation {
+export type UserInCreation = {
   email: string;
   mot_de_passe: string;
   prenom: string;
   nom: string;
   date_de_naissance: Date | string;
   sexe?: string | undefined;
-}
+};
 
-interface User extends UserInCreation {
+export type User = UserInCreation & {
   id: string;
-}
+};
 
 export const useInscription = (): [
   (newUser: UserInCreation) => Promise<void>,
   User | undefined,
   string | undefined,
-  boolean,
+  boolean
 ] => {
   const [data, setData] = useState<User | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -49,8 +52,7 @@ export const useInscription = (): [
         variables: {
           entity: {
             name: newUser.prenom,
-            lastName: newUser.nom,
-            gender: newUser.sexe,
+            lastname: newUser.nom,
             email: newUser.email,
             password: newUser.mot_de_passe,
             birthDate: newUser.date_de_naissance,
@@ -58,9 +60,9 @@ export const useInscription = (): [
         },
       });
 
-      console.table(response);
-      const user = response.data.create; 
-
+      
+      const user = response.data.create;
+      console.log(user, response);
       setData(user);
     } catch (err) {
       let message = "Erreur lors de l'inscription";
