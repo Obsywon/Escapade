@@ -1,12 +1,10 @@
-﻿using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Models;
+﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Services.Interfaces;
 using EscapadeApi.Services.Interfaces;
 using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
-using FirebaseAdminAuthentication.DependencyInjection.Models;
 using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -25,147 +23,110 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
+        [Error(typeof(BirthDateInvalidFormatException))]
+        [Error(typeof(EmailInvalidFormatException))]
+        [Error(typeof(NameOrLastNameInvalidFormatException))]
+        [Error(typeof(PasswordInvalidException))]
         public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
-            try
+
+            #region Verification Input
+
+            userService.IsEmailFormatValid(email);
+            userService.IsBirthDateValid(birthDate);
+            userService.IsNameAndLastNameValid(name, lastname);
+            userService.IsPasswordSecure(password);
+
+            #endregion
+
+
+            // Créer un nouvel utilisateur dans Firebase
+            var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
             {
-                // Vérifier les informations de l'utilisateur
-                if (await userService.CheckForConflictingUserAsync(email))
-                {
-                    throw new InvalidOperationException("email address is already in use.");
-                }
-                else if (!userService.IsPasswordSecure(password))
-                {
-                    throw new InvalidOperationException("password is invalid.");
-                }
-                else if (!userService.IsNameAndLastNameValid(name, lastname))
-                {
-                    throw new InvalidOperationException("user's name is invalid.");
-                }
-                else if (!userService.IsBirthDateValid(birthDate))
-                {
-                    throw new InvalidOperationException("birthdate is invalid.");
-                }
-
-                // Cryptage du mdp
-                password = await userService.EncryptPasswordAsync(password);
-
-                // Créer un nouvel utilisateur dans Firebase
-                var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
-                {
-                    DisplayName = $"{name} {lastname}",
-                    Email = email,
-                    Password = password,
-                    EmailVerified = true,
-                    Disabled = false,
-                }, cancellationToken);
+                DisplayName = $"{name} {lastname}",
+                Email = email,
+                Password = password,
+                EmailVerified = true,
+                Disabled = false,
+            }, cancellationToken);
 
 
-                // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
-                string uidString = firebaseUser.Uid;
+            // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
+            string uidString = firebaseUser.Uid;
 
-                // Récupérer le token Firebase associé à l'utilisateur
-                string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
 
-                // Convertir la chaîne en Guid
-                //Guid.TryParse(uidString, out Guid uid);
+            // Récupérer le token Firebase associé à l'utilisateur
+            //string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
 
-                // Créer un nouvel utilisateur
-                User newUser = new User
-                {
-                    Id = uidString,
-                    Name = name,
-                    LastName = lastname,
-                    Email = email,
-                    Password = password,
-                    BirthDate = birthDate,
-                    Token = firebaseToken,
-                };
 
-                // Enregistrer l'utilisateur dans CosmoDb
-                var user = await userService.CreateAsync(newUser);
-
-                return user;
-
-            }
-            catch (FirebaseAuthException ex)
+            // Créer un nouvel utilisateur
+            User newUser = new User
             {
-                // Gérer les erreurs d'authentification Firebase
-                Console.WriteLine("Erreur lors de l'enregistrement de l'utilisateur : " + ex.Message);
-                throw;
-            }
+                Id = uidString,
+                Name = name,
+                LastName = lastname,
+                Email = email,
+                Password = password,
+                BirthDate = birthDate,
+                //Token = firebaseToken,
+            };
 
-            catch (Exception ex)
-            {
-                // Gérer les erreurs d'authentification Firebase
-                Console.WriteLine("Erreur lors de l'enregistrement de l'utilisateur : " + ex.Message);
-                throw;
-            }
+            // Enregistrer l'utilisateur dans CosmoDb
+            var user = await userService.CreateAsync(newUser);
+
+            return user;       
         }
 
         [AllowAnonymous]
-        public async Task<User> LoginUserAsync(IUserService userService, string email, string password)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        [Error(typeof(BadRequestException))]
+        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw, CancellationToken cancellation)
         {
-            try
-            {
-                // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
-                User user = await userService.GetUserByEmailAsync(email);
+            // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
+            User user = await userService.GetUserByEmailAsync(email);
 
-                using (var httpClient = new HttpClient())
+
+            using (var httpClient = new HttpClient())
+            {
+                string firebaseUri = _configuration["Firebase:Uri"];
+                string firebaseApiKey = _configuration["Firebase:ApiKey"];
+
+                string apiUrl = $"{firebaseUri}{firebaseApiKey}";
+
+                var request = new
                 {
-                    string firebaseUri = _configuration["Firebase:Uri"];
-                    string firebaseApiKey = _configuration["Firebase:ApiKey"];
+                    email,
+                    password=psw,
+                    returnSecureToken = true
+                };
 
-                    string apiUrl = $"{firebaseUri}{firebaseApiKey}";
+                var response = await httpClient.PostAsJsonAsync(apiUrl, request);
 
-                    var request = new
-                    {
-                        email,
-                        password,
-                        returnSecureToken = true
-                    };
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-                    var response = await httpClient.PostAsJsonAsync(apiUrl, request);
+                    // Désérialiser la réponse JSON
+                    var responseObject = JsonConvert.DeserializeObject<VerifyPasswordResponse>(responseContent);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
+                    // Accéder à la propriété idToken
+                    string idToken = responseObject.IdToken;
 
-                        // Désérialiser la réponse JSON
-                        var responseObject = JsonConvert.DeserializeObject<VerifyPasswordResponse>(responseContent);
+                    user.Token = idToken;
+                    var userUpdated = await userService.UpdateAsync(user);
 
-                        // Accéder à la propriété idToken
-                        string idToken = responseObject.IdToken;
-
-                        user.Token = idToken;
-                        var userUpdated = await userService.UpdateAsync(user);
-
-                        return userUpdated;
-                    }
-                    else
-                    {
-                        // Gérer les erreurs
-                        Console.WriteLine($"Erreur lors de la connexion de l'utilisateur : {response.StatusCode}");
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine(responseContent);
-                        // Retourner ou jeter une exception indiquant que la connexion a échoué
-                        return null; // ou throw new Exception("La connexion a échoué");
-                    }
+                    return userUpdated;
                 }
+                throw new BadRequestException(await response.Content.ReadAsStringAsync());
             }
-            catch (FirebaseAuthException ex)
-            {
-                // Gérer les erreurs d'authentification Firebase
-                Console.WriteLine($"Erreur lors de l'authentification Firebase : {ex.Message}");
-                // Retourner ou jeter une exception indiquant que l'authentification a échoué
-                return null;
-            }
+
         }
 
         [Authorize]
-        public async Task AddNewFavoritePlace(IUserService userService, IPlaceService placeService, ClaimsPrincipal claimsPrincipal, string placeId, CancellationToken cancellationToken)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        public async Task<User> AddNewFavoritePlaceToThisUserAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
         {
-            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+           var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
             Place currentPlace;
@@ -181,13 +142,14 @@ namespace Escapade.Api.Schema.Mutations
 
             currentUser.FavoritePlaces.Add(favoritePlace);
 
-            await userService.UpdateAsync(currentUser);
+            return await userService.UpdateAsync(currentUser);
         }
 
         [Authorize]
-        public async Task UpdateUserAsync(IUserService userService, ClaimsPrincipal claimsPrincipal, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
+        [Error(typeof(VerifyFirebaseTokenException))]
+        public async Task<User> UpdateThisUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
         {
-            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 
@@ -199,7 +161,7 @@ namespace Escapade.Api.Schema.Mutations
             currentUser.BirthDate = birthDate;
             currentUser.Gender = gender;
 
-            await userService.UpdateAsync(currentUser);
+            return await userService.UpdateAsync(currentUser);
         }
 
         #endregion

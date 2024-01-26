@@ -1,5 +1,7 @@
-﻿using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Exceptions;
+using EscapadeApi.Models.Interfaces;
 using EscapadeApi.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
 namespace EscapadeApi.Services.Interfaces
@@ -15,7 +17,15 @@ namespace EscapadeApi.Services.Interfaces
 
         public async Task<bool> IsFoundAsync(string userId)
         {
-            return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
+            try
+            {
+                return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
+            }
+            catch(Exception ex) { }
+            {
+                throw new NotFoundException(userId);
+            }
+           
         }
 
         public virtual async Task<T> GetByIdAsync(string id)
@@ -26,8 +36,7 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
-                throw new GraphQLException(new Error("An error occurred while fetching all users.", ex.Message));
+                throw new NotFoundException(id);
             }
         }
 
@@ -39,7 +48,6 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
                 throw;
             }
         }
@@ -52,7 +60,6 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
                 throw;
             }
         }
@@ -65,7 +72,6 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
                 throw;
             }
         }
@@ -78,7 +84,6 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
                 throw;
             }
         }
@@ -91,7 +96,6 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                // Gérer ou logger l'exception selon les besoins
                 throw;
             }
         }

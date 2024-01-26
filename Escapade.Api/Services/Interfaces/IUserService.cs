@@ -10,13 +10,13 @@ namespace EscapadeApi.Services.Interfaces
 
         public Task<string> EncryptPasswordAsync(string password);
 
-        public bool IsPasswordSecure(string password);
+        public void IsPasswordSecure(string password);
 
-        public bool IsEmailFormatValid(string email);
+        public void IsEmailFormatValid(string email);
 
-        public bool IsNameAndLastNameValid(string name, string lastName);
+        public void IsNameAndLastNameValid(string name, string lastName);
 
-        public bool IsBirthDateValid(DateTime birthDate);
+        public void IsBirthDateValid(DateTime birthDate);
 
         public Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId);
 

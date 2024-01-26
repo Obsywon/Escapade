@@ -1,4 +1,5 @@
-﻿using Escapade.Api.Repositories;
+﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Repositories;
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Services.Interfaces;
 using EscapadeApi.Repositories;
@@ -11,10 +12,16 @@ namespace Escapade.Api.Services
     {
         public PlaceService(IRepositoryPlace repository) : base(repository) { }
 
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUser(string userId)
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAUser(string userId)
         {
-            // Utilisez le repository pour obtenir les lieux ajoutés par l'utilisateur spécifié
-            return (ICollection<PlaceAddedByUser>)await (_repository as PlaceAddedByUserRepository).GetByConditionAsync(place => place.UserId == userId);
+            try
+            {
+                return (ICollection<PlaceAddedByUser>)await (_repository as PlaceAddedByUserRepository).GetByConditionAsync(place => place.UserId == userId);
+            }
+            catch(Exception ex)
+            {
+                throw new NotFoundException(userId);
+            }
         }
     }
 }
