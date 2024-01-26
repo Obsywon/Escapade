@@ -39,8 +39,6 @@ namespace Escapade.Api.Schema.Mutations
 
             #endregion
 
-            // Cryptage du mdp
-            password = await userService.EncryptPasswordAsync(password);
 
             // Créer un nouvel utilisateur dans Firebase
             var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
@@ -55,6 +53,7 @@ namespace Escapade.Api.Schema.Mutations
 
             // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
             string uidString = firebaseUser.Uid;
+
 
             // Récupérer le token Firebase associé à l'utilisateur
             //string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
@@ -86,7 +85,6 @@ namespace Escapade.Api.Schema.Mutations
             // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
             User user = await userService.GetUserByEmailAsync(email);
 
-            psw = userService.EncryptPasswordAsync(psw).Result;
 
             using (var httpClient = new HttpClient())
             {
