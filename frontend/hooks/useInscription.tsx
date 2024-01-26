@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 
+
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($entity: UserInput) {
+  mutation CreateUser($entity: RegisterUserInput!) {
     registerUser(input: $entity) {
-      id
-      name
-      password
-      lastName
-      gender
-      email
-      birthDate
+      user{
+        id
+        name
+        password
+        lastName
+        email
+        birthDate
+      }
     }
   }
 `;
@@ -50,8 +52,7 @@ export const useInscription = (): [
         variables: {
           entity: {
             name: newUser.prenom,
-            lastName: newUser.nom,
-            gender: newUser.sexe,
+            lastname: newUser.nom,
             email: newUser.email,
             password: newUser.mot_de_passe,
             birthDate: newUser.date_de_naissance,
