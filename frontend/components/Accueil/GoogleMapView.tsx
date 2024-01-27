@@ -9,9 +9,10 @@ import { UserLocationContextType, UserLocationContext } from '../../contexts/Use
 interface GoogleMapViewProps {
   placeList: any[];
   userLocationContext?: UserLocationContextType;
+  transportMode: any;
 }
 
-export default function GoogleMapView({ placeList }: Readonly<GoogleMapViewProps>) {
+export default function GoogleMapView({ placeList, transportMode }: GoogleMapViewProps) {
   const [mapRegion, setMapRegion] = useState<Region>({
     latitude: 49.1193,
     longitude: 6.1727,
@@ -60,7 +61,7 @@ export default function GoogleMapView({ placeList }: Readonly<GoogleMapViewProps
             apikey={API_KEY}
             strokeWidth={3}
             strokeColor="hotpink"
-            mode="WALKING"
+            mode={transportMode}
           />
         </MapView>
       </View>

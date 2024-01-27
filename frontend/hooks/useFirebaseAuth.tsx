@@ -4,8 +4,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { firebaseAuth } from "../services/AuthService";
+
 import { useAuth } from "../contexts/AuthContext";
+import { firebaseAuth } from "../Services/AuthService";
 
 
 

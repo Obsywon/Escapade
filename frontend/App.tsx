@@ -14,7 +14,6 @@ import AppNavigator from "./navigation/AppNavigator";
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
 
-import GraphQLClient from "./services/GraphQLService";
 import { AuthProvider } from "./contexts/AuthContext";
 import env from "./env";
 
