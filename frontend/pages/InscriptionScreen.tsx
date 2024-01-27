@@ -84,15 +84,15 @@ function InscriptionScreen(): JSX.Element {
       date_de_naissance: date!,
     };
 
-    console.log(values);
+    //console.log(values);
     //window.alert(date);
 
     await inscription(user);
-    console.table(data);
-    if (!loading && data) {
+    //console.log("INSCRIPTION:", data);
+    if (!loading && !error) {
       reset(defaultValues);
       setDate(undefined);
-      navigation.navigate('Dashboard');
+      navigation.navigate('Bienvenue');
     }
   });
 

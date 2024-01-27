@@ -1,4 +1,4 @@
-import { useAuth } from './../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import env from "../env";

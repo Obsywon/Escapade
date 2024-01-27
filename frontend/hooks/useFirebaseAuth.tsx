@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 
 import { useAuth } from "../contexts/AuthContext";
-import { firebaseAuth } from "../Services/AuthService";
+import { firebaseAuth } from "../services/AuthService";
 
 
 
