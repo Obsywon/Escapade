@@ -3,8 +3,8 @@ import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import PlaceMarker from './PlaceMarker';
-import GlobaleApi from '../../Services/GlobaleApi';
-import { UserLocationContextType, UserLocationContext } from '../Context/UserLocationContext';
+import { API_KEY } from '../../services/GlobaleApi';
+import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 
 interface GoogleMapViewProps {
   placeList: any[];
@@ -25,7 +25,7 @@ export default function GoogleMapView({ placeList, transportMode }: GoogleMapVie
   const [startPoint, setStartPoint] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
   useEffect(() => {
-    if (userLocationContext && userLocationContext.location) {
+    if (userLocationContext?.location) {
       setMapRegion({
         latitude: userLocationContext.location.coords.latitude,
         longitude: userLocationContext.location.coords.longitude,
@@ -41,8 +41,8 @@ export default function GoogleMapView({ placeList, transportMode }: GoogleMapVie
   }, [userLocationContext]);
 
   const extractCoordinates = (place) => ({
-    latitude: place.geometry?.location?.lat || 0,
-    longitude: place.geometry?.location?.lng || 0,
+    latitude: place?.geometry?.location?.lat || 0,
+    longitude: place?.geometry?.location?.lng || 0,
   });
 
   const waypoints = placeList.slice(0, 4).map(extractCoordinates);
@@ -58,7 +58,7 @@ export default function GoogleMapView({ placeList, transportMode }: GoogleMapVie
             origin={startPoint}
             waypoints={waypoints}
             destination={startPoint}
-            apikey={GlobaleApi.API_KEY}
+            apikey={API_KEY}
             strokeWidth={3}
             strokeColor="hotpink"
             mode={transportMode}

@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Marker } from 'react-native-maps'
 
-interface PlaceMarkerProps {
+export type PlaceMarkerProps = {
     item: {
         name?: string;
         geometry?: {
@@ -15,7 +15,7 @@ interface PlaceMarkerProps {
 }
 
 export default function PlaceMarker({ item }: PlaceMarkerProps) {
-    if (!item || !item.geometry || !item.geometry.location) {
+    if (!item?.geometry?.location) {
         return null;
     }
     return (

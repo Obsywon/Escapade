@@ -10,8 +10,14 @@ import DatePicker from '../components/forms/DatePicker';
 import EmailInput from '../components/forms/EmailInput';
 import PasswordInput from '../components/forms/PasswordInput';
 import ErrorText from '../components/forms/ErrorText';
-import {UserInCreation, useInscription} from '../UserService/useInscription';
 import {useForm} from 'react-hook-form';
+import { UserInCreation, useInscription } from '../hooks/useInscription';
+
+
+import { AppNavigatorParamList } from '../navigation/AppNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import { useNavigation } from '@react-navigation/native';
 
 type InscriptionFormData = {
   nom: string;
@@ -21,6 +27,8 @@ type InscriptionFormData = {
   email: string;
   verify_mdp: string;
 };
+
+
 
 const defaultValues: InscriptionFormData = {
   nom: '',
@@ -42,27 +50,52 @@ function InscriptionScreen(): JSX.Element {
     defaultValues: defaultValues,
   });
 
+  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+
   const password = watch('mot_de_passe');
 
+  /*const {registerUserToFirebase} = useFirebaseAuth();
+
+
+  const submit = handleSubmit(async (data) => {
+    const email = data.email;
+
+    try{
+      const user = await registerUserToFirebase(email, password);
+      if (user){
+        window.alert("L'utilisateur a bien été enregistré");
+        console.log(user);
+        navigation.navigate('Dashboard');
+      }
+    }catch(error){
+      console.error(error);
+      window.alert("L'utilisateur existe déjà");
+    }
+  });
+  */
+
   const [inscription, data, error, loading] = useInscription();
-  async function sendData(values: InscriptionFormData): Promise<any> {
+  const submit = handleSubmit(async (values: InscriptionFormData) => {
     const user: UserInCreation = {
       email: values.email,
       mot_de_passe: values.mot_de_passe,
       prenom: values.prenom,
       nom: values.nom,
-      date_de_naissance: date != null ? date : '',
+      date_de_naissance: date!,
     };
-    window.alert(date);
-    window.alert(date);
+
+    //console.log(values);
+    //window.alert(date);
 
     await inscription(user);
-    console.table(data);
-    if (!loading && data) {
+    //console.log("INSCRIPTION:", data);
+    if (!loading && !error) {
       reset(defaultValues);
       setDate(undefined);
+      navigation.navigate('Bienvenue');
     }
-  }
+  });
+
 
   return (
     <FormLayout>
@@ -121,10 +154,9 @@ function InscriptionScreen(): JSX.Element {
 
           <BasicButton
             label="Inscription"
-            disabled={errors == null}
+            disabled={loading}
             loading={loading}
-            onPress={handleSubmit(sendData)}
-            onPress={handleSubmit(sendData)}
+            onPress={submit}
           />
           {error != null && error.length > 0 ? (
             <ErrorText>{error}</ErrorText>

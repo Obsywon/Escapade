@@ -1,16 +1,16 @@
-import { View, Text, ScrollView, TextInput, Button } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View, Text} from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Accueil/Header';
 import GoogleMapView from '../components/Accueil/GoogleMapView';
-import GlobaleApi from '../Services/GlobaleApi';
 import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
-import { UserLocationContextType, UserLocationContext } from '../components/Context/UserLocationContext';
+import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import Picker from '@ouroboros/react-native-picker';
+import nearByPlace from '../services/GlobaleApi';
 
-export default function AccueilScreen() {
+export default function AccueilScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);
-  const [searchRadius, setSearchRadius] = useState("500"); 
+  const [searchRadius, setSearchRadius] = useState(500); 
   const [transportationMode, setTransportationMode] = useState("WALKING"); 
   const [numberOfPlaces, setNumberOfPlaces] = useState("5"); 
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
@@ -19,9 +19,10 @@ export default function AccueilScreen() {
     GetNearBySearchPlace('tourist_attraction');
   }, [location, searchRadius, transportationMode, numberOfPlaces])
 
+
   const GetNearBySearchPlace = (value: string) => {    
-    if (location && location.coords) {
-      GlobaleApi.nearByPlace(
+    if (location?.coords) {
+      nearByPlace(
         location.coords.latitude,
         location.coords.longitude,
         value,
@@ -32,9 +33,8 @@ export default function AccueilScreen() {
       });
     }
   }
-
-return (
-    <ScrollView style={{ padding: 20 }}>
+  return (
+    <ScrollView style={styles.scroll}>
       <Header />
 
       <View style={{ marginBottom: 10, marginTop: 10 }}>
@@ -79,3 +79,9 @@ return (
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  scroll: {
+    marginHorizontal: 8,
+  }
+})

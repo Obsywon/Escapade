@@ -1,18 +1,77 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Recherche from '../pages/RechercheScreen';
-import Favori from '../pages/FavoriScreen';
-import Photos from '../pages/PhotosScreen';
-import Profile from '../pages/ProfileScreen';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import AccueilScreen from '../pages/AccueilScreen';
 import { ColorScheme } from '../themes/CustomColors';
+import RechercheScreen from '../pages/RechercheScreen';
+import FavoriScreen from '../pages/FavoriScreen';
+import PhotosScreen from '../pages/PhotosScreen';
+import ProfileScreen from '../pages/ProfileScreen';
 
 
-export default function TabNavigator() {
-  const Tab = createBottomTabNavigator();
+export type BottomTabParamList = {
+  Accueil: undefined;
+  Recherche: undefined;
+  Favori: undefined;
+  Photos: undefined;
+  Profil: undefined;
+};
+
+type IconProps = {
+  color: string,
+  size: number,
+};
+
+type TabElement = {
+  label: keyof BottomTabParamList,
+  component: (T: any)=> JSX.Element,
+  iconComponent?: ({color, size}: IconProps) => JSX.Element
+};
+
+const tabs : TabElement[] = [
+  {
+    label: 'Accueil',
+    component: AccueilScreen,
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='home' color={color} size={size} />
+    ),
+  },
+  {
+    label: 'Recherche',
+    component: RechercheScreen,
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='search' color={color} size={size} />
+    ),
+  },
+  {
+    label: 'Favori',
+    component: FavoriScreen,
+    iconComponent: ({ color, size }: IconProps) => (
+      <Ionicons name='ios-heart' color={color} size={size} />
+    ),
+  },
+  {
+    label: 'Photos',
+    component: PhotosScreen,
+    iconComponent: ({ color, size }: IconProps) => (
+      <FontAwesome name='photo' color={color} size={size} />
+    ),
+  },{
+    label: 'Profil',
+    component: ProfileScreen,
+    iconComponent: ({ color, size }: IconProps) => (
+      <FontAwesome name='user-circle-o' color={color} size={size} />
+    ),
+  }
+]
+
+
+
+export default function TabNavigator(): JSX.Element {
+  const Tab = createBottomTabNavigator<BottomTabParamList>();
+
+
   return (
     <Tab.Navigator
       screenOptions={{ 
@@ -21,41 +80,14 @@ export default function TabNavigator() {
         tabBarInactiveTintColor: ColorScheme.primary,
       }}
        >
-      <Tab.Screen name="Accueil" component={AccueilScreen}
-        options={{
-          tabBarLabel: 'Accueil',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='home' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Recherche" component={Recherche}
-        options={{
-          tabBarLabel: 'Recherche',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='search' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Favori" component={Favori}
-        options={{
-          tabBarLabel: 'Favori',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='ios-heart' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Photos" component={Photos}
-        options={{
-          tabBarLabel: 'Photos',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name='photo' color={color} size={size} />
-          )
-        }} />
-      <Tab.Screen name="Profil" component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name='user-circle-o' color={color} size={size} />
-          )
-        }} />
+        {tabs.map(tab =>(
+          <Tab.Screen key={tab.label} name={tab.label} component={tab.component}
+          options={{
+            tabBarLabel: tab.label,
+            tabBarIcon: tab.iconComponent,
+          }} />
+        ))}
     </Tab.Navigator>
   )
 }
+

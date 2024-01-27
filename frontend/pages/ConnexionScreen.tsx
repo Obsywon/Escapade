@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Surface } from "react-native-paper";
 import AppTitle from "../components/AppTitle";
@@ -8,20 +8,18 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseConfig, app, auth } from "../components/firebaseConfig";
-
-
-interface ConnexionScreenProps {
-  navigation: any;
-}
+import { AppNavigatorParamList } from "../navigation/AppNavigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { useNavigation } from "@react-navigation/native";
 
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-export default function ConnexionScreen({ navigation }: ConnexionScreenProps): JSX.Element {
+function ConnexionScreen(): JSX.Element {
+
   const {
     control,
     handleSubmit,
@@ -33,24 +31,28 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigation =
+    useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
-    const email = data.email; 
-    const password = data.password; 
+  const { connectUserToFirebase } = useFirebaseAuth();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        window.alert("Utilisateur connecté : " + user.email);
-        navigation.navigate('Accueil');
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-        window.alert("Utilisateur non reconnu");
-      });
+  const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
+    const email = data.email;
+    const password = data.password;
+
+    try {
+      const receivedUser = await connectUserToFirebase(email, password);
+      console.log(receivedUser);
+      //window.alert("Utilisateur connecté : " + receivedUser);
+      navigation.navigate("Dashboard");
+    } catch (error) {
+      window.alert("Utilisateur non reconnu.");
+    }finally{
+      setLoading(false);
+    }
   });
-
 
   return (
     <FormLayout>
@@ -68,7 +70,7 @@ export default function ConnexionScreen({ navigation }: ConnexionScreenProps): J
           </View>
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
-          <BasicButton label="Connexion" onPress={onSubmit} />
+          <BasicButton label="Connexion" onPress={onSubmit} loading={loading} disabled={loading} />
         </ScrollView>
       </Surface>
     </FormLayout>
@@ -91,3 +93,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default ConnexionScreen

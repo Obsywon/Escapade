@@ -13,6 +13,9 @@ interface BasicButtonProps {
   color?: string;
 }
 
+
+let fontColor : string = 'white';
+
 const BasicButton = ({
   label = '',
   onPress,
@@ -22,6 +25,9 @@ const BasicButton = ({
   uppercase = false,
   color=ColorScheme.primary,
 }: BasicButtonProps) => {
+  
+  fontColor = loading ? 'blue' : 'white';
+
   return (
     <View style={styles.container}>
       <Button
@@ -44,6 +50,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     padding: 8,
+    color: fontColor,
   },
   container: {
     flex: 1,

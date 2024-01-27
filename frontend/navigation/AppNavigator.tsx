@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import pageBienvenue from '../pages/BienvenueScreen';
 import InscriptionScreen from '../pages/InscriptionScreen';
 import ConnexionScreen from '../pages/ConnexionScreen';
 import TabNavigator from './TabNavigator';
+import BienvenueScreen from '../pages/BienvenueScreen';
+import EditProfileScreen from '../pages/EditProfileScreen';
 
-export type AppNavigator = {
+export type AppNavigatorParamList = {
   Bienvenue: undefined,
   Inscription: undefined,
   Connexion: undefined,
-  Accueil: undefined
+  Dashboard: undefined,
+  ModifierProfil: undefined,
 }
 
-const Stack = createStackNavigator<AppNavigator>();
+const Stack = createStackNavigator<AppNavigatorParamList>();
 
-const AppNavigator = () => {
+const AppNavigator = (): JSX.Element => {
+
+
   return (
     <Stack.Navigator initialRouteName="Bienvenue" >
-      <Stack.Screen name="Bienvenue" component={pageBienvenue} />
+      <Stack.Screen name="Bienvenue" component={BienvenueScreen} />
       <Stack.Screen name="Inscription" component={InscriptionScreen} />
       <Stack.Screen name="Connexion" component={ConnexionScreen} />
-      <Stack.Screen name="Accueil" component={TabNavigator} />
+      <Stack.Screen name="ModifierProfil" component={EditProfileScreen} />
+      <Stack.Screen name="Dashboard" component={TabNavigator} />
+      
     </Stack.Navigator>
   );
 };
