@@ -54,6 +54,7 @@ function InscriptionScreen(): JSX.Element {
       date_de_naissance: date != null ? date : '',
     };
     window.alert(date);
+    window.alert(date);
 
     await inscription(user);
     console.table(data);
@@ -122,6 +123,7 @@ function InscriptionScreen(): JSX.Element {
             label="Inscription"
             disabled={errors == null}
             loading={loading}
+            onPress={handleSubmit(sendData)}
             onPress={handleSubmit(sendData)}
           />
           {error != null && error.length > 0 ? (
