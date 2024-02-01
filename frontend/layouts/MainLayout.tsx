@@ -1,9 +1,13 @@
 import React from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import FocusAwareStatusBar from '../components/FocusAwareStatusBar';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
-function ConnectedLayout(): JSX.Element {
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+type GuestLayoutProps = {
+  children: JSX.Element;
+}
+
+function MainLayout({children}: Readonly<GuestLayoutProps>): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -13,12 +17,13 @@ function ConnectedLayout(): JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <FocusAwareStatusBar
+      <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      {children}
     </SafeAreaView>
   );
 }
 
-export default ConnectedLayout;
+export default MainLayout;

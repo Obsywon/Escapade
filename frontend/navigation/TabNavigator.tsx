@@ -2,7 +2,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import AccueilScreen from '../pages/AccueilScreen';
+import DashboardScreen from '../pages/DashboardScreen';
 import { ColorScheme } from '../themes/CustomColors';
 import RechercheScreen from '../pages/RechercheScreen';
 import FavoriScreen from '../pages/FavoriScreen';
@@ -18,6 +18,7 @@ export type BottomTabParamList = {
   Profil: undefined;
 };
 
+
 type IconProps = {
   color: string,
   size: number,
@@ -32,7 +33,7 @@ type TabElement = {
 const tabs : TabElement[] = [
   {
     label: 'Accueil',
-    component: AccueilScreen,
+    component: DashboardScreen,
     iconComponent: ({ color, size }: IconProps) => (
       <Ionicons name='home' color={color} size={size} />
     ),

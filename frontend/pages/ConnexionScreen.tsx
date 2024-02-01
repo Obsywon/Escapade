@@ -12,6 +12,8 @@ import { AppNavigatorParamList } from "../navigation/AppNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useNavigation } from "@react-navigation/native";
+import { IdTokenResult, User, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "../services/AuthService";
 
 type ConnexionFormData = {
   email: string;
@@ -19,7 +21,6 @@ type ConnexionFormData = {
 };
 
 function ConnexionScreen(): JSX.Element {
-
   const {
     control,
     handleSubmit,
@@ -35,21 +36,31 @@ function ConnexionScreen(): JSX.Element {
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
-  const { connectUserToFirebase } = useFirebaseAuth();
-
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
     const email = data.email;
     const password = data.password;
 
-    try {
-      const receivedUser = await connectUserToFirebase(email, password);
-      console.log(receivedUser);
-      //window.alert("Utilisateur connecté : " + receivedUser);
-      navigation.navigate("Dashboard");
-    } catch (error) {
-      window.alert("Utilisateur non reconnu.");
-    }finally{
+    try { // Tentative d'authetification
+      const userCredentials = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+
+      // Si l'utilisateur est authentifié:
+      if (userCredentials.user) {
+        const user = userCredentials.user;
+        const token: IdTokenResult = await user.getIdTokenResult();
+
+        console.log("USER TOKEN:", token.token);
+        navigation.replace("Dashboard", {token: token.token});
+      }
+      return undefined;
+    } catch (error: any) {
+      console.error(error?.code, error?.message);
+      throw error;
+    } finally {
       setLoading(false);
     }
   });
@@ -70,7 +81,12 @@ function ConnexionScreen(): JSX.Element {
           </View>
           <EmailInput control={control} name="email" />
           <PasswordInput control={control} name="password" />
-          <BasicButton label="Connexion" onPress={onSubmit} loading={loading} disabled={loading} />
+          <BasicButton
+            label="Connexion"
+            onPress={onSubmit}
+            loading={loading}
+            disabled={loading}
+          />
         </ScrollView>
       </Surface>
     </FormLayout>
@@ -94,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConnexionScreen
+export default ConnexionScreen;

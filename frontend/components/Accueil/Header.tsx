@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
+import { View, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
 import React from 'react'
 import Logo from '../forms/Logo'
 import AppTitle from '../AppTitle'
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     searchbar: {
         borderWidth: 1,
         borderColor: CustomColors.black,
-        padding: 4,
+        padding: 8,
         borderRadius: 50,
         paddingLeft: 10,
         width: Dimensions.get('screen').width * 0.6,

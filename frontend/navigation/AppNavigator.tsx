@@ -10,7 +10,7 @@ export type AppNavigatorParamList = {
   Bienvenue: undefined,
   Inscription: undefined,
   Connexion: undefined,
-  Dashboard: undefined,
+  Dashboard: {token: string},
   ModifierProfil: undefined,
 }
 

@@ -16,7 +16,6 @@ import { UserInCreation, useInscription } from '../hooks/useInscription';
 
 import { AppNavigatorParamList } from '../navigation/AppNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
-import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import { useNavigation } from '@react-navigation/native';
 
 type InscriptionFormData = {
