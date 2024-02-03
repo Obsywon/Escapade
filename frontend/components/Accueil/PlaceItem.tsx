@@ -1,8 +1,9 @@
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import { Place } from './PlaceType';
 import { AntDesign } from '@expo/vector-icons';
 import { ColorScheme, CustomColors } from '../../themes/CustomColors';
+import { Text } from 'react-native-paper'
+import { Place } from '../../models/Place';
 
 interface PlaceItemProps {
     place: Place;

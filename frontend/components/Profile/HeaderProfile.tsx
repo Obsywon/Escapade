@@ -1,12 +1,10 @@
-import { View, Image, StyleSheet, SafeAreaView } from "react-native"
-import { ColorScheme, CustomColors } from "../../themes/CustomColors"
-import AppTitle from "../AppTitle"
-import Logo from "../forms/Logo"
+import { View, Image, StyleSheet } from "react-native"
+import { ColorScheme } from "../../themes/CustomColors"
 import { Title, Caption, Text } from "react-native-paper"
 
 export default function HeaderProfile() {  
     return (
-        <SafeAreaView
+        <View
             style={styles.containerHeader}>
 
             <View style={styles.userInfo}>
@@ -19,7 +17,7 @@ export default function HeaderProfile() {
             <Text style={styles.textePresentation}>
                 J'aime la magie, les mystères et partir à la découverte
             </Text>
-        </SafeAreaView >
+        </View >
     )
 }
 
@@ -32,20 +30,21 @@ const styles = StyleSheet.create({
     },
     userInfo: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 8,
         justifyContent: 'center',
+        gap: 8,
     },
     userImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 100,
+        width: 48,
+        height: 48,
+        borderRadius: 96,
     },
     userName: {
-        marginLeft: 20,
+        marginLeft: 24,
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: '600',
         color: ColorScheme.primary,
         // fontFamily: "Fontastique",
     },

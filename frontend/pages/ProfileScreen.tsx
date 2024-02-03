@@ -1,27 +1,29 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import HeaderProfile from "../components/Profile/HeaderProfile";
+import { StyleSheet, View } from "react-native";
 import UserInfo from "../components/Profile/UserInfo";
 import MenuProfile from "../components/Profile/MenuProfile";
-import EditProfileButton from "../components/Profile/EditProfileButton";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AppNavigatorParamList } from "../navigation/AppNavigator";
-import { Surface } from "react-native-paper";
 import { ColorScheme } from "../themes/CustomColors";
+import BasicButton from "../components/forms/BasicButton";
+import { AppNavigatorParamList } from "../App";
 
 export default function ProfileScreen(): JSX.Element {
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   return (
-    <ScrollView>
+    <View style={{ flex: 1 }}>
       <UserInfo containerStyle={styles.UserContainer} />
-      <EditProfileButton
-        onPress={() => navigation.navigate("ModifierProfil")}
-      />
+        <View style={styles.buttonContainer}>
+          <BasicButton
+            label="Modifier le profil"
+            onPress={() => navigation.navigate("ModifierProfil")}
+            color={ColorScheme.secondary}
+          />
+        </View>
       <MenuProfile />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -30,10 +32,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     padding: 16,
     marginVertical: 16,
-    flex: 1,
+
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
     backgroundColor: ColorScheme.white,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 72,
+    marginHorizontal: '25%',
   },
 });

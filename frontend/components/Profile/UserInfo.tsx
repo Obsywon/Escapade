@@ -1,15 +1,15 @@
-import { View, Image, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, Image, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import React from "react";
 import { Caption, Icon, Surface, Title } from "react-native-paper";
 import { ColorScheme } from "../../themes/CustomColors";
-
+import { Text } from "react-native-paper";
 
 export type UserInfoProps = {
-    containerStyle: StyleProp<ViewStyle>,
-    userData?: any //pour le moment
-}
+  containerStyle: StyleProp<ViewStyle>;
+  userData?: any; //pour le moment
+};
 
-export default function UserInfo({containerStyle, userData}: UserInfoProps) {
+export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
   return (
     <Surface mode="elevated" style={containerStyle}>
       <View style={styles.containerHeader}>
@@ -38,11 +38,11 @@ export default function UserInfo({containerStyle, userData}: UserInfoProps) {
           <Text style={styles.textUser}>London, UK</Text>
         </View>
         <View style={styles.row}>
-          <Icon source="phone" color={ColorScheme.primary} size={20} />
+          <Icon source="phone" color={ColorScheme.primary} size={16} />
           <Text style={styles.textUser}>+44-900000009</Text>
         </View>
         <View style={styles.row}>
-          <Icon source="email" color={ColorScheme.primary} size={20} />
+          <Icon source="email" color={ColorScheme.primary} size={16} />
           <Text style={styles.textUser}>harry_potter@gmail.com</Text>
         </View>
       </View>
@@ -51,24 +51,26 @@ export default function UserInfo({containerStyle, userData}: UserInfoProps) {
 }
 
 const styles = StyleSheet.create({
-    containerProfil: {
-        marginHorizontal: 16,
-        padding: 16,
-        marginVertical: 16,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 16,
-        backgroundColor: ColorScheme.white
-    },
+  containerProfil: {
+    marginHorizontal: 16,
+    padding: 16,
+    marginVertical: 16,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    backgroundColor: ColorScheme.white,
+  },
   userInfoSection: {
     marginLeft: 16,
     marginTop: 16,
     justifyContent: "center",
+    gap: 8,
   },
   row: {
     flexDirection: "row",
-    marginBottom: 10,
+    alignItems: 'center',
+    marginBottom: 8,
   },
   textUser: {
     color: ColorScheme.secondary,
@@ -83,16 +85,15 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: "row",
-    marginTop: 10,
     justifyContent: "center",
   },
   userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
+    width: 48,
+    height: 48,
+    borderRadius: 96,
   },
   userName: {
-    marginLeft: 20,
+    marginLeft: 16,
   },
   title: {
     fontSize: 24,
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
     // fontFamily: "Fontastique",
   },
   caption: {
-    fontSize: 14,
-    lineHeight: 14,
+    fontSize: 16,
+    lineHeight: 16,
     fontWeight: "500",
     color: ColorScheme.secondary,
     // fontFamily: "Fontastique",

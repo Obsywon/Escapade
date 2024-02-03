@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import PlaceMarker from './PlaceMarker';
 import { API_KEY } from '../../services/GlobaleApi';
 import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
-
+import { Surface, Text } from 'react-native-paper'
 interface GoogleMapViewProps {
   placeList: any[];
   userLocationContext?: UserLocationContextType;
@@ -71,16 +71,17 @@ export default function GoogleMapView({ placeList, transportMode }: GoogleMapVie
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    borderRadius: 20,
-    overflow: 'hidden',
+    borderRadius: 16,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   texteTitre: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 24,
+    marginBottom: 8,
   },
   mapContainer: {
-    borderRadius: 20,
+    borderRadius: 16,
     overflow: 'hidden',
   },
   map: {

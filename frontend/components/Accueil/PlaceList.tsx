@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
-import { Place } from './PlaceType';
 import PlaceItem from './PlaceItem';
 import PlaceItemBig from './PlaceItemBig';
+import { Text } from 'react-native-paper'
+import { Place } from '../../models/Place';
 
 interface PlaceListProps {
     placeList: Place[] | undefined;

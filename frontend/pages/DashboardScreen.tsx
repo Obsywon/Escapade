@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, TextInput, View, Text} from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Text, TextInput } from 'react-native-paper'
 import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Accueil/Header';
 import GoogleMapView from '../components/Accueil/GoogleMapView';
@@ -7,12 +8,13 @@ import PlaceList from '../components/Accueil/PlaceList';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import Picker from '@ouroboros/react-native-picker';
 import nearByPlace from '../services/GlobaleApi';
+import { TransportMode, transportOptions } from '../models/TransportMode'
 
-export default function AccueilScreen(): JSX.Element {
+export default function DashboardScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);
-  const [searchRadius, setSearchRadius] = useState(500); 
-  const [transportationMode, setTransportationMode] = useState("WALKING"); 
-  const [numberOfPlaces, setNumberOfPlaces] = useState("5"); 
+  const [searchRadius, setSearchRadius] = useState<string>('500');
+  const [transportationMode, setTransportationMode] = useState<TransportMode>(TransportMode.WALKING);
+  const [numberOfPlaces, setNumberOfPlaces] = useState<string>("5");
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
 
   useEffect(() => {
@@ -20,13 +22,13 @@ export default function AccueilScreen(): JSX.Element {
   }, [location, searchRadius, transportationMode, numberOfPlaces])
 
 
-  const GetNearBySearchPlace = (value: string) => {    
+  const GetNearBySearchPlace = (value: string) => {
     if (location?.coords) {
       nearByPlace(
         location.coords.latitude,
         location.coords.longitude,
         value,
-        searchRadius
+        parseInt(searchRadius)
       ).then(Resp => {
         const limitedPlaces = Resp.data.results.slice(0, parseInt(numberOfPlaces, 10));
         setPlacelist(limitedPlaces);
@@ -34,12 +36,14 @@ export default function AccueilScreen(): JSX.Element {
     }
   }
   return (
-    <ScrollView style={styles.scroll}>
-      <Header />
-
-      <View style={{ marginBottom: 10, marginTop: 10 }}>
-        <Text>Rayon de recherche (en mètres) : </Text>
+    <View style={styles.scroll}>
+      <GoogleMapView placeList={placeList} transportMode={transportationMode} />
+      <CategoryList setSelectedCategory={(value: string) => GetNearBySearchPlace(value)} />
+      <View style={{ marginVertical: 8 }}>
         <TextInput
+          dense={true}
+          label='Rayon de recherche (en mètres) :'
+          mode='outlined'
           value={searchRadius}
           onChangeText={(text) => setSearchRadius(text)}
           placeholder="Ex : 500m"
@@ -47,9 +51,11 @@ export default function AccueilScreen(): JSX.Element {
         />
       </View>
 
-      <View style={{ marginBottom: 10 }}>
-        <Text>Nombre de lieux à visiter : </Text>
+      <View style={{ marginBottom: 16 }}>
         <TextInput
+          dense={true}
+          label="Nombre de lieux à visiter :"
+          mode='outlined'
           value={numberOfPlaces}
           onChangeText={(text) => setNumberOfPlaces(text)}
           placeholder="Ex : 5"
@@ -61,27 +67,22 @@ export default function AccueilScreen(): JSX.Element {
         <Text>Mode de déplacement : </Text>
         <Picker
           onChanged={setTransportationMode}
-          options={[
-              { value: "WALKING", text: 'A pied' },
-              { value: "DRIVING", text: 'En voiture' },
-              { value: "BICYCLING", text: 'A vélo' },
-              { value: "TRANSIT", text: 'Transports en commun' }
-          ]}
+          options={transportOptions}
           style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 5, padding: 5 }}
           value={transportationMode}
         />
       </View>
 
-      <GoogleMapView placeList={placeList} transportMode={transportationMode} />
-      <CategoryList setSelectedCategory={(value: string) => GetNearBySearchPlace(value)} />
+
 
       {placeList ? <PlaceList placeList={placeList} /> : null}
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   scroll: {
-    marginHorizontal: 8,
+    flex: 1,
+    marginHorizontal: 16,
   }
 })

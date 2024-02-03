@@ -1,6 +1,7 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { CustomColors } from '../../themes/CustomColors';
+import { Text } from 'react-native-paper'
 
 interface Category {
     id: number;
@@ -26,14 +27,14 @@ export default function CategoryItem({ category }: Readonly<CategoryItemProps>) 
 
 const styles = StyleSheet.create({
     itemContainer: {
-        padding: 5,
+
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 5,
-        width: 100,
-        height: 100,
+
+        width: 96,
+        height: 96,
         backgroundColor: CustomColors.white,
-        borderRadius: 15,        
+        borderRadius: 16,
     },
     icon: {
         width: 50,

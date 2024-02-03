@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, SafeAreaView, Share } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import React from 'react'
-import { TouchableRipple, Icon } from 'react-native-paper'
+import { TouchableRipple, Icon, Text } from 'react-native-paper'
 import { ColorScheme } from '../../themes/CustomColors'
 
 export default function MenuProfile() {
@@ -19,7 +19,7 @@ export default function MenuProfile() {
     //     }
     // };
     return (
-        <SafeAreaView>
+        <View>
             <View style={styles.menuProfile}>
                 <TouchableRipple onPress={() => { }}>
                     <View style={styles.menuItem}>
@@ -31,7 +31,7 @@ export default function MenuProfile() {
                 <TouchableRipple onPress={() => {}}>
                     <View style={styles.menuItem}>
                         <Icon source="share-outline" color="#FF6347" size={24} />
-                        <Text style={styles.menuItemText}>Pargtager avec mes amis</Text>
+                        <Text style={styles.menuItemText}>Partager avec mes amis</Text>
                     </View>
                 </TouchableRipple>
                 <TouchableRipple onPress={() => { }}>
@@ -41,7 +41,7 @@ export default function MenuProfile() {
                     </View>
                 </TouchableRipple>
             </View>
-        </SafeAreaView >
+        </View >
     )
 }
 

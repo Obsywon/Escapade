@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
+import { View, StyleSheet, Image, Dimensions, TextInput } from 'react-native'
 import React from 'react'
 import Logo from '../forms/Logo'
 import AppTitle from '../AppTitle'
@@ -34,23 +34,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        gap: 10,
+        gap: 8,
     },
     logo: {
-        width: 45,
+        width: 48,
         height: 60,
     },
     searchbar: {
         borderWidth: 1,
         borderColor: CustomColors.black,
-        padding: 4,
-        borderRadius: 50,
-        paddingLeft: 10,
+        padding: 8,
+        borderRadius: 48,
+        paddingLeft: 16,
         width: Dimensions.get('screen').width * 0.6,
     },
     userImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 100,
+        width: 48,
+        height: 48,
+        borderRadius: 96,
     },
 })

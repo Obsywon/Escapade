@@ -1,14 +1,15 @@
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from "react";
+import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import AccueilScreen from '../pages/AccueilScreen';
-import { ColorScheme } from '../themes/CustomColors';
-import RechercheScreen from '../pages/RechercheScreen';
-import FavoriScreen from '../pages/FavoriScreen';
-import PhotosScreen from '../pages/PhotosScreen';
-import ProfileScreen from '../pages/ProfileScreen';
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import DashboardScreen from "../pages/DashboardScreen";
+import RechercheScreen from "../pages/RechercheScreen";
+import FavoriScreen from "../pages/FavoriScreen";
+import PhotosScreen from "../pages/PhotosScreen";
+import ProfileScreen from "../pages/ProfileScreen";
+import { CustomColors } from "../themes/CustomColors";
 
+const iconSize: number = 26;
 
 export type BottomTabParamList = {
   Accueil: undefined;
@@ -19,75 +20,76 @@ export type BottomTabParamList = {
 };
 
 type IconProps = {
-  color: string,
-  size: number,
+  color: string;
+  size?: number;
 };
 
 type TabElement = {
-  label: keyof BottomTabParamList,
-  component: (T: any)=> JSX.Element,
-  iconComponent?: ({color, size}: IconProps) => JSX.Element
+  label: keyof BottomTabParamList;
+  component: (T: any) => JSX.Element;
+  iconComponent?: ({ color, size }: IconProps) => JSX.Element;
 };
 
-const tabs : TabElement[] = [
+const tabs: TabElement[] = [
   {
-    label: 'Accueil',
-    component: AccueilScreen,
-    iconComponent: ({ color, size }: IconProps) => (
-      <Ionicons name='home' color={color} size={size} />
+    label: "Accueil",
+    component: DashboardScreen,
+    iconComponent: ({ color }: IconProps) => (
+      <Ionicons name="home" color={color} size={iconSize} />
     ),
   },
   {
-    label: 'Recherche',
+    label: "Recherche",
     component: RechercheScreen,
-    iconComponent: ({ color, size }: IconProps) => (
-      <Ionicons name='search' color={color} size={size} />
+    iconComponent: ({ color }: IconProps) => (
+      <Ionicons name="search" color={color} size={iconSize} />
     ),
   },
   {
-    label: 'Favori',
+    label: "Favori",
     component: FavoriScreen,
-    iconComponent: ({ color, size }: IconProps) => (
-      <Ionicons name='ios-heart' color={color} size={size} />
+    iconComponent: ({ color }: IconProps) => (
+      <Ionicons name="ios-heart" color={color} size={iconSize} />
     ),
   },
   {
-    label: 'Photos',
+    label: "Photos",
     component: PhotosScreen,
-    iconComponent: ({ color, size }: IconProps) => (
-      <FontAwesome name='photo' color={color} size={size} />
+    iconComponent: ({ color }: IconProps) => (
+      <FontAwesome name="photo" color={color} size={iconSize} />
     ),
-  },{
-    label: 'Profil',
+  },
+  {
+    label: "Profil",
     component: ProfileScreen,
-    iconComponent: ({ color, size }: IconProps) => (
-      <FontAwesome name='user-circle-o' color={color} size={size} />
+    iconComponent: ({ color }: IconProps) => (
+      <FontAwesome name="user-circle-o" color={color} size={iconSize} />
     ),
-  }
-]
-
-
+  },
+];
 
 export default function TabNavigator(): JSX.Element {
-  const Tab = createBottomTabNavigator<BottomTabParamList>();
-
+  const Tab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
   return (
-    <Tab.Navigator
-      screenOptions={{ 
-        headerShown: false,
-        tabBarActiveTintColor: ColorScheme.secondary,
-        tabBarInactiveTintColor: ColorScheme.primary,
-      }}
-       >
-        {tabs.map(tab =>(
-          <Tab.Screen key={tab.label} name={tab.label} component={tab.component}
+    <Tab.Navigator 
+    shifting={true}
+    compact={true}
+    activeColor={CustomColors.secondary}
+    inactiveColor={CustomColors.AppTitleColor}
+    initialRouteName="Dashboard"
+    >
+      {tabs.map((tab) => (
+        <Tab.Screen
+          key={tab.label}
+          name={tab.label}
+          component={tab.component}
           options={{
             tabBarLabel: tab.label,
             tabBarIcon: tab.iconComponent,
-          }} />
-        ))}
+          }}
+        />
+      ))}
     </Tab.Navigator>
-  )
+  );
 }
-
