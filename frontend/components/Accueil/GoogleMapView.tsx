@@ -50,7 +50,7 @@ export default function GoogleMapView({ placeList, transportMode }: GoogleMapVie
 
   const handleNavigatePress = () => {
     const waypointCoords = waypoints.map((waypoint) => `${waypoint.latitude},${waypoint.longitude}`).join('|');
-    const navigationURL = `https://www.google.com/maps/dir/?api=1&origin=${startPoint?.latitude},${startPoint?.longitude}&destination=${startPoint?.latitude},${startPoint?.longitude}&waypoints=${waypointCoords}`;
+    const navigationURL = `https://www.google.com/maps/dir/?api=1&origin=${startPoint?.latitude},${startPoint?.longitude}&destination=${startPoint?.latitude},${startPoint?.longitude}&waypoints=${waypointCoords}&travelmode=${transportMode}`;
   
     Linking.openURL(navigationURL);
   };
