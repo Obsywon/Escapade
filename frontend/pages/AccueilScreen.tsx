@@ -10,7 +10,7 @@ import nearByPlace from '../services/GlobaleApi';
 
 export default function AccueilScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);
-  const [searchRadius, setSearchRadius] = useState(500); 
+  const [searchRadius, setSearchRadius] = useState("500"); 
   const [transportationMode, setTransportationMode] = useState("WALKING"); 
   const [numberOfPlaces, setNumberOfPlaces] = useState("5"); 
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
@@ -37,37 +37,39 @@ export default function AccueilScreen(): JSX.Element {
     <ScrollView style={styles.scroll}>
       <Header />
 
-      <View style={{ marginBottom: 10, marginTop: 10 }}>
-        <Text>Rayon de recherche (en mètres) : </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
+        <Text style={{ fontSize:15 }}>Rayon de recherche (en mètres) : </Text>
         <TextInput
           value={searchRadius}
           onChangeText={(text) => setSearchRadius(text)}
-          placeholder="Ex : 500m"
+          placeholder="Ex : 500"
           keyboardType="numeric"
+          style={{ fontSize:15, marginLeft: 10, flex: 1 }}
         />
       </View>
 
-      <View style={{ marginBottom: 10 }}>
-        <Text>Nombre de lieux à visiter : </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <Text style={{ fontSize:15 }}>Nombre de lieux à visiter : </Text>
         <TextInput
           value={numberOfPlaces}
           onChangeText={(text) => setNumberOfPlaces(text)}
           placeholder="Ex : 5"
           keyboardType="numeric"
+          style={{fontSize:15, marginLeft: 10, flex: 1 }}
         />
       </View>
 
-      <View style={{ marginBottom: 10 }}>
-        <Text>Mode de déplacement : </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, borderRadius: 20 }}>
+        <Text style={{ fontSize: 15 }}>Mode de déplacement : </Text>
         <Picker
           onChanged={setTransportationMode}
           options={[
-              { value: "WALKING", text: 'A pied' },
-              { value: "DRIVING", text: 'En voiture' },
-              { value: "BICYCLING", text: 'A vélo' },
-              { value: "TRANSIT", text: 'Transports en commun' }
+            { value: "WALKING", text: 'A pied' },
+            { value: "DRIVING", text: 'En voiture' },
+            { value: "BICYCLING", text: 'A vélo' },
+            { value: "TRANSIT", text: 'Transports en commun' }
           ]}
-          style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 5, padding: 5 }}
+          style={{ borderWidth: 0, borderColor: 'transparent', fontSize: 15, borderRadius: 5, padding: 5, marginLeft: 5, flex: 1, width: 100, height: 30 }}
           value={transportationMode}
         />
       </View>
