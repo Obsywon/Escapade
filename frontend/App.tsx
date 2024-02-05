@@ -9,16 +9,32 @@ import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import AppNavigator from "./navigation/AppNavigator";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
 
 import env from "./env";
 import { firebaseAuth } from "./services/AuthService";
-import { IdTokenResult, User } from "firebase/auth";
+import { IdTokenResult } from "firebase/auth";
 import initGraphQLClient from "./services/GraphQLService";
 import TabNavigator from "./navigation/TabNavigator";
+import BienvenueScreen from "./pages/BienvenueScreen";
+import ConnexionScreen from "./pages/ConnexionScreen";
+import EditProfileScreen from "./pages/EditProfileScreen";
+import InscriptionScreen from "./pages/InscriptionScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+
+
+export type AppNavigatorParamList = {
+  Bienvenue: undefined;
+  Inscription: undefined;
+  Connexion: undefined;
+  Dashboard: undefined;
+  ModifierProfil: undefined;
+};
+
+const Stack = createStackNavigator<AppNavigatorParamList>();
+
 
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
@@ -29,10 +45,6 @@ function App(): JSX.Element {
     null
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  // const [fontsLoaded] = useFonts({
-  //   'raleway': require('./assets/Fonts/Raleway-Regular.ttf'),
-  //   'raleway-SemiBold': require('./assets/Fonts/Raleway-SemiBold.ttf'),
-  // });
 
   let client = new ApolloClient({
     uri: env.BACKEND_APP_URI,
@@ -42,7 +54,7 @@ function App(): JSX.Element {
   // Gère l'authentification automatique à l'application
   useEffect(() => {
     const sub = firebaseAuth.onAuthStateChanged((user) => {
-      
+
       user
         ?.getIdTokenResult()
         .then((accessToken) => {
@@ -87,7 +99,38 @@ function App(): JSX.Element {
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
-              {accessToken?.token ? <TabNavigator /> : <AppNavigator/>}
+              <Stack.Navigator initialRouteName="Bienvenue"
+                screenOptions={{
+                  headerShown: false
+                }}
+              >
+
+                {accessToken?.token ? (
+                  <>
+                    <Stack.Screen name="Dashboard" component={TabNavigator} />
+                    <Stack.Screen
+                      name="ModifierProfil"
+                      component={EditProfileScreen}
+                    />
+                  </>
+
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name="Bienvenue"
+                      component={BienvenueScreen}
+                    />
+                    <Stack.Screen
+                      name="Inscription"
+                      component={InscriptionScreen}
+                    />
+                    <Stack.Screen
+                      name="Connexion"
+                      component={ConnexionScreen}
+                    />
+                  </>
+                )}
+              </Stack.Navigator>
             </MainLayout>
           </NavigationContainer>
         </UserLocationContext.Provider>

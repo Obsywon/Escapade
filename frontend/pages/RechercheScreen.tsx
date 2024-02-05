@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
 import { BottomTabParamList } from '../navigation/TabNavigator'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { Text } from 'react-native-paper'
 
 
 type RechercheScreenProps = BottomTabScreenProps<BottomTabParamList, 'Recherche'>

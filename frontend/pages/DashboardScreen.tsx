@@ -8,9 +8,9 @@ import { UserLocationContextType, UserLocationContext } from '../contexts/UserLo
 import Picker from '@ouroboros/react-native-picker';
 import nearByPlace from '../services/GlobaleApi';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AppNavigatorParamList } from '../navigation/AppNavigator';
 import { TransportOptions, TransportationMode } from '../models/TransportationMode';
 import { TextInput, Text } from 'react-native-paper';
+import { AppNavigatorParamList } from '../App';
 
 
 
@@ -19,7 +19,7 @@ type DashboardScreenProps =
 
 
 
-export default function DashboardScreen({route}: DashboardScreenProps): JSX.Element {
+export default function DashboardScreen(): JSX.Element {
   
   
   const [placeList, setPlacelist] = useState([]);
@@ -50,34 +50,30 @@ export default function DashboardScreen({route}: DashboardScreenProps): JSX.Elem
     <ScrollView style={styles.scroll}>
       <Header />
 
-      <View style={{ marginBottom: 10, marginTop: 10 }}>
+      <View style={styles.inputContainer} >
         <TextInput
           mode='outlined'
-          label="Rayon de recherche (en mètres) :"
+          label="Rayon de recherche (en mètres)"
           value={searchRadius}
           onChangeText={(text : string) => setSearchRadius(text)}
           placeholder="Ex : 500m"
           keyboardType="numeric"
         />
-      </View>
 
-      <View style={{ marginBottom: 10 }}>
         <TextInput
           mode='outlined'
-          label="Nombre de lieux à visiter :"
+          label="Nombre de lieux à visiter"
           value={numberOfPlaces}
-          onChangeText={(text) => setNumberOfPlaces(text)}
+          onChangeText={(text: string) => setNumberOfPlaces(text)}
           placeholder="Ex : 5"
           keyboardType="numeric"
         />
-      </View>
-
-      <View style={{ marginBottom: 10 }}>
+ 
         <Text>Mode de déplacement : </Text>
         <Picker
           onChanged={setTransportationMode}
           options={TransportOptions}
-          style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 5, padding: 5 }}
+          style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 8, padding: 8 }}
           value={transportationMode}
         />
       </View>
@@ -93,5 +89,9 @@ export default function DashboardScreen({route}: DashboardScreenProps): JSX.Elem
 const styles = StyleSheet.create({
   scroll: {
     marginHorizontal: 8,
+  },
+  inputContainer: {
+    gap: 8,
+    margin: 8,
   }
 })
