@@ -1,10 +1,11 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 
 import { Place } from './PlaceType';
 import { AntDesign } from '@expo/vector-icons';
 import HorizontalLine from './HorizontalLine';
 import { ColorScheme, CustomColors } from '../../themes/CustomColors';
+import { Surface, Text } from "react-native-paper";
 
 interface PlaceItemProps {
     place: Place;
@@ -16,7 +17,7 @@ export default function PlaceItemBig({ place }: PlaceItemProps) {
     const defaultImageSource = require('../../assets/placeholder.jpg');
 
     return (
-        <View style={styles.itemBigContainer}>
+        <Surface style={styles.itemBigContainer} mode="elevated" elevation={2}>
             {place?.photos ? <Image
                 source={{
                     uri: photoReference
@@ -44,32 +45,38 @@ export default function PlaceItemBig({ place }: PlaceItemProps) {
                 <Text>{place.rating}</Text>
             </View>
             <HorizontalLine />
-        </View>
+        </Surface>
     );
 }
 
 const styles = StyleSheet.create({
     itemBigContainer: {
-        marginTop: 20,
+        marginTop: 24,
+        flex: 1,
+        borderRadius: 16,
+        backgroundColor: 'white',
     },
     imageItemBig: {
         width: "100%",
-        height: 130,
-        borderRadius: 15,
+        minHeight: 124,
+        borderRadius: 16,
     },
     itemBigName: {
         fontSize: 18,
-        marginBottom: 2,
+        paddingVertical: 8,
+        paddingLeft: 8,
         // fontFamily: "raleway-SemiBold",
     },
     itemBigVicinity: {
         fontSize: 16,
-        marginBottom: 5,
+        paddingLeft: 8,
+        marginBottom: 8,
         color: CustomColors.dark_gray,
     },
     itemBigRating: {
+        paddingLeft: 8,
         flexDirection: "row",
         alignItems: "center",
-        gap: 5,        
+        gap: 8,        
     },
 })

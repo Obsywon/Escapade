@@ -1,13 +1,11 @@
-import { useAuth } from '../contexts/AuthContext';
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import env from "../env";
 
 
-export default function useGraphQLQueries(){
+export default function initGraphQLClient(accessToken: string): ApolloClient<NormalizedCacheObject>{
     
 const httpLink = createHttpLink();
-const {accessToken} = useAuth();
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -15,7 +13,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: accessToken?.token ? `Bearer ${accessToken.token}` : "",
+      authorization: `Bearer ${accessToken}`,
     },
   };
 });
@@ -26,5 +24,5 @@ const GraphQLClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-return {GraphQLClient}
+return GraphQLClient;
 }

@@ -1,15 +1,14 @@
-import { View, Image, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, Image, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import React from "react";
-import { Caption, Icon, Surface, Title } from "react-native-paper";
+import { Text, Caption, Icon, Surface, Title } from "react-native-paper";
 import { ColorScheme } from "../../themes/CustomColors";
 
-
 export type UserInfoProps = {
-    containerStyle: StyleProp<ViewStyle>,
-    userData?: any //pour le moment
+  containerStyle: StyleProp<ViewStyle>,
+  userData?: any //pour le moment
 }
 
-export default function UserInfo({containerStyle, userData}: UserInfoProps) {
+export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
   return (
     <Surface mode="elevated" style={containerStyle}>
       <View style={styles.containerHeader}>
@@ -51,24 +50,28 @@ export default function UserInfo({containerStyle, userData}: UserInfoProps) {
 }
 
 const styles = StyleSheet.create({
-    containerProfil: {
-        marginHorizontal: 16,
-        padding: 16,
-        marginVertical: 16,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 16,
-        backgroundColor: ColorScheme.white
-    },
+  containerProfil: {
+    marginHorizontal: 16,
+    padding: 16,
+    marginVertical: 16,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    backgroundColor: ColorScheme.white
+  },
   userInfoSection: {
     marginLeft: 16,
-    marginTop: 16,
+    marginVertical: 8,
     justifyContent: "center",
+    gap: 8,
   },
   row: {
     flexDirection: "row",
-    marginBottom: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 4
+    
   },
   textUser: {
     color: ColorScheme.secondary,
@@ -83,16 +86,17 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: "row",
-    marginTop: 10,
+    gap: 8,
     justifyContent: "center",
+    alignItems: "center",
   },
   userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
+    width: 48,
+    height: 48,
+    borderRadius: 96,
   },
   userName: {
-    marginLeft: 20,
+    marginLeft: 16,
   },
   title: {
     fontSize: 24,
@@ -101,14 +105,14 @@ const styles = StyleSheet.create({
     // fontFamily: "Fontastique",
   },
   caption: {
-    fontSize: 14,
-    lineHeight: 14,
+    fontSize: 16,
+    lineHeight: 16,
     fontWeight: "500",
     color: ColorScheme.secondary,
     // fontFamily: "Fontastique",
   },
   textePresentation: {
-    marginTop: 8,
+    paddingVertical: 16,
     textAlign: "center",
     // fontFamily: "Fontastique",
     color: ColorScheme.primary,
