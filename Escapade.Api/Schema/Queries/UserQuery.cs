@@ -1,4 +1,5 @@
 ﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Models;
 using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin.Auth;
 using HotChocolate.Authorization;
@@ -12,7 +13,7 @@ namespace Escapade.Api.Schema.Queries
         public UserQuery() : base() { }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
+        [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             await Utils.VerifyFirebaseToken(httpContextAccessor);
@@ -21,8 +22,8 @@ namespace Escapade.Api.Schema.Queries
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        [Error(typeof(NotFoundException))]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        [Error(typeof(UserIdNotFoundError))]
         public async Task<User> GetUserByIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
         {
             await Utils.VerifyFirebaseToken(httpContextAccessor);
@@ -30,8 +31,8 @@ namespace Escapade.Api.Schema.Queries
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        [Error(typeof(NotFoundException))]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        [Error(typeof(UserEmailNotFoundError))]
         public async Task<User> GetUserByEmailAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string email, CancellationToken cancellation)
         {
             await Utils.VerifyFirebaseToken(httpContextAccessor);
@@ -39,8 +40,7 @@ namespace Escapade.Api.Schema.Queries
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        [Error(typeof(NotFoundException))]
+        [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
@@ -48,9 +48,8 @@ namespace Escapade.Api.Schema.Queries
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        [Error(typeof(NotFoundException))]
-        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        [Error(typeof(VerifyFirebaseTokenError))]
+        public async Task<ICollection<Post>> GetAllPostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllPostByUserIdAsync(userId);

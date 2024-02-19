@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EscapadeApi.Models;
 using System.Diagnostics;
+using Escapade.Api.Models;
 
 namespace EscapadeApi
 {
@@ -9,6 +10,7 @@ namespace EscapadeApi
 
         public DbSet<User> Users { get; set; }
         public DbSet<Place> Places { get; set; }
+        public DbSet<Journey> Journeys { get; set; }
 
         public CosmosContext(DbContextOptions<CosmosContext> options) : base(options)
         {
@@ -31,6 +33,10 @@ namespace EscapadeApi
                 .ToContainer("Places")  
                 .HasPartitionKey(e => e.Id);
 
+            modelBuilder.Entity<Journey>()
+               .ToContainer("Journeys")
+               .HasPartitionKey(e => e.Id);
+
 
             modelBuilder.Entity<User>().OwnsMany(u => u.FavoritePlaces);
             modelBuilder.Entity<User>().OwnsMany(u => u.Posts);
@@ -39,6 +45,7 @@ namespace EscapadeApi
                 .WithOne()
                 .HasForeignKey(fp => fp.UserId);
 
+            modelBuilder.Entity<Place>().OwnsOne(p => p.GeographicCoordinate);
 
             // Appel à la méthode de base pour appliquer d'autres configurations du modèle.
             base.OnModelCreating(modelBuilder);

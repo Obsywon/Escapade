@@ -71,7 +71,7 @@ builder.Services
     .AddTypes()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>()
-    
+
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService

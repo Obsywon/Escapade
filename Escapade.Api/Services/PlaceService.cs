@@ -1,4 +1,5 @@
 ﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Models;
 using Escapade.Api.Repositories;
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Services.Interfaces;
@@ -12,7 +13,7 @@ namespace Escapade.Api.Services
     {
         public PlaceService(IRepositoryPlace repository) : base(repository) { }
 
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAUser(string userId)
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUser(string userId)
         {
             try
             {
@@ -20,7 +21,7 @@ namespace Escapade.Api.Services
             }
             catch(Exception ex)
             {
-                throw new NotFoundException(userId);
+                throw;
             }
         }
     }

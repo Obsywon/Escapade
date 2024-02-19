@@ -1,4 +1,5 @@
-﻿using EscapadeApi.Repositories.Interfaces;
+﻿using Escapade.Api.Models;
+using EscapadeApi.Repositories.Interfaces;
 
 namespace Escapade.Api.Repositories.Interfaces
 {

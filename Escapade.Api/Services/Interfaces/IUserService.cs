@@ -1,4 +1,5 @@
-﻿using EscapadeApi.Models;
+﻿using Escapade.Api.Models;
+using EscapadeApi.Models;
 
 namespace EscapadeApi.Services.Interfaces
 {
@@ -6,7 +7,7 @@ namespace EscapadeApi.Services.Interfaces
     {
         public Task<User> GetUserByEmailAsync(string email);
 
-        public Task<bool> CheckForConflictingUserAsync(string email);
+        public Task<bool> IsEmailAlreadyExist(string email);
 
         public Task<string> EncryptPasswordAsync(string password);
 

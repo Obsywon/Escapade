@@ -21,9 +21,9 @@ namespace EscapadeApi.Services.Interfaces
             {
                 return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
             }
-            catch(Exception ex) { }
+            catch(Exception ex)
             {
-                throw new NotFoundException(userId);
+                throw;
             }
            
         }
@@ -36,7 +36,7 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                throw new NotFoundException(id);
+                throw;
             }
         }
 

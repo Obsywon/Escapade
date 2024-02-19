@@ -1,4 +1,6 @@
-﻿using Escapade.Api.Repositories.Interfaces;
+﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Models;
+using Escapade.Api.Repositories.Interfaces;
 using EscapadeApi.Models;
 using EscapadeApi.Repositories.Interfaces;
 using Firebase.Auth.Repository;
@@ -12,7 +14,25 @@ namespace EscapadeApi.Repositories
 
         public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId)
         {
-            return await _dbContext.Set<Post>().Where(post => post.UserId == userId).ToListAsync();
+            try
+            {
+                var user = await GetByIdAsync(userId);
+
+                if (user == null)
+                    throw new UserIdNotFoundException(userId);
+
+                if (user?.Posts == null || !user.Posts.Any())
+                {
+                    return new List<Post>();
+                }
+
+                return await _dbContext.Set<Post>().Where(post => post.UserId == userId).ToListAsync();
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
+            
         }
 
         public async Task<ICollection<Place>> GetFavoritePlacesByIUserdsAsync(string userId)
@@ -21,7 +41,6 @@ namespace EscapadeApi.Repositories
 
             if (user?.FavoritePlaces == null || !user.FavoritePlaces.Any())
             {
-                // Aucun lieu favori trouvé pour cet utilisateur
                 return new List<Place>();
             }
 
