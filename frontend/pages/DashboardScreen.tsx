@@ -23,9 +23,9 @@ export default function DashboardScreen(): JSX.Element {
   
   
   const [placeList, setPlacelist] = useState([]);
-  const [searchRadius, setSearchRadius] = useState<string>("Rayon de recherche (en mètres)"); 
-  const [transportationMode, setTransportationMode] = useState<TransportationMode>(TransportationMode.PLACEHOLDER); 
-  const [numberOfPlaces, setNumberOfPlaces] = useState<string>("Nombre de lieux à visiter"); 
+  const [searchRadius, setSearchRadius] = useState<string>("500"); 
+  const [transportationMode, setTransportationMode] = useState<TransportationMode>(TransportationMode.WALKING); 
+  const [numberOfPlaces, setNumberOfPlaces] = useState<string>("5"); 
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
 
   useEffect(() => {
@@ -49,29 +49,33 @@ export default function DashboardScreen(): JSX.Element {
   return (
     <ScrollView style={styles.scroll}>
       <Header />
-      <View style={styles.inputContainer} >
+
+      <View style={styles.inputContainer}>
         <TextInput
-          mode='outlined'
+          label="Rayon de recherche (en mètres)"
           value={searchRadius}
-          onChangeText={(text : string) => setSearchRadius(text)}
-          placeholder="Rayon de recherche (en mètres)"
+          onChangeText={(text: string) => setSearchRadius(text)}
+          placeholder="Ex : 500m"
           keyboardType="numeric"
         />
 
         <TextInput
-          mode='outlined'
+          label="Nombre de lieux à visiter"
           value={numberOfPlaces}
           onChangeText={(text: string) => setNumberOfPlaces(text)}
-          placeholder="Nombre de lieux à visiter"
+          placeholder="Ex : 5"
           keyboardType="numeric"
         />
- 
-        <Picker
-          onChanged={setTransportationMode}
-          options={TransportOptions}
-          style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 8, padding: 13, fontWeight: 'bold' }}
-          value={transportationMode}
-        />
+
+        <View style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 8, padding: 8, marginTop: 8 }}>
+          <Text style={{ marginBottom: 4 }}>Mode de déplacement :</Text>
+          <Picker
+            onChanged={setTransportationMode}
+            options={TransportOptions}
+            value={transportationMode}
+            style={{}}
+          />
+        </View>
       </View>
 
       <GoogleMapView placeList={placeList} transportMode={transportationMode} />

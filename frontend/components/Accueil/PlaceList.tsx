@@ -6,7 +6,7 @@ import PlaceItemBig from './PlaceItemBig';
 import { Surface, Text } from 'react-native-paper';
 
 interface PlaceListProps {
-  placeList: Place[] | undefined;
+  placeList: Place[];
 }
 
 export default function PlaceList({ placeList }: Readonly<PlaceListProps>) {
@@ -14,14 +14,10 @@ export default function PlaceList({ placeList }: Readonly<PlaceListProps>) {
     <Surface style={styles.container}>
       <Text style={styles.texteTitre}>Found {placeList ? placeList.length : 0} places</Text>
 
-      <FlatList
-        data={placeList}
-        renderItem={({ item, index }) => (
-          index % 4 == 0 ?
-            <PlaceItemBig place={item} />
-            : <PlaceItem place={item} />
-        )}
-      />
+      {placeList.map((item, index) => (
+      index % 4 === 0 ? <PlaceItemBig key={index} place={item} /> : <PlaceItem key={index} place={item} />
+    ))}
+
     </Surface>
   )
 }
