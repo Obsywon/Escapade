@@ -23,9 +23,9 @@ export default function DashboardScreen(): JSX.Element {
   
   
   const [placeList, setPlacelist] = useState([]);
-  const [searchRadius, setSearchRadius] = useState<string>(""); 
+  const [searchRadius, setSearchRadius] = useState<string>("Rayon de recherche (en mètres)"); 
   const [transportationMode, setTransportationMode] = useState<TransportationMode>(TransportationMode.PLACEHOLDER); 
-  const [numberOfPlaces, setNumberOfPlaces] = useState<string>(""); 
+  const [numberOfPlaces, setNumberOfPlaces] = useState<string>("Nombre de lieux à visiter"); 
   const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
 
   useEffect(() => {
