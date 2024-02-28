@@ -39,7 +39,6 @@ const Stack = createStackNavigator<AppNavigatorParamList>();
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
   const [fonts, fontLoaded] = useCustomFonts();
-  const [accessLoaded, setAccessLoaded] = useState<boolean>(false);
 
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -54,15 +53,19 @@ function App(): JSX.Element {
   // Gère l'authentification automatique à l'application
   useEffect(() => {
     const sub = firebaseAuth.onAuthStateChanged((user) => {
-
-      user
-        ?.getIdTokenResult()
+      if (user == null){
+        setAccessToken(undefined);
+      }else{
+        user.getIdTokenResult()
         .then((accessToken) => {
           client = initGraphQLClient(accessToken.token);
+          console.log(accessToken.token);
           setAccessToken(accessToken);
-          setAccessLoaded(true);
         })
         .catch((error) => console.error(error));
+      }
+      
+
     });
     return sub;
   }, []);
@@ -83,7 +86,7 @@ function App(): JSX.Element {
     })();
   }, []);
 
-  if (!fontLoaded || !accessLoaded) {
+  if (!fontLoaded) {
     return (
       <ApolloProvider client={client}>
         <PaperProvider theme={CustomTheme}>
