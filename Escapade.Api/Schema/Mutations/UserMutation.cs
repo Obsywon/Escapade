@@ -78,7 +78,6 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
-        [Error(typeof(VerifyFirebaseTokenException))]
         [Error(typeof(BadRequestException))]
         public async Task<User> LoginUserAsync(IUserService userService, string email, string psw, CancellationToken cancellation)
         {
@@ -123,10 +122,8 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        public async Task<User> AddNewFavoritePlaceToThisUserAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
+        public async Task<User> AddNewFavoritePlaceToThisUserAsync(string userId, IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
         {
-           var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
             Place currentPlace;
@@ -146,10 +143,8 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [Authorize]
-        [Error(typeof(VerifyFirebaseTokenException))]
-        public async Task<User> UpdateThisUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
+        public async Task<User> UpdateThisUserAsync(string userId, IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
         {
-            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 
