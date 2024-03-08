@@ -9,7 +9,7 @@ export type UserInfoProps = {
   userData: Account
 }
 
-export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
+export default function UserInfo({ containerStyle, userData }: Readonly<UserInfoProps>) {
   return (
     <Surface mode="elevated" style={containerStyle}>
       <View style={styles.containerHeader}>
@@ -23,34 +23,51 @@ export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
             {/*<Caption style={styles.caption}></Caption>*/}
           </View>
         </View>
-        { userData?.description ? 
+        {userData?.description ?
           (<Text style={styles.textePresentation}>
-          {userData?.description}
-        </Text>)
+            {userData?.description}
+          </Text>)
           : null
         }
       </View>
 
       <View style={styles.userInfoSection}>
-        <View style={styles.row}>
-          <Icon
-            source="map-marker-radius"
-            color={ColorScheme.primary}
-            size={24}
-          />
-          <Text style={styles.textUser}>London, UK</Text>
-        </View>
-        { (userData?.phone != null && userData?.phone.length > 0) ??
-        (<View style={styles.row}>
-          <Icon source="phone" color={ColorScheme.primary} size={20} />
-          <Text style={styles.textUser}>{userData?.phone}</Text>
-        </View>)
+        {
+          (userData?.city != null || userData?.country != null) ?? (
+            <View style={styles.row}>
+              <Icon
+                source="map-marker-radius"
+                color={ColorScheme.primary}
+                size={24}
+              />
+
+              <Text style={styles.textUser}>{userData?.city} {userData?.country}</Text>
+
+            </View>)
         }
-        
+        {(userData?.phone != null && userData?.phone.length > 0) ??
+          (<View style={styles.row}>
+            <Icon source="phone" color={ColorScheme.primary} size={20} />
+            <Text style={styles.textUser}>{userData?.phone}</Text>
+          </View>)
+        }
+
         <View style={styles.row}>
           <Icon source="email" color={ColorScheme.primary} size={20} />
           <Text style={styles.textUser}>{userData.email}</Text>
         </View>
+
+        {
+          userData?.gender != null ? (
+            <View style={styles.row}>
+              <Icon source="gender-male-female" color={ColorScheme.primary} size={20} />
+              <Text style={styles.textUser}>{userData?.gender}</Text>
+            </View>
+          )
+          : null
+        }
+
+
       </View>
     </Surface>
   );
@@ -78,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     gap: 4
-    
+
   },
   textUser: {
     color: ColorScheme.secondary,
