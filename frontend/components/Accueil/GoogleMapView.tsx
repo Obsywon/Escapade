@@ -49,7 +49,7 @@ export default function GoogleMapView({ placeList, transportMode }: Readonly<Goo
     longitude: place?.geometry?.location?.lng || 0,
   });
 
-  const waypoints = placeList.slice(0, 4).map(extractCoordinates);
+  const waypoints = placeList.slice(0, 10).map(extractCoordinates);
 
   const handleNavigatePress = () => {
     const waypointCoords = waypoints.map((waypoint) => `${waypoint.latitude},${waypoint.longitude}`).join('|');
@@ -64,7 +64,7 @@ export default function GoogleMapView({ placeList, transportMode }: Readonly<Goo
       <Text style={styles.texteTitre}>Meilleurs endroits à proximité</Text>
         <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} region={mapRegion}>
           {startPoint && <Marker coordinate={startPoint} image={CustomMarkerImage} />}
-          {placeList.map((item, index) => index < 4 && <PlaceMarker key={index} item={item} />)}
+          {placeList.map((item, index) => index < 10 && <PlaceMarker key={index} item={item} />)}
 
           <MapViewDirections
             origin={startPoint}
