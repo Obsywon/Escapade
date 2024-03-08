@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Escapade.Api.Models
 {
-    public class Post
+    public class Post : Entity
     {
         [JsonProperty(PropertyName = "Titre", Required = Required.Always)]
         public string Title { get; set; }

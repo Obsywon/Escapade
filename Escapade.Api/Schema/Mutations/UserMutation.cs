@@ -14,7 +14,6 @@ namespace Escapade.Api.Schema.Mutations
     [ExtendObjectType(typeof(Mutation))]
     public class UserMutation
     {
-        #region HotChocolate
 
         private readonly IConfiguration _configuration;
 
@@ -41,7 +40,6 @@ namespace Escapade.Api.Schema.Mutations
             userService.IsPasswordSecure(password);
 
             #endregion
-
 
             email = email.ToLower();
 
@@ -178,6 +176,5 @@ namespace Escapade.Api.Schema.Mutations
             return await userService.UpdateAsync(currentUser);
         }
 
-        #endregion
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
+using Escapade.Api.Repositories;
 using Escapade.Api.Repositories.Interfaces;
 using EscapadeApi.Models;
-using EscapadeApi.Repositories.Interfaces;
 using Firebase.Auth.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,12 +21,12 @@ namespace EscapadeApi.Repositories
                 if (user == null)
                     throw new UserIdNotFoundException(userId);
 
-                if (user?.Posts == null || !user.Posts.Any())
-                {
-                    return new List<Post>();
-                }
+                //if (user?.Posts == null || !user.Posts.Any())
+                //{
+                //    return new List<Post>();
+                //}
 
-                return await _dbContext.Set<Post>().Where(post => post.UserId == userId).ToListAsync();
+                return user.Posts;
             }
             catch (Exception ex) 
             {
@@ -39,10 +39,10 @@ namespace EscapadeApi.Repositories
         {
             var user = await GetByIdAsync(userId);
 
-            if (user?.FavoritePlaces == null || !user.FavoritePlaces.Any())
-            {
-                return new List<Place>();
-            }
+            //if (user?.FavoritePlaces == null || !user.FavoritePlaces.Any())
+            //{
+            //    return new List<Place>();
+            //}
 
             var favoritePlaceIds = user.FavoritePlaces.Select(fp => fp.PlaceId).ToList();
 

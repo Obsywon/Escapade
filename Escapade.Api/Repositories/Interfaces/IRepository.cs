@@ -1,4 +1,5 @@
-﻿using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models;
+using EscapadeApi.Models.Interfaces;
 using System.Linq.Expressions;
 
 namespace EscapadeApi.Repositories.Interfaces
@@ -16,5 +17,6 @@ namespace EscapadeApi.Repositories.Interfaces
         public Task<T> UpdateAsync(T entity);
 
         public Task DeleteAsync(string id);
+
     }
 }

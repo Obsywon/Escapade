@@ -22,5 +22,6 @@ namespace EscapadeApi.Services.Interfaces
         public Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId);
 
         public Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId);
+        Task<ICollection<Post>> GetRandomPostAsync();
     }
 }

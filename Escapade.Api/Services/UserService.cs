@@ -226,5 +226,52 @@ namespace EscapadeApi.Services
                 throw;
             }
         }
+
+        public async Task<ICollection<Post>> GetRandomPostAsync()
+        {
+            try
+            {
+                // Récupérez tous les utilisateurs
+                var allUsers = await (_repository as UserRepository).GetAllAsync();
+
+                // Vérifiez s'il y a des utilisateurs disponibles
+                if (allUsers == null || !allUsers.Any())
+                {
+                    // Gérez le cas où aucun utilisateur n'est disponible
+                    return null;
+                }
+
+                // Fusionnez tous les posts de tous les utilisateurs
+                var allPosts = allUsers.SelectMany(u => u.Posts).ToList();
+
+                // Vérifiez s'il y a des posts disponibles
+                if (allPosts == null || !allPosts.Any())
+                {
+                    // Gérez le cas où aucun post n'est disponible
+                    return null;
+                }
+
+                // Générez une liste d'index aléatoires uniques
+                var randomIndexes = Enumerable.Range(0, allPosts.Count).OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+
+                // Créez une liste pour stocker les posts aléatoires
+                var randomPosts = new List<Post>();
+
+                // Récupérez les posts correspondants aux index aléatoires
+                foreach (var index in randomIndexes)
+                {
+                    randomPosts.Add(allPosts[index]);
+                }
+
+                return randomPosts;
+            }
+            catch (Exception ex)
+            {
+                // Vous pouvez logger l'exception ici
+                throw;
+            }
+        }
+
+
     }
 }

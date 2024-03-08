@@ -11,7 +11,6 @@ namespace Escapade.Api.Schema.Queries
     [ExtendObjectType(typeof(Query))]
     public class PlaceQuery
     {
-        public PlaceQuery() : base() { }
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]

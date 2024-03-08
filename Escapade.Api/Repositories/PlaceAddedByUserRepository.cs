@@ -1,5 +1,4 @@
-﻿using EscapadeApi.Repositories.Interfaces;
-using EscapadeApi;
+﻿using EscapadeApi;
 using Microsoft.EntityFrameworkCore;
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Models;

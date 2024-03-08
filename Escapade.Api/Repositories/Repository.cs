@@ -1,10 +1,11 @@
 ﻿using Escapade.Api.Exceptions;
 using EscapadeApi.Models.Interfaces;
+using EscapadeApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 
-namespace EscapadeApi.Repositories.Interfaces
+namespace Escapade.Api.Repositories
 {
     public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     {
@@ -17,8 +18,8 @@ namespace EscapadeApi.Repositories.Interfaces
 
         public virtual async Task<T> GetByIdAsync(string id)
         {
-                var result = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id);
-                return result;         
+            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id);
+            return result;
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()

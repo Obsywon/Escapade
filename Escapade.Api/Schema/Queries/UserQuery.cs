@@ -10,7 +10,6 @@ namespace Escapade.Api.Schema.Queries
     [ExtendObjectType(typeof(Query))]
     public class UserQuery 
     {
-        public UserQuery() : base() { }
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]

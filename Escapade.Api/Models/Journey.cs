@@ -5,6 +5,9 @@ namespace Escapade.Api.Models
 {
     public class Journey : Entity
     {
+        [JsonProperty(PropertyName = "ParDefaut")]
+        public bool Default { get; set; }
+
         [JsonProperty(PropertyName = "LieuDepart", Required = Required.Always)]
         public Place DeparturePlace{ get; set; }
 
