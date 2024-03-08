@@ -8,6 +8,7 @@ using Escapade.Api.Repositories.Interfaces;
 using EscapadeApi.Repositories;
 using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
+using Firebase.Auth.Repository;
 
 namespace EscapadeApi.Services
 {
@@ -215,18 +216,6 @@ namespace EscapadeApi.Services
             
         }
 
-        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId)
-        {         
-            try
-            {
-                return await (_repository as UserRepository).GetAllPostByUserIdAsync(userId);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
         public async Task<ICollection<Post>> GetRandomPostAsync()
         {
             try
@@ -272,6 +261,47 @@ namespace EscapadeApi.Services
             }
         }
 
+        public async Task<ICollection<Post>> GetAllPostAsync()
+        {
+            try
+            {
+                // Récupérez tous les utilisateurs
+                var users = await _repository.GetAllAsync();
 
+                // Fusionnez tous les posts de tous les utilisateurs
+                var allPosts = users.SelectMany(u => u.Posts).ToList();
+
+                return allPosts;
+            }
+            catch (Exception ex)
+            {
+                // Vous pouvez logger l'exception ici
+                throw;
+            }
+        }
+
+        public async Task<ICollection<Post>> GetAllPostByUserAsync(string userId)
+        {
+            try
+            {
+                // Récupérez l'utilisateur correspondant à l'userId fourni
+                var user = await _repository.GetByIdAsync(userId);
+
+                // Vérifiez si l'utilisateur existe
+                if (user == null)
+                {
+                    // Gérez le cas où l'utilisateur n'est pas trouvé
+                    throw new Exception("L'utilisateur spécifié n'a pas été trouvé.");
+                }
+
+                // Retournez les posts de l'utilisateur
+                return user.Posts;
+            }
+            catch (Exception ex)
+            {
+                // Vous pouvez logger l'exception ici
+                throw;
+            }
+        }
     }
 }

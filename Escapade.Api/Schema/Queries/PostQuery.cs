@@ -13,18 +13,18 @@ namespace Escapade.Api.Schema.Queries
 
         //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Post>> GetAllPostByMeAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<Post>> GetAllPostByMeAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
             //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return (ICollection<Journey>)await service.GetAllJourneyByUserIdAsync(userId);
+            return (ICollection<Post>)await service.GetAllPostByUserAsync(userId);
         }
 
         //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Journey>> GetAllJourneyByUserAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<Post>> GetAllPostByUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
             //await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return (ICollection<Journey>)await service.GetAllJourneyByUserIdAsync(userId);
+            return (ICollection<Post>)await service.GetAllPostByUserAsync(userId);
         }
 
         #endregion
@@ -33,19 +33,19 @@ namespace Escapade.Api.Schema.Queries
 
         //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Journey>> GetAllJourneyAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<ICollection<Post>> GetAllPostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             //await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return (ICollection<Journey>)await service.GetAllAsync();
+            return (ICollection<Post>)await service.GetAllPostAsync();
         }
 
-        [Authorize]
-        [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<Journey> GetJourneyByIdAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string journeyId, CancellationToken cancellation)
-        {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return await service.GetByIdAsync(journeyId);
-        }
+        ////[Authorize]
+        //[Error(typeof(VerifyFirebaseTokenError))]
+        //public async Task<Post> GetPostByIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string postId, CancellationToken cancellation)
+        //{
+        //    //await Utils.VerifyFirebaseToken(httpContextAccessor);
+        //    return await service.GetPostByIdAsync(postId);
+        //}
 
         #endregion
 

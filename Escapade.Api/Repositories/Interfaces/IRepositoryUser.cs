@@ -8,6 +8,5 @@ namespace Escapade.Api.Repositories.Interfaces
     {
         public Task<ICollection<Place>> GetFavoritePlacesByIUserdsAsync(string userId);
 
-        public Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId);
     }
 }

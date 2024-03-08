@@ -12,28 +12,6 @@ namespace EscapadeApi.Repositories
     {
         public UserRepository(CosmosContext dbContext) : base(dbContext) { }
 
-        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId)
-        {
-            try
-            {
-                var user = await GetByIdAsync(userId);
-
-                if (user == null)
-                    throw new UserIdNotFoundException(userId);
-
-                //if (user?.Posts == null || !user.Posts.Any())
-                //{
-                //    return new List<Post>();
-                //}
-
-                return user.Posts;
-            }
-            catch (Exception ex) 
-            {
-                throw;
-            }
-            
-        }
 
         public async Task<ICollection<Place>> GetFavoritePlacesByIUserdsAsync(string userId)
         {

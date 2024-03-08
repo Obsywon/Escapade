@@ -40,18 +40,10 @@ namespace Escapade.Api.Schema.Queries
 
         //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
             //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllFavoritePlacesAsync(userId);
-        }
-
-        [Authorize]
-        [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Post>> GetAllPostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
-        {
-            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return await service.GetAllPostByUserIdAsync(userId);
         }
     }
 }
