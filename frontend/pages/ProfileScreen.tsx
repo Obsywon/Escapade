@@ -44,7 +44,7 @@ export default function ProfileScreen(): JSX.Element {
           label="Modifier le profil"
           onPress={() => navigation.push("ModifierProfil", {uid})}
           color={ColorScheme.secondary}
-          disabled={true}
+          disabled={loading}
         />
       </View>
       <MenuProfile />

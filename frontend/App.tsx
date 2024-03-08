@@ -61,7 +61,7 @@ function App(): JSX.Element {
         ?.getIdTokenResult()
         .then((accessToken) => {
           client = initGraphQLClient(accessToken.token);
-          console.log(accessToken);
+          //console.log(accessToken);
           setAccessToken(accessToken);
           setAccessLoaded(true);
         })
@@ -110,7 +110,7 @@ function App(): JSX.Element {
 
                 {accessToken?.token ? (
                   <>
-                    <Stack.Screen name="Dashboard" component={TabNavigator} />
+                    <Stack.Screen name="Dashboard" component={TabNavigator} initialParams={{ uid: firebaseAuth.currentUser?.uid }} />
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
