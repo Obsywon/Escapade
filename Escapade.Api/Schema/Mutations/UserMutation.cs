@@ -121,6 +121,7 @@ namespace Escapade.Api.Schema.Mutations
 
         }
 
+
         //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<User> AddNewFavoritePlaceAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string userId, string placeId, CancellationToken cancellationToken)

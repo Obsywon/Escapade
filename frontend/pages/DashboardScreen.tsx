@@ -50,32 +50,32 @@ export default function DashboardScreen(): JSX.Element {
     <ScrollView style={styles.scroll}>
       <Header />
 
-      <View style={styles.inputContainer} >
+      <View style={styles.inputContainer}>
         <TextInput
-          mode='outlined'
           label="Rayon de recherche (en mètres)"
           value={searchRadius}
-          onChangeText={(text : string) => setSearchRadius(text)}
+          onChangeText={(text: string) => setSearchRadius(text)}
           placeholder="Ex : 500m"
           keyboardType="numeric"
         />
 
         <TextInput
-          mode='outlined'
           label="Nombre de lieux à visiter"
           value={numberOfPlaces}
           onChangeText={(text: string) => setNumberOfPlaces(text)}
           placeholder="Ex : 5"
           keyboardType="numeric"
         />
- 
-        <Text>Mode de déplacement : </Text>
-        <Picker
-          onChanged={setTransportationMode}
-          options={TransportOptions}
-          style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 8, padding: 8 }}
-          value={transportationMode}
-        />
+
+        <View style={{ borderWidth: 1, borderColor: '#a7a7a7', borderRadius: 8, padding: 8, marginTop: 8 }}>
+          <Text style={{ marginBottom: 4 }}>Mode de déplacement :</Text>
+          <Picker
+            onChanged={setTransportationMode}
+            options={TransportOptions}
+            value={transportationMode}
+            style={{}}
+          />
+        </View>
       </View>
 
       <GoogleMapView placeList={placeList} transportMode={transportationMode} />
