@@ -17,6 +17,7 @@ import { UserInCreation, useInscription } from '../hooks/useInscription';
 import { AppNavigatorParamList } from '../navigation/AppNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { lastNameRules, nameRules } from '../services/formRules';
 
 type InscriptionFormData = {
   nom: string;
@@ -128,25 +129,13 @@ function InscriptionScreen(): JSX.Element {
               control={control}
               name="prenom"
               label="Prénom"
-              rules={{
-                required: true,
-                minLength: {
-                  value: 3,
-                  message: 'Le prénom doit faire au moins 3 caractères.',
-                },
-              }}
+              rules={nameRules}
             />
             <BasicTextInput
               control={control}
               name="nom"
               label="Nom"
-              rules={{
-                required: true,
-                minLength: {
-                  value: 3,
-                  message: 'Le nom doit faire au moins 3 caractères.',
-                },
-              }}
+              rules={lastNameRules}
             />
           </View>
           <DatePicker date={date} setDate={setDate} label="Date de naissance" />

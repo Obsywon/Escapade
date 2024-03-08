@@ -7,19 +7,44 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { ColorScheme } from "../themes/CustomColors";
 import BasicButton from "../components/forms/BasicButton";
 import { AppNavigatorParamList } from "../App";
+import { getUserById } from "../services/userService";
+import LoadingSurface from "../components/LoadingSurface";
+import { firebaseAuth } from "../services/AuthService";
+import { ActivityIndicator, Text, Surface } from "react-native-paper";
 
 export default function ProfileScreen(): JSX.Element {
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+  const uid = firebaseAuth.currentUser?.uid;
+
+  if (!uid) {
+    navigation.replace("Connexion");
+    return (
+      <LoadingSurface />
+    )
+  }
+
+  const { loading, user, error } = getUserById(uid)
+
 
   return (
     <View style={{ flex: 1, justifyContent: 'space-around' }}>
-      <UserInfo containerStyle={styles.UserContainer} />
+      {
+        loading ?
+          (<Surface style={styles.UserContainer}>
+            <ActivityIndicator />
+            <Text variant="bodyLarge">Chargement en cours...</Text>
+          </Surface>)
+          :
+          (<UserInfo containerStyle={styles.UserContainer} userData={user} />)
+      }
+
       <View style={styles.buttonContainer}>
         <BasicButton
           label="Modifier le profil"
-          onPress={() => navigation.navigate("ModifierProfil")}
+          onPress={() => navigation.push("ModifierProfil", {uid})}
           color={ColorScheme.secondary}
+          disabled={loading}
         />
       </View>
       <MenuProfile />

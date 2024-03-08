@@ -8,12 +8,11 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
-import { AppNavigatorParamList } from "../navigation/AppNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
-import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useNavigation } from "@react-navigation/native";
-import { IdTokenResult, User, signInWithEmailAndPassword } from "firebase/auth";
+import { IdTokenResult, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "../services/AuthService";
+import { AppNavigatorParamList } from "../App";
 
 type ConnexionFormData = {
   email: string;
@@ -54,7 +53,7 @@ function ConnexionScreen(): JSX.Element {
         const token: IdTokenResult = await user.getIdTokenResult();
 
         console.log("USER TOKEN:", token.token);
-        navigation.replace("Dashboard", {token: token.token});
+        navigation.replace("Dashboard");
       }
       return undefined;
     } catch (error: any) {

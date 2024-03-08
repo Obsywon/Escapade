@@ -2,10 +2,11 @@ import { View, Image, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import React from "react";
 import { Text, Caption, Icon, Surface, Title } from "react-native-paper";
 import { ColorScheme } from "../../themes/CustomColors";
+import { Account } from "../../types/Account";
 
 export type UserInfoProps = {
   containerStyle: StyleProp<ViewStyle>,
-  userData?: any //pour le moment
+  userData: Account
 }
 
 export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
@@ -18,13 +19,16 @@ export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
             style={styles.userImage}
           />
           <View style={styles.userName}>
-            <Title style={styles.title}>Harry Potter</Title>
-            <Caption style={styles.caption}>Griffondor</Caption>
+            <Title style={styles.title}>{userData.name} {userData.lastName}</Title>
+            {/*<Caption style={styles.caption}></Caption>*/}
           </View>
         </View>
-        <Text style={styles.textePresentation}>
-          J'aime la magie, les mystères et partir à la découverte
-        </Text>
+        { userData?.description ? 
+          (<Text style={styles.textePresentation}>
+          {userData?.description}
+        </Text>)
+          : null
+        }
       </View>
 
       <View style={styles.userInfoSection}>
@@ -36,13 +40,16 @@ export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
           />
           <Text style={styles.textUser}>London, UK</Text>
         </View>
-        <View style={styles.row}>
+        { (userData?.phone != null && userData?.phone.length > 0) ??
+        (<View style={styles.row}>
           <Icon source="phone" color={ColorScheme.primary} size={20} />
-          <Text style={styles.textUser}>+44-900000009</Text>
-        </View>
+          <Text style={styles.textUser}>{userData?.phone}</Text>
+        </View>)
+        }
+        
         <View style={styles.row}>
           <Icon source="email" color={ColorScheme.primary} size={20} />
-          <Text style={styles.textUser}>harry_potter@gmail.com</Text>
+          <Text style={styles.textUser}>{userData.email}</Text>
         </View>
       </View>
     </Surface>

@@ -20,6 +20,8 @@ interface BasicTextInputProps {
   clickHandler?(event: GestureResponderEvent): void;
   showKeyboardOnTouch?: boolean;
   isRequired?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 const BasicTextInput = ({
@@ -31,7 +33,10 @@ const BasicTextInput = ({
   placeholder = '',
   clickHandler,
   showKeyboardOnTouch = true,
+  multiline = false,
+  numberOfLines = 3,
 }: BasicTextInputProps) => {
+  //console.log(rules);
   function handleClick(event: GestureResponderEvent): void {
     if (clickHandler != null) {
       clickHandler(event);
@@ -42,11 +47,13 @@ const BasicTextInput = ({
       <Controller
         control={control}
         name={name}
-        rules={rules ?? undefined}
+        rules={rules || undefined}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>
             <TextInput
               mode="outlined"
+              multiline={multiline}
+              numberOfLines={numberOfLines}
               label={label ?? ''}
               value={value}
               disabled={disabled ?? false}

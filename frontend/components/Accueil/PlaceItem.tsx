@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
     width: 112,
     height: 112,
     borderRadius: 16,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
   },
   itemDescription: {
     flex: 1,

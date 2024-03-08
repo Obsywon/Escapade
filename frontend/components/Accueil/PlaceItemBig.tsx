@@ -44,7 +44,7 @@ export default function PlaceItemBig({ place }: PlaceItemProps) {
                 <AntDesign name="star" size={20} color={CustomColors.yellow} />
                 <Text>{place.rating}</Text>
             </View>
-            <HorizontalLine />
+            
         </Surface>
     );
 }
@@ -52,6 +52,7 @@ export default function PlaceItemBig({ place }: PlaceItemProps) {
 const styles = StyleSheet.create({
     itemBigContainer: {
         marginTop: 24,
+        paddingBottom: 8,
         flex: 1,
         borderRadius: 16,
         backgroundColor: 'white',
@@ -60,6 +61,8 @@ const styles = StyleSheet.create({
         width: "100%",
         minHeight: 124,
         borderRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
     },
     itemBigName: {
         fontSize: 18,

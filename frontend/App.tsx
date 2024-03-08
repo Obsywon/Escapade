@@ -30,7 +30,9 @@ export type AppNavigatorParamList = {
   Inscription: undefined;
   Connexion: undefined;
   Dashboard: undefined;
-  ModifierProfil: undefined;
+  ModifierProfil: {
+    uid: string,
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamList>();
@@ -59,6 +61,7 @@ function App(): JSX.Element {
         ?.getIdTokenResult()
         .then((accessToken) => {
           client = initGraphQLClient(accessToken.token);
+          console.log(accessToken);
           setAccessToken(accessToken);
           setAccessLoaded(true);
         })
@@ -111,6 +114,7 @@ function App(): JSX.Element {
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
+                      initialParams={{ uid: firebaseAuth.currentUser?.uid }}
                     />
                   </>
 
