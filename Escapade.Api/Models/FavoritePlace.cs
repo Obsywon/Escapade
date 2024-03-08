@@ -1,4 +1,7 @@
-﻿public class FavoritePlace
+﻿namespace Escapade.Api.Models
 {
-    public string PlaceId { get; set; }
+    public class FavoritePlace
+    {
+        public string PlaceId { get; set; }
+    }
 }

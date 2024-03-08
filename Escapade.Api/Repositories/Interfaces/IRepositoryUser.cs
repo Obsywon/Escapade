@@ -1,5 +1,4 @@
-﻿using EscapadeApi.Repositories.Interfaces;
-using EscapadeApi.Services.Interfaces;
+﻿using Escapade.Api.Models;
 
 namespace Escapade.Api.Repositories.Interfaces
 {
@@ -7,6 +6,5 @@ namespace Escapade.Api.Repositories.Interfaces
     {
         public Task<ICollection<Place>> GetFavoritePlacesByIUserdsAsync(string userId);
 
-        public Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId);
     }
 }

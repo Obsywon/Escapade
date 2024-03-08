@@ -1,12 +1,12 @@
-﻿using EscapadeApi.Models;
+﻿using Escapade.Api.Models;
 
-namespace EscapadeApi.Services.Interfaces
+namespace Escapade.Api.Services.Interfaces
 {
     public interface IUserService : IService<User>
     {
         public Task<User> GetUserByEmailAsync(string email);
 
-        public Task<bool> CheckForConflictingUserAsync(string email);
+        public Task<bool> IsEmailAlreadyExist(string email);
 
         public Task<string> EncryptPasswordAsync(string password);
 
@@ -20,6 +20,8 @@ namespace EscapadeApi.Services.Interfaces
 
         public Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId);
 
-        public Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId);
+        Task<ICollection<Post>> GetRandomPostAsync();
+        Task<ICollection<Post>> GetAllPostAsync();
+        Task<ICollection<Post>> GetAllPostByUserAsync(string userId);
     }
 }

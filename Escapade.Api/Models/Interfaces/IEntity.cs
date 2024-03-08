@@ -1,4 +1,4 @@
-﻿namespace EscapadeApi.Models.Interfaces
+﻿namespace Escapade.Api.Models.Interfaces
 {
     public interface IEntity
     {

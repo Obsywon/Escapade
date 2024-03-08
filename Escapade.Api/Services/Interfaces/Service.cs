@@ -1,10 +1,8 @@
-﻿using Escapade.Api.Exceptions;
-using EscapadeApi.Models.Interfaces;
-using EscapadeApi.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Escapade.Api.Models.Interfaces;
+using Escapade.Api.Repositories.Interfaces;
 using System.Linq.Expressions;
 
-namespace EscapadeApi.Services.Interfaces
+namespace Escapade.Api.Services.Interfaces
 {
     public abstract class Service<T> : IService<T> where T : class, IEntity
     {
@@ -21,9 +19,9 @@ namespace EscapadeApi.Services.Interfaces
             {
                 return (await _repository.GetByConditionAsync(x => x.Id == userId)).Any();
             }
-            catch(Exception ex) { }
+            catch(Exception ex)
             {
-                throw new NotFoundException(userId);
+                throw;
             }
            
         }
@@ -36,7 +34,7 @@ namespace EscapadeApi.Services.Interfaces
             }
             catch (Exception ex)
             {
-                throw new NotFoundException(id);
+                throw;
             }
         }
 

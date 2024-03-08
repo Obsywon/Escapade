@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EscapadeApi.Models.Interfaces
+namespace Escapade.Api.Models.Interfaces
 {
     public abstract class Entity : IEntity
     {

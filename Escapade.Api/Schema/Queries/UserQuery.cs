@@ -1,47 +1,46 @@
 ﻿using Escapade.Api.Exceptions;
-using EscapadeApi.Services.Interfaces;
-using FirebaseAdmin.Auth;
-using HotChocolate.Authorization;
-using System.Security.Claims;
+using Escapade.Api.Models;
+using Escapade.Api.Services.Interfaces;
 
 namespace Escapade.Api.Schema.Queries
 {
     [ExtendObjectType(typeof(Query))]
     public class UserQuery 
     {
-        public UserQuery() : base() { }
 
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllAsync();
 
         }
 
-        [Error(typeof(NotFoundException))]
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        [Error(typeof(UserIdNotFoundError))]
         public async Task<User> GetUserByIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetByIdAsync(id);
         }
 
-        [Error(typeof(NotFoundException))]
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        [Error(typeof(UserEmailNotFoundError))]
         public async Task<User> GetUserByEmailAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string email, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetUserByEmailAsync(email);
         }
 
-        [Error(typeof(NotFoundException))]
-        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(string userId, IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
+            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllFavoritePlacesAsync(userId);
-        }
-
-        [Error(typeof(NotFoundException))]
-        public async Task<ICollection<Post>> GetAllPostByUserIdAsync(string userId, IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
-        {
-            return await service.GetAllPostByUserIdAsync(userId);
         }
     }
 }
