@@ -22,7 +22,7 @@ namespace Escapade.Api.Schema
             }
             catch (Exception ex)
             {
-                throw new VerifyFirebaseTokenException(ex.Message);
+                throw new VerifyFirebaseTokenException();
             }
            
         }

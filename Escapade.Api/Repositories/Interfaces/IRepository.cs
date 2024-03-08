@@ -1,7 +1,7 @@
-﻿using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
 using System.Linq.Expressions;
 
-namespace EscapadeApi.Repositories.Interfaces
+namespace Escapade.Api.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {
@@ -16,5 +16,6 @@ namespace EscapadeApi.Repositories.Interfaces
         public Task<T> UpdateAsync(T entity);
 
         public Task DeleteAsync(string id);
+
     }
 }

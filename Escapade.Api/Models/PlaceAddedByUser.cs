@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-public class PlaceAddedByUser : Place
+
+namespace Escapade.Api.Models
 {
-    [JsonProperty(PropertyName = "EnregistrePar", Required = Required.Always)]
-    public string UserId { get; set; }
+    public class PlaceAddedByUser : Place
+    {
+        [JsonProperty(PropertyName = "EnregistrePar", Required = Required.Always)]
+        public string UserId { get; set; }
+    }
 }

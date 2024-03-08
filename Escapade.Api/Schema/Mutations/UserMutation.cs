@@ -1,19 +1,16 @@
 ﻿using Escapade.Api.Exceptions;
+using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Services.Interfaces;
 using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using HotChocolate.Authorization;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace Escapade.Api.Schema.Mutations
 {
     [ExtendObjectType(typeof(Mutation))]
     public class UserMutation
     {
-        #region HotChocolate
 
         private readonly IConfiguration _configuration;
 
@@ -23,10 +20,12 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
-        [Error(typeof(BirthDateInvalidFormatException))]
         [Error(typeof(EmailInvalidFormatException))]
-        [Error(typeof(NameOrLastNameInvalidFormatException))]
-        [Error(typeof(PasswordInvalidException))]
+        [Error(typeof(PasswordInvalidFormatError))]
+        [Error(typeof(EmailTakenError))]
+        [Error(typeof(BirthdateInvalidFormatError))]
+        [Error(typeof(NameInvalidFormatError))]
+        [Error(typeof(LastnameInvalidFormatError))]
         public async Task<User> RegisterUserAsync(IUserService userService, string name, string lastname, string email, string password, DateTime birthDate, CancellationToken cancellationToken)
         {
 
@@ -39,6 +38,7 @@ namespace Escapade.Api.Schema.Mutations
 
             #endregion
 
+            email = email.ToLower();
 
             // Créer un nouvel utilisateur dans Firebase
             var firebaseUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(new UserRecordArgs
@@ -78,12 +78,11 @@ namespace Escapade.Api.Schema.Mutations
         }
 
         [AllowAnonymous]
-        [Error(typeof(BadRequestException))]
+        [Error(typeof(BadCredentialLoginError))]
+        [Error(typeof(UserEmailNotFoundError))]
         public async Task<User> LoginUserAsync(IUserService userService, string email, string psw, CancellationToken cancellation)
         {
-            // Récupérer l'utilisateur depuis votre service (par exemple, depuis CosmosDB) en utilisant l'email
             User user = await userService.GetUserByEmailAsync(email);
-
 
             using (var httpClient = new HttpClient())
             {
@@ -116,13 +115,18 @@ namespace Escapade.Api.Schema.Mutations
 
                     return userUpdated;
                 }
-                throw new BadRequestException(await response.Content.ReadAsStringAsync());
+
+                throw new BadCredentialLoginException(email, psw);
             }
 
         }
 
-        public async Task<User> AddNewFavoritePlaceToThisUserAsync(string userId, IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
+
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        public async Task<User> AddNewFavoritePlaceAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string userId, string placeId, CancellationToken cancellationToken)
         {
+           //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
             Place currentPlace;
@@ -141,22 +145,40 @@ namespace Escapade.Api.Schema.Mutations
             return await userService.UpdateAsync(currentUser);
         }
 
-        public async Task<User> UpdateThisUserAsync(string userId, IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastname, DateTime birthDate, string gender , CancellationToken cancellationToken)
+        //[Authorize]
+        [Error(typeof(VerifyFirebaseTokenError))]
+        [Error(typeof(BirthdateInvalidFormatError))]
+        [Error(typeof(NameInvalidFormatError))]
+        public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor,
+            string userId, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
+
         {
+            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 
             if (await userService.IsFoundAsync(userId))
                 currentUser = await userService.GetByIdAsync(userId);
 
+
+            #region Verification 
+
+            userService.IsBirthDateValid(birthDate);
+            userService.IsNameAndLastNameValid(name, lastName);
+
+            #endregion
+
             currentUser.Name = name;
-            currentUser.LastName = lastname;
+            currentUser.LastName = lastName;
             currentUser.BirthDate = birthDate;
             currentUser.Gender = gender;
+            currentUser.City = city;
+            currentUser.Country = country;
+            currentUser.PhoneNumber = phoneNumber;
+            currentUser.Description = description;
 
             return await userService.UpdateAsync(currentUser);
         }
 
-        #endregion
     }
 }
