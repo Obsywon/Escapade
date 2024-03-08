@@ -4,7 +4,7 @@ using Escapade.Api.Services.Interfaces;
 
 namespace Escapade.Api.Schema.Queries
 {
-    //[ExtendObjectType(typeof(Query))]
+    [ExtendObjectType(typeof(Query))]
     public class JourneyQuery
     {
 

@@ -73,6 +73,7 @@ builder.Services
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
     .RegisterService<IPlaceService>(ServiceKind.Resolver) // -- PlaceService
     .RegisterService<IJourneyService>(ServiceKind.Resolver) // -- JourneyService
+
     .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
 
 

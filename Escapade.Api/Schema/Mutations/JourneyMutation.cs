@@ -4,7 +4,7 @@ using Escapade.Api.Services.Interfaces;
 
 namespace Escapade.Api.Schema.Mutations
 {
-    //[ExtendObjectType(typeof(Mutation))]
+    [ExtendObjectType(typeof(Mutation))]
     public class JourneyMutation
     {
         //[Authorize]
