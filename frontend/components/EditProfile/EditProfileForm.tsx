@@ -103,22 +103,6 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
                     />
                 </View>
 
-                <View style={{paddingVertical: 8}}>
-                <SegmentedButtons
-                    value={gender!}
-                    onValueChange={setGender}
-                    buttons={[
-                        {
-                            value: 'Femme',
-                            label: 'Femme',
-                        },
-                        {
-                            value: 'Homme',
-                            label: 'Homme',
-                        },
-                    ]}
-                />
-                </View>
                 <BasicTextInput control={control} label="Description" name="description" multiline={true} placeholder="Décrivez-vous brièvement" rules={descriptionRules} />
                 <BasicTextInput control={control} label="Ville" name="city" rules={cityRules} />
                 <BasicTextInput control={control} label="Pays" name="country" rules={countryRules} />
