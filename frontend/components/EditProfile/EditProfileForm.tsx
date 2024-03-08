@@ -16,9 +16,11 @@ import { UPDATE_USER } from "../../services/userService";
 import { isLoading } from "expo-font";
 import ErrorText from "../forms/ErrorText";
 import { useState } from "react";
+
 import { RadioButton, SegmentedButtons } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamList } from "../../App";
+
 
 type EditProfileFormProps = {
     userData: Account;
@@ -28,6 +30,7 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
 
     const [date, setDate] = useState<Date>(new Date(userData.birthDate));
     const [gender, setGender] = useState<string | undefined>(userData?.gender);
+
     const {
         control,
         handleSubmit,
@@ -62,7 +65,7 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
         updateUser({
             variables: { input: user },
             onCompleted: (data) => {
-                navigation.replace('Profil', { uid: userData.id },);
+                navigation.goBack();
             },
             onError: (err) => (console.log(err.cause)),
             fetchPolicy: 'no-cache',
@@ -100,6 +103,22 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
                     />
                 </View>
 
+                <View style={{paddingVertical: 8}}>
+                <SegmentedButtons
+                    value={gender!}
+                    onValueChange={setGender}
+                    buttons={[
+                        {
+                            value: 'Femme',
+                            label: 'Femme',
+                        },
+                        {
+                            value: 'Homme',
+                            label: 'Homme',
+                        },
+                    ]}
+                />
+                </View>
                 <BasicTextInput control={control} label="Description" name="description" multiline={true} placeholder="Décrivez-vous brièvement" rules={descriptionRules} />
                 <BasicTextInput control={control} label="Ville" name="city" rules={cityRules} />
                 <BasicTextInput control={control} label="Pays" name="country" rules={countryRules} />

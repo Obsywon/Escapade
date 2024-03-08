@@ -12,7 +12,7 @@ export type UserInfoProps = {
 const dateFormatter = new Intl.DateTimeFormat('fr-FR');
 
 export default function UserInfo({ containerStyle, userData }: Readonly<UserInfoProps>) {
-  console.log(userData)
+  //console.log(userData)
   const birthDate = new Date(userData?.birthDate);
   return (
     <Surface mode="elevated" style={containerStyle}>
