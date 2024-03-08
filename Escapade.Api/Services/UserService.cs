@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Escapade.Api.Repositories.Interfaces;
-using EscapadeApi.Repositories;
 using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;

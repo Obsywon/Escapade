@@ -1,8 +1,7 @@
-﻿using Escapade.Api.Models;
-using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
 using System.Linq.Expressions;
 
-namespace EscapadeApi.Repositories.Interfaces
+namespace Escapade.Api.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {

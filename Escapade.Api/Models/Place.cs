@@ -1,5 +1,4 @@
-﻿using Escapade.Api.Models;
-using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace Escapade.Api.Models

@@ -1,9 +1,5 @@
-﻿using Escapade.Api.Exceptions;
-using Escapade.Api.Models;
-using Escapade.Api.Repositories;
+﻿using Escapade.Api.Models;
 using Escapade.Api.Repositories.Interfaces;
-using EscapadeApi.Models;
-using Firebase.Auth.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Escapade.Api.Repositories

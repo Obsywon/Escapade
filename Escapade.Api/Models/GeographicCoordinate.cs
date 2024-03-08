@@ -1,4 +1,4 @@
-﻿using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
 
 namespace Escapade.Api.Models
 {

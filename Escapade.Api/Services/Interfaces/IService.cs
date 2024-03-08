@@ -1,4 +1,4 @@
-﻿using EscapadeApi.Models.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
 using System.Linq.Expressions;
 
 namespace Escapade.Api.Services.Interfaces

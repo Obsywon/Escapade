@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EscapadeApi.Models;
-using System.Diagnostics;
 using Escapade.Api.Models;
 
 namespace Escapade.Api

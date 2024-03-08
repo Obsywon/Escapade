@@ -5,7 +5,6 @@ using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Queries;
 using Escapade.Api.Services;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Repositories;
 using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
@@ -73,7 +72,7 @@ builder.Services
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
     .RegisterService<IPlaceService>(ServiceKind.Resolver) // -- PlaceService
-    .RegisterService<IJourneyService>(ServiceKind.Resolver) // -- JourneyService
+    //.RegisterService<IJourneyService>(ServiceKind.Resolver) // -- JourneyService
     .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
 
 

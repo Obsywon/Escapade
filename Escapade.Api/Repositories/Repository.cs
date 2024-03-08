@@ -1,6 +1,5 @@
-﻿using Escapade.Api.Exceptions;
-using EscapadeApi.Models.Interfaces;
-using EscapadeApi.Repositories.Interfaces;
+﻿using Escapade.Api.Models.Interfaces;
+using Escapade.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

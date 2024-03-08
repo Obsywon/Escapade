@@ -1,8 +1,6 @@
 ﻿using Escapade.Api.Models;
 using Escapade.Api.Repositories.Interfaces;
-using EscapadeApi;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Escapade.Api.Repositories
 {

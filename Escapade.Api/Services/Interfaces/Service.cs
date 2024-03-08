@@ -1,7 +1,5 @@
-﻿using Escapade.Api.Exceptions;
-using EscapadeApi.Models.Interfaces;
-using EscapadeApi.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Escapade.Api.Models.Interfaces;
+using Escapade.Api.Repositories.Interfaces;
 using System.Linq.Expressions;
 
 namespace Escapade.Api.Services.Interfaces
