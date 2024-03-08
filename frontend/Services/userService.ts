@@ -10,46 +10,56 @@ const USER_BY_ID_QUERY = gql`
       gender
       birthDate
       email
+      description
+      phoneNumber
+      city
+      country
     }
   }
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($input: UpdateThisUserInput!) {
-    updateThisUser(input: $input) {
+  mutation updateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
 
       user {
         id
         name
-        lastname
+        lastName
         birthDate
         gender
+        description
+        phoneNumber
+        city
+        country
+      }
+      errors {
+        __typename
+        ... on VerifyFirebaseTokenError {
+          message
+          code
+        }
+        ... on BirthdateInvalidFormatError {
+          message
+          code
+        }
+        ... on NameInvalidFormatError {
+          message
+          code
+        }
       }
     }
   }
 `
 
-/*
-description
-phone
-city
-country
-*/
 
 export function getUserById (id: string) 
   {
     const { loading, error, data } = useQuery(USER_BY_ID_QUERY, {
       variables: { id },
+      fetchPolicy: 'cache-and-network'
     });
   
     return { loading, error, user: data?.userById };
   };
 
-  /*
-export function updateUser (){
-  const [UpdateUser, {loading, error, data}] = useMutation(UPDATE_USER, {
-    variables: user
-  });
-  console.log("UPDAAAATE: ", loading, error, data, UpdateUser);
-  return { loading, error, user: data?.updateThisUser}
-}*/

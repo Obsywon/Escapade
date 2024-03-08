@@ -8,7 +8,7 @@ type Profil = {
 
 type OptionalProfil = {
     description?: string,
-    phone?: string,
+    phoneNumber?: string,
     city?: string,
     country?: string,
     gender?: string,
