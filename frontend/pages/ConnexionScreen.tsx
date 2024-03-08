@@ -8,7 +8,7 @@ import FormLayout from "../layouts/FormLayout";
 import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
-import { AppNavigatorParamList } from "../navigation/AppNavigator";
+import { AppNavigatorParamList } from "../navigation/TabNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useNavigation } from "@react-navigation/native";

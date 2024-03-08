@@ -42,7 +42,7 @@ export default function AccueilScreen(): JSX.Element {
         <TextInput
           value={searchRadius}
           onChangeText={(text) => setSearchRadius(text)}
-          placeholder="Ex : 500cd"
+          placeholder="Ex : 500"
           keyboardType="numeric"
           style={{ fontSize:15, marginLeft: 10, flex: 1 }}
         />

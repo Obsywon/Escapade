@@ -43,7 +43,7 @@ const tabs : TabElement[] = [
     label: "Ajout",
     component: AjoutScreen,
     iconComponent: ({ color }: IconProps) => (
-      <Ionicons name="search" color={color} size={iconSize} />
+      <Ionicons name="add-circle-outline" color={color} size={iconSize} />
     ),
   },
   {
