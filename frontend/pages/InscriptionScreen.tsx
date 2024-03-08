@@ -14,9 +14,10 @@ import {useForm} from 'react-hook-form';
 import { UserInCreation, useInscription } from '../hooks/useInscription';
 
 
-import { AppNavigatorParamList } from '../navigation/AppNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { lastNameRules, nameRules } from '../services/formRules';
+import { AppNavigatorParamList } from '../App';
 
 type InscriptionFormData = {
   nom: string;
@@ -53,25 +54,6 @@ function InscriptionScreen(): JSX.Element {
 
   const password = watch('mot_de_passe');
 
-  /*const {registerUserToFirebase} = useFirebaseAuth();
-
-
-  const submit = handleSubmit(async (data) => {
-    const email = data.email;
-
-    try{
-      const user = await registerUserToFirebase(email, password);
-      if (user){
-        window.alert("L'utilisateur a bien été enregistré");
-        console.log(user);
-        navigation.navigate('Dashboard');
-      }
-    }catch(error){
-      console.error(error);
-      window.alert("L'utilisateur existe déjà");
-    }
-  });
-  */
 
   const [inscription, data, error, loading] = useInscription();
   const submit = handleSubmit(async (values: InscriptionFormData) => {
@@ -128,28 +110,16 @@ function InscriptionScreen(): JSX.Element {
               control={control}
               name="prenom"
               label="Prénom"
-              rules={{
-                required: true,
-                minLength: {
-                  value: 3,
-                  message: 'Le prénom doit faire au moins 3 caractères.',
-                },
-              }}
+              rules={nameRules}
             />
             <BasicTextInput
               control={control}
               name="nom"
               label="Nom"
-              rules={{
-                required: true,
-                minLength: {
-                  value: 3,
-                  message: 'Le nom doit faire au moins 3 caractères.',
-                },
-              }}
+              rules={lastNameRules}
             />
           </View>
-          <DatePicker date={date} setDate={setDate} label="Date de naissance" />
+          <DatePicker date={date} setDate={setDate} label="Date de naissance"/>
 
           <BasicButton
             label="Inscription"

@@ -2,13 +2,18 @@ import { View, Image, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import React from "react";
 import { Text, Caption, Icon, Surface, Title } from "react-native-paper";
 import { ColorScheme } from "../../themes/CustomColors";
+import { Account } from "../../types/Account";
 
 export type UserInfoProps = {
   containerStyle: StyleProp<ViewStyle>,
-  userData?: any //pour le moment
+  userData: Account
 }
 
-export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
+const dateFormatter = new Intl.DateTimeFormat('fr-FR');
+
+export default function UserInfo({ containerStyle, userData }: Readonly<UserInfoProps>) {
+  console.log(userData)
+  const birthDate = new Date(userData?.birthDate);
   return (
     <Surface mode="elevated" style={containerStyle}>
       <View style={styles.containerHeader}>
@@ -18,32 +23,55 @@ export default function UserInfo({ containerStyle, userData }: UserInfoProps) {
             style={styles.userImage}
           />
           <View style={styles.userName}>
-            <Title style={styles.title}>Harry Potter</Title>
-            <Caption style={styles.caption}>Griffondor</Caption>
+            <Title style={styles.title}>{userData.name} {userData.lastName}</Title>
+            {/*<Caption style={styles.caption}></Caption>*/}
           </View>
         </View>
-        <Text style={styles.textePresentation}>
-          J'aime la magie, les mystères et partir à la découverte
-        </Text>
+        {userData?.description &&
+          (<Text style={styles.textePresentation}>
+            {userData?.description}
+          </Text>)
+        }
       </View>
 
       <View style={styles.userInfoSection}>
-        <View style={styles.row}>
-          <Icon
-            source="map-marker-radius"
-            color={ColorScheme.primary}
-            size={24}
-          />
-          <Text style={styles.textUser}>London, UK</Text>
-        </View>
-        <View style={styles.row}>
-          <Icon source="phone" color={ColorScheme.primary} size={20} />
-          <Text style={styles.textUser}>+44-900000009</Text>
-        </View>
+
+
+        {(userData?.city != null && userData?.country != null) &&
+          (<View style={styles.row}>
+            <Icon
+              source="map-marker-radius"
+              color={ColorScheme.primary}
+              size={24}
+            />
+            <Text style={styles.textUser}>{userData?.city}, {userData?.country}</Text>
+          </View>)}
+
+        {(userData?.phoneNumber != null && userData?.phoneNumber.length > 0) &&
+          (<View style={styles.row}>
+            <Icon source="phone" color={ColorScheme.primary} size={20} />
+            <Text style={styles.textUser}>{userData?.phoneNumber}</Text>
+          </View>)
+        }
+
         <View style={styles.row}>
           <Icon source="email" color={ColorScheme.primary} size={20} />
-          <Text style={styles.textUser}>harry_potter@gmail.com</Text>
+          <Text style={styles.textUser}>{userData.email}</Text>
         </View>
+
+        {userData?.gender != null && (
+          <View style={styles.row}>
+            <Icon source="gender-male-female" color={ColorScheme.primary} size={20} />
+            <Text style={styles.textUser}>{userData?.gender}</Text>
+          </View>)
+        }
+
+      {birthDate != null && (
+          <View style={styles.row}>
+            <Icon source="calendar-account" color={ColorScheme.primary} size={20} />
+            <Text style={styles.textUser}>{dateFormatter.format(birthDate)}</Text>
+          </View>)
+        }
       </View>
     </Surface>
   );
@@ -71,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     gap: 4
-    
+
   },
   textUser: {
     color: ColorScheme.secondary,
