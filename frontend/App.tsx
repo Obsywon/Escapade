@@ -114,7 +114,7 @@ function App(): JSX.Element {
 
                 {accessToken?.token ? (
                   <>
-                    <Stack.Screen name="Dashboard" component={TabNavigator} initialParams={{ uid: firebaseAuth.currentUser?.uid }} />
+                    <Stack.Screen name="Dashboard" component={TabNavigator} />
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
