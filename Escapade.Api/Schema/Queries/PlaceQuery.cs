@@ -12,43 +12,43 @@ namespace Escapade.Api.Schema.Queries
     public class PlaceQuery
     {
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<IEnumerable<Place>> GetAllPlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllAsync();
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<Place> GetPlaceByIdAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
+        public async Task<Place> GetPlaceByIdAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
-            return await service.GetByIdAsync(id);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            return await service.GetByIdAsync(placeId);
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByOtherUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllPlaceAddedByUser(userId);
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByThisUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByMeAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllPlaceAddedByUser(userId);
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAllUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             // Récupérer toutes les places
             var allPlaces = await service.GetAllAsync();

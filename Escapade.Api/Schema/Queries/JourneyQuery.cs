@@ -12,19 +12,19 @@ namespace Escapade.Api.Schema.Queries
 
         #region GetFromMe & GetFromUser
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Journey>> GetAllJourneyFromMeAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<ICollection<Journey>> GetAllJourneyFromMeAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Journey>)await service.GetAllJourneyByUserIdAsync(userId);
         }   
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Journey>> GetAllJourneyFromUserAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Journey>)await service.GetAllJourneyByUserIdAsync(userId);
         }
 
@@ -32,19 +32,19 @@ namespace Escapade.Api.Schema.Queries
 
         #region GetAll & GetById
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Journey>> GetAllJourneyAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Journey>)await service.GetAllAsync();
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<Journey> GetJourneyByIdAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, string journeyId, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetByIdAsync(journeyId);
         }
 
@@ -52,19 +52,19 @@ namespace Escapade.Api.Schema.Queries
 
         #region GetDefault & GetRandom
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Journey>> GetDefaultJourneyAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Journey>)await service.GetByConditionAsync(j => j.Default == true);
         }
 
-        [Authorize]
+        //[Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<Journey> GetRandomJourneyAsync(IJourneyService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            //await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (Journey)await service.GetRandomJourneyAsync();
         }
 
