@@ -2,7 +2,7 @@ import React from 'react'
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import DashboardScreen from '../pages/DashboardScreen';
 import { CustomColors } from '../themes/CustomColors';
-import RechercheScreen from '../pages/RechercheScreen';
+import AjoutScreen from '../pages/AjoutScreen';
 import FavoriScreen from '../pages/FavoriScreen';
 import PhotosScreen from '../pages/PhotosScreen';
 import ProfileScreen from '../pages/ProfileScreen';
@@ -13,7 +13,7 @@ const iconSize: number = 26;
 
 export type BottomTabParamList = {
   Accueil: undefined;
-  Recherche: undefined;
+  Ajout: undefined;
   Favori: undefined;
   Photos: undefined;
   Profil: undefined;
@@ -40,8 +40,8 @@ const tabs : TabElement[] = [
     ),
   },
   {
-    label: "Recherche",
-    component: RechercheScreen,
+    label: "Ajout",
+    component: AjoutScreen,
     iconComponent: ({ color }: IconProps) => (
       <Ionicons name="search" color={color} size={iconSize} />
     ),

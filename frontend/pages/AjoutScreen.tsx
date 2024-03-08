@@ -5,13 +5,13 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { Text } from 'react-native-paper'
 
 
-type RechercheScreenProps = BottomTabScreenProps<BottomTabParamList, 'Recherche'>
+type AjoutScreenProps = BottomTabScreenProps<BottomTabParamList, 'Ajout'>
 
 
-export default function RechercheScreen(): JSX.Element {
+export default function AjoutScreen(): JSX.Element {
   return (
     <View>
-      <Text>Recherche</Text>
+      <Text>Ajout</Text>
     </View>
   )
 }

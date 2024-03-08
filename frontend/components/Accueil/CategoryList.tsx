@@ -33,7 +33,7 @@ const CategoryList = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.texteTitre}>Sélectionne une catégorie</Text>
+      <Text style={styles.texteTitre}>Sélectionnez une catégorie</Text>
       <Surface style={styles.categories}>
       {categoryList.map((category) => (
         <TouchableRipple
