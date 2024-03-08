@@ -23,6 +23,7 @@ import ConnexionScreen from "./pages/ConnexionScreen";
 import EditProfileScreen from "./pages/EditProfileScreen";
 import InscriptionScreen from "./pages/InscriptionScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import ProfileScreen from "./pages/ProfileScreen";
 
 
 export type AppNavigatorParamList = {
@@ -33,6 +34,9 @@ export type AppNavigatorParamList = {
   ModifierProfil: {
     uid: string,
   };
+  Profil: {
+    uid: string,
+  },
 };
 
 const Stack = createStackNavigator<AppNavigatorParamList>();
@@ -114,6 +118,11 @@ function App(): JSX.Element {
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
+                      initialParams={{ uid: firebaseAuth.currentUser?.uid }}
+                    />
+                    <Stack.Screen
+                      name="Profil"
+                      component={ProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
                     />
                   </>
