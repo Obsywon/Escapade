@@ -43,7 +43,7 @@ namespace Escapade.Api
                 .WithOne()
                 .HasForeignKey(fp => fp.UserId);
 
-            modelBuilder.Entity<Place>().OwnsOne(p => p.GeographicCoordinate);
+            modelBuilder.Entity<Place>().OwnsOne(p => p.Coordinate);
 
             // Appel à la méthode de base pour appliquer d'autres configurations du modèle.
             base.OnModelCreating(modelBuilder);

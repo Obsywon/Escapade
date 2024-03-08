@@ -150,7 +150,7 @@ namespace Escapade.Api.Schema.Mutations
         [Error(typeof(BirthdateInvalidFormatError))]
         [Error(typeof(NameInvalidFormatError))]
         public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor,
-            string userId, string name, string lastname, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
+            string userId, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
 
         {
             //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
@@ -164,12 +164,12 @@ namespace Escapade.Api.Schema.Mutations
             #region Verification 
 
             userService.IsBirthDateValid(birthDate);
-            userService.IsNameAndLastNameValid(name, lastname);
+            userService.IsNameAndLastNameValid(name, lastName);
 
             #endregion
 
             currentUser.Name = name;
-            currentUser.LastName = lastname;
+            currentUser.LastName = lastName;
             currentUser.BirthDate = birthDate;
             currentUser.Gender = gender;
             currentUser.City = city;

@@ -15,6 +15,6 @@ namespace Escapade.Api.Models
         public Place ArrivalPlace { get; set; }
 
         [JsonProperty(PropertyName = "LieuATraverser", Required = Required.Always)]
-        public ICollection<Place> PlacesToCross { get; set; }
+        public ICollection<Place> PlacesToCross { get; set; } = new List<Place>();
     }
 }

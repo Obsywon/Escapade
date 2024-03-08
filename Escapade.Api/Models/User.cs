@@ -39,12 +39,12 @@ namespace Escapade.Api.Models
         public string? Token { get; set; }
 
         [JsonProperty(PropertyName = "Posts")]
-        public ICollection<Post>? Posts { get; set; }
+        public ICollection<Post>? Posts { get; set; } = new List<Post>();
 
         [JsonProperty(PropertyName = "PlacesAddedByUser")]
-        public ICollection<PlaceAddedByUser>? PlacesAddedByUser { get; set; }
+        public ICollection<PlaceAddedByUser>? PlacesAddedByUser { get; set; } = new List<PlaceAddedByUser>();
 
         [JsonProperty(PropertyName = "FavoritesPlaces")]
-        public ICollection<FavoritePlace>? FavoritePlaces { get; set; }
+        public ICollection<FavoritePlace>? FavoritePlaces { get; set; } = new List<FavoritePlace>();
     }
 }

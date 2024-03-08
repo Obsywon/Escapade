@@ -12,6 +12,6 @@ namespace Escapade.Api.Models
         public string? Description { get; set; }
 
         [JsonProperty(PropertyName = "CoordonneesGeographiques", Required = Required.Always)]
-        public GeographicCoordinate GeographicCoordinate { get; set; }
+        public GeographicCoordinate Coordinate { get; set; }
     }
 }
