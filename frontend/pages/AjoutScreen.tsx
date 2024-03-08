@@ -1,20 +1,48 @@
-import React, { useState } from 'react';
-import { Button, TextInput, View, StyleSheet } from 'react-native';
-import { Text, Checkbox } from 'react-native-paper'; // Importation de Checkbox
+import React, { useState, useContext } from 'react';
+import { Button, TextInput, View, StyleSheet, Modal } from 'react-native';
+import { Text, Checkbox } from 'react-native-paper';
 import { BottomTabParamList } from '../navigation/TabNavigator';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 
 type AjoutScreenProps = BottomTabScreenProps<BottomTabParamList, 'Ajout'>;
 
+interface userLocationProps {
+  userLocationContext?: UserLocationContextType;
+}
+
 export default function AjoutScreen(): JSX.Element {
-  const [nom, setNom] = useState('');
-  const [prendreCoordonnees, setPrendreCoordonnees] = useState(false);
-  const [ajouterCoordonneesManuellement, setAjouterCoordonneesManuellement] = useState(false);
+  const [nom, setName] = useState('');
+  const userLocationContext = useContext<UserLocationContextType>(UserLocationContext);
+  const [coordinates, setCoordinates] = useState([0, 0]);
+  const [localCoordinates, setLocalCoordinates] = useState(false);
+  const [coordinatesManually, setCoordinatesManually] = useState(false);
+  const [takePicture, setTakePicture] = useState(false);
+  const [uploadedPicture, setUploadedPicture] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  function handleLocalCoordinatesToggle() {
+    setLocalCoordinates(!localCoordinates);
+    setCoordinatesManually(false);
+  }
+
+  function handleCoordinatesManuallyToggle() {
+    setCoordinatesManually(!coordinatesManually);
+    setLocalCoordinates(false);
+    setShowModal(!coordinatesManually); 
+  }
+  
 
   function handleSubmit(): void {
-    setNom('');
-    setPrendreCoordonnees(false);
-    setAjouterCoordonneesManuellement(false);
+    if (localCoordinates) {
+      if (userLocationContext?.location) {
+        setCoordinates([userLocationContext.location.coords.latitude, userLocationContext.location.coords.longitude]);
+      }
+    }
+
+    setName('');
+    setCoordinates([0, 0]);
+    setShowModal(false);
   }
 
   return (
@@ -23,41 +51,48 @@ export default function AjoutScreen(): JSX.Element {
       <TextInput
         style={styles.input}
         value={nom}
-        onChangeText={setNom}
+        onChangeText={setName}
         placeholder="Entrez le nom du lieu"
       />
 
-      <Text style={styles.label}>Coordonées du lieu :</Text>
+      <Text style={styles.label}>Coordonnées du lieu :</Text>
 
       <View style={styles.checkboxContainer}>
         <Checkbox
-          status={prendreCoordonnees ? 'checked' : 'unchecked'}
-          onPress={() => setPrendreCoordonnees(!prendreCoordonnees)}
+          status={localCoordinates ? 'checked' : 'unchecked'}
+          onPress={handleLocalCoordinatesToggle}
         />
         <Text>Prendre les coordonnées du lieu actuel</Text>
       </View>
 
       <View style={styles.checkboxContainer}>
         <Checkbox
-          status={ajouterCoordonneesManuellement ? 'checked' : 'unchecked'}
-          onPress={() => setAjouterCoordonneesManuellement(!ajouterCoordonneesManuellement)}
+          status={coordinatesManually ? 'checked' : 'unchecked'}
+          onPress={handleCoordinatesManuallyToggle}
         />
         <Text>Rajouter les coordonnées manuellement</Text>
       </View>
 
+      <Modal visible={showModal} animationType="slide">
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Saisir les coordonnées manuellement</Text>
+          <Button title="Fermer" onPress={() => setShowModal(false)} />
+        </View>
+      </Modal>
+
       <Text style={styles.label}>Photo du lieu :</Text>
       <View style={styles.checkboxContainer}>
         <Checkbox
-          status={prendreCoordonnees ? 'checked' : 'unchecked'}
-          onPress={() => setPrendreCoordonnees(!prendreCoordonnees)}
+          status={takePicture ? 'checked' : 'unchecked'}
+          onPress={() => setTakePicture(!takePicture)}
         />
-        <Text>Prendre photo avec la caméra</Text>
+        <Text>Prendre une photo avec la caméra</Text>
       </View>
 
       <View style={styles.checkboxContainer}>
         <Checkbox
-          status={ajouterCoordonneesManuellement ? 'checked' : 'unchecked'}
-          onPress={() => setAjouterCoordonneesManuellement(!ajouterCoordonneesManuellement)}
+          status={uploadedPicture ? 'checked' : 'unchecked'}
+          onPress={() => setUploadedPicture(!uploadedPicture)}
         />
         <Text>Télécharger une photo</Text>
       </View>
