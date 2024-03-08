@@ -1,19 +1,14 @@
+using Escapade.Api;
 using Escapade.Api.Repositories;
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Schema.Mutations;
 using Escapade.Api.Schema.Queries;
 using Escapade.Api.Services;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi;
-using EscapadeApi.Models;
 using EscapadeApi.Repositories;
-using EscapadeApi.Repositories.Interfaces;
-using EscapadeApi.Services;
-using EscapadeApi.Services.Interfaces;
 using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
-using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
 
@@ -56,9 +51,11 @@ builder.Services.AddDbContextPool<CosmosContext>((options) =>
 builder.Services
         .AddScoped<IRepositoryUser, UserRepository>() // -- UserService
         .AddScoped<IRepositoryPlace, PlaceRepository>() // -- PlaceService
+        .AddScoped<IRepositoryJourney, JourneyRepository>() // -- JourneyService
 
         .AddScoped<IUserService, UserService>() // -- UserQuery & UserMutation
         .AddScoped<IPlaceService, PlaceService>() // -- PlaceQuery & PlaceMutation
+        .AddScoped<IJourneyService, JourneyService>() // -- JourneyQuery & JourneyMutation
 
         .AddHttpContextAccessor();
 
@@ -76,6 +73,7 @@ builder.Services
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
     .RegisterService<IPlaceService>(ServiceKind.Resolver) // -- PlaceService
+    .RegisterService<IJourneyService>(ServiceKind.Resolver) // -- JourneyService
     .RegisterService<IHttpContextAccessor>(ServiceKind.Resolver) // -- IHttpContextAccessor
 
 

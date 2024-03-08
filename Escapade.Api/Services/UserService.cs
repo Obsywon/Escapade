@@ -1,16 +1,14 @@
-﻿using EscapadeApi.Models;
-using EscapadeApi.Repositories.Interfaces;
-using EscapadeApi.Services.Interfaces;
-using System.Text;
+﻿using System.Text;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Escapade.Api.Repositories.Interfaces;
 using EscapadeApi.Repositories;
 using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
-using Firebase.Auth.Repository;
+using Escapade.Api.Services.Interfaces;
+using Escapade.Api.Repositories;
 
-namespace EscapadeApi.Services
+namespace Escapade.Api.Services
 {
     public class UserService : Service<User>, IUserService
     {

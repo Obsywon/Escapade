@@ -1,13 +1,10 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Services.Interfaces;
 using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using HotChocolate.Authorization;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace Escapade.Api.Schema.Mutations
 {

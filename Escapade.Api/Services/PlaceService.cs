@@ -1,11 +1,7 @@
-﻿using Escapade.Api.Exceptions;
-using Escapade.Api.Models;
+﻿using Escapade.Api.Models;
 using Escapade.Api.Repositories;
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Repositories;
-using EscapadeApi.Repositories.Interfaces;
-using EscapadeApi.Services.Interfaces;
 
 namespace Escapade.Api.Services
 {

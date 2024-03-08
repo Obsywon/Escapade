@@ -1,8 +1,6 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Services.Interfaces;
-using HotChocolate.Authorization;
 
 namespace Escapade.Api.Schema.Queries
 {

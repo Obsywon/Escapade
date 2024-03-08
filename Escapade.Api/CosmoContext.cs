@@ -3,7 +3,7 @@ using EscapadeApi.Models;
 using System.Diagnostics;
 using Escapade.Api.Models;
 
-namespace EscapadeApi
+namespace Escapade.Api
 {
     public class CosmosContext : DbContext
     {

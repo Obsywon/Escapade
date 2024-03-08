@@ -4,7 +4,7 @@ using EscapadeApi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
-namespace EscapadeApi.Services.Interfaces
+namespace Escapade.Api.Services.Interfaces
 {
     public abstract class Service<T> : IService<T> where T : class, IEntity
     {

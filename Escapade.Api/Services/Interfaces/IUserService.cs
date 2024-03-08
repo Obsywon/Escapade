@@ -1,7 +1,7 @@
 ﻿using Escapade.Api.Models;
 using EscapadeApi.Models;
 
-namespace EscapadeApi.Services.Interfaces
+namespace Escapade.Api.Services.Interfaces
 {
     public interface IUserService : IService<User>
     {

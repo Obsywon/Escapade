@@ -1,9 +1,6 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
-using EscapadeApi.Services.Interfaces;
-using FirebaseAdmin.Auth;
-using HotChocolate.Authorization;
-using System.Security.Claims;
+using Escapade.Api.Services.Interfaces;
 
 namespace Escapade.Api.Schema.Queries
 {

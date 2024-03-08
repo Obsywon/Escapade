@@ -6,7 +6,7 @@ using EscapadeApi.Models;
 using Firebase.Auth.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace EscapadeApi.Repositories
+namespace Escapade.Api.Repositories
 {
     public class UserRepository : Repository<User>, IRepositoryUser
     {

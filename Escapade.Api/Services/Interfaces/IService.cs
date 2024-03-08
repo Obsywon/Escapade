@@ -1,7 +1,7 @@
 ﻿using EscapadeApi.Models.Interfaces;
 using System.Linq.Expressions;
 
-namespace EscapadeApi.Services.Interfaces
+namespace Escapade.Api.Services.Interfaces
 {
     public interface IService<T> where T : class, IEntity
     {

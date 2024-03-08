@@ -2,8 +2,6 @@
 using Escapade.Api.Repositories.Interfaces;
 using Escapade.Api.Repositories;
 using Escapade.Api.Services.Interfaces;
-using EscapadeApi.Services.Interfaces;
-using EscapadeApi.Repositories.Interfaces;
 
 namespace Escapade.Api.Services
 {
