@@ -12,7 +12,7 @@ namespace Escapade.Api.Schema.Queries
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllAsync();
 
         }
@@ -22,7 +22,7 @@ namespace Escapade.Api.Schema.Queries
         [Error(typeof(UserIdNotFoundError))]
         public async Task<User> GetUserByIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetByIdAsync(id);
         }
 

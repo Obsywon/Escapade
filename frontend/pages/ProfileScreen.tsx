@@ -17,6 +17,7 @@ export default function ProfileScreen(): JSX.Element {
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
   const uid = firebaseAuth.currentUser?.uid;
 
+
   if (!uid) {
     navigation.replace("Connexion");
     return (
@@ -26,6 +27,13 @@ export default function ProfileScreen(): JSX.Element {
 
   const { loading, user, error } = getUserById(uid)
 
+  if (error){
+    return (
+      <View>
+        <Text>{error?.message}</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'space-around' }}>

@@ -57,7 +57,7 @@ export function getUserById (id: string)
   {
     const { loading, error, data } = useQuery(USER_BY_ID_QUERY, {
       variables: { id },
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
     });
   
     return { loading, error, user: data?.userById };
