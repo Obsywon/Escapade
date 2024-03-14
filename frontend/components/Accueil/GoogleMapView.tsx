@@ -11,12 +11,13 @@ import { Surface, Text } from 'react-native-paper';
 import { CustomColors } from '../../themes/CustomColors';
 
 interface GoogleMapViewProps {
-  placeList: any[];
+  placeList?: any[];
   userLocationContext?: UserLocationContextType;
-  transportMode: TransportationMode;
+  transportMode?: TransportationMode;
+  onSecondMapMarkerChange?: (marker: { latitude: number; longitude: number } | undefined) => void;
 }
 
-export default function GoogleMapView({ placeList, transportMode }: Readonly<GoogleMapViewProps>) {
+export default function GoogleMapView({ placeList, transportMode, onSecondMapMarkerChange }: Readonly<GoogleMapViewProps>) {
   const [mapRegion, setMapRegion] = useState<Region>({
     latitude: 49.1193,
     longitude: 6.1727,
@@ -27,6 +28,7 @@ export default function GoogleMapView({ placeList, transportMode }: Readonly<Goo
   const userLocationContext = useContext<UserLocationContextType>(UserLocationContext);
 
   const [startPoint, setStartPoint] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
+  const [secondMapMarker, setSecondMapMarker] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
   useEffect(() => {
     if (userLocationContext?.location) {
@@ -44,44 +46,77 @@ export default function GoogleMapView({ placeList, transportMode }: Readonly<Goo
     }
   }, [userLocationContext]);
 
-  const extractCoordinates = (place) => ({
+  const extractCoordinates = (place: { geometry: { location: { lat: any; lng: any; }; }; }) => ({
     latitude: place?.geometry?.location?.lat || 0,
     longitude: place?.geometry?.location?.lng || 0,
   });
 
-  const waypoints = placeList.slice(0, 10).map(extractCoordinates);
-
-  const handleNavigatePress = () => {
-    const waypointCoords = waypoints.map((waypoint) => `${waypoint.latitude},${waypoint.longitude}`).join('|');
+  if(placeList && transportMode){
+    const waypoints = placeList.slice(0, 10).map(extractCoordinates);
+ 
+    const handleNavigatePress = () => {
+      const waypointCoords = waypoints.map((waypoint) => `${waypoint.latitude},${waypoint.longitude}`).join('|');
+    
+      Linking.openURL(`https://www.google.com/maps/dir/?api=1&origin=${startPoint?.latitude},${startPoint?.longitude}&destination=${startPoint?.latitude},${startPoint?.longitude}&waypoints=${waypointCoords}&travelmode=${transportMode.toLowerCase()}`);
+    };
   
-    Linking.openURL(`https://www.google.com/maps/dir/?api=1&origin=${startPoint?.latitude},${startPoint?.longitude}&destination=${startPoint?.latitude},${startPoint?.longitude}&waypoints=${waypointCoords}&travelmode=${transportMode.toLowerCase()}`);
-  };
+    return (
+      <View style={styles.container}>
+        
+        <Surface style={styles.mapContainer} mode='elevated' elevation={2}>
+        <Text style={styles.texteTitre}>Meilleurs endroits à proximité</Text>
+          <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} region={mapRegion}>
+            {startPoint && <Marker coordinate={startPoint} image={CustomMarkerImage} />}
+            {placeList.map((item, index) => index < 10 && <PlaceMarker key={index} item={item} />)}
+            <MapViewDirections
+              origin={startPoint}
+              waypoints={waypoints}
+              destination={startPoint}
+              apikey={API_KEY}
+              strokeWidth={3}
+              strokeColor="hotpink"
+              mode={transportMode}
+            />
+          </MapView>
+        </Surface>
+        <TouchableOpacity style={styles.navigateButton} onPress={handleNavigatePress}>
+          <Text style={styles.navigateButtonText}>Naviguer</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
 
-  return (
-    <View style={styles.container}>
-      
-      <Surface style={styles.mapContainer} mode='elevated' elevation={2}>
-      <Text style={styles.texteTitre}>Meilleurs endroits à proximité</Text>
-        <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} region={mapRegion}>
+    const handleSecondMapPress = (event: any) => {
+      const { coordinate } = event.nativeEvent;
+      const newMarker = {
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+      };
+      setSecondMapMarker(newMarker);
+      onSecondMapMarkerChange && onSecondMapMarkerChange(newMarker);
+    };
+    
+    return (
+      <View style={styles.container}>
+        <Surface style={styles.mapContainer} mode='elevated' elevation={2}>
+        <MapView
+          style={styles.secondMap}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          region={mapRegion}
+          onPress={handleSecondMapPress} 
+        >
           {startPoint && <Marker coordinate={startPoint} image={CustomMarkerImage} />}
-          {placeList.map((item, index) => index < 10 && <PlaceMarker key={index} item={item} />)}
-
-          <MapViewDirections
-            origin={startPoint}
-            waypoints={waypoints}
-            destination={startPoint}
-            apikey={API_KEY}
-            strokeWidth={3}
-            strokeColor="hotpink"
-            mode={transportMode}
-          />
+          {secondMapMarker && (
+            <Marker
+              coordinate={secondMapMarker}
+            />
+          )}
         </MapView>
-      </Surface>
-      <TouchableOpacity style={styles.navigateButton} onPress={handleNavigatePress}>
-        <Text style={styles.navigateButtonText}>Naviguer</Text>
-      </TouchableOpacity>
-    </View>
-  );
+        </Surface>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -105,6 +140,10 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('screen').width * 0.89,
     height: Dimensions.get('screen').height * 0.23,
+  },
+  secondMap: {
+    width: Dimensions.get('screen').width * 1,
+    height: Dimensions.get('screen').height * 1,
   },
   navigateButton: {
     backgroundColor: CustomColors.inputOutline,

@@ -15,7 +15,7 @@ export default function PlaceList({ placeList }: Readonly<PlaceListProps>) {
       <Text style={styles.texteTitre}>Found {placeList ? placeList.length : 0} places</Text>
 
       {placeList.map((item, index) => (
-      index % 4 === 0 ? <PlaceItemBig key={index} place={item} /> : <PlaceItem key={index} place={item} />
+         <PlaceItem key={index} place={item} />
     ))}
 
     </Surface>

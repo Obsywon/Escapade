@@ -24,7 +24,6 @@ import EditProfileScreen from "./pages/EditProfileScreen";
 import InscriptionScreen from "./pages/InscriptionScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 
-
 export type AppNavigatorParamList = {
   Bienvenue: undefined;
   Inscription: undefined;
@@ -36,7 +35,6 @@ export type AppNavigatorParamList = {
 };
 
 const Stack = createStackNavigator<AppNavigatorParamList>();
-
 
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);

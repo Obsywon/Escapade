@@ -8,8 +8,7 @@ export default function initGraphQLClient(accessToken: string): ApolloClient<Nor
 const httpLink = createHttpLink();
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  // return the headers to the context so httpLink can read them
+  console.log("test");
   return {
     headers: {
       ...headers,
