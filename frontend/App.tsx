@@ -66,17 +66,6 @@ function App(): JSX.Element {
         ?.getIdTokenResult()
         .then((accessToken) => {
           setAccessToken(accessToken);
-          
-          const httpLink = new HttpLink({
-              preserveHeaderCase: true,
-              headers: {
-                Authorization: `Bearer ${accessToken.token}`,
-              },
-            });
-
-          client.setLink(httpLink);
-          //console.log("LINK", client.link);
-          setAccessToken(accessToken);
         })
         .catch((error) => console.error(error))
 
