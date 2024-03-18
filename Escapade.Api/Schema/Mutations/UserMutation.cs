@@ -149,9 +149,9 @@ namespace Escapade.Api.Schema.Mutations
         [Error(typeof(VerifyFirebaseTokenError))]
         [Error(typeof(BirthdateInvalidFormatError))]
         [Error(typeof(NameInvalidFormatError))]
-        public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
+        public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string userId, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
         {
-            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 
