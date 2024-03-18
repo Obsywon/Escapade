@@ -8,7 +8,7 @@ import { CustomTheme } from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, NormalizedCacheObject, createHttpLink } from "@apollo/client";
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
@@ -53,11 +53,7 @@ function App(): JSX.Element {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
 
-  const client = new ApolloClient({
-    uri: env.BACKEND_APP_URI,
-    cache: new InMemoryCache(),
-    connectToDevTools: true,
-  });
+  
 
   // Gère l'authentification automatique à l'application
   useEffect(() => {
@@ -69,6 +65,7 @@ function App(): JSX.Element {
       user // Authentification possible
         ?.getIdTokenResult()
         .then((accessToken) => {
+          setAccessToken(accessToken);
           
           const httpLink = new HttpLink({
               preserveHeaderCase: true,
@@ -86,6 +83,31 @@ function App(): JSX.Element {
     });
     return sub;
   }, []);
+
+  const httpLink = new HttpLink({
+    uri: env.BACKEND_APP_URI,
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    
+    return {
+      preserveHeaderCase: true,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${accessToken?.token}`,
+      },
+    };
+  });
+
+
+  const client = new ApolloClient({
+    uri: env.BACKEND_APP_URI,
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+  (async ()=>{
+    await client.clearStore();
+  })();
 
   // Pour la géolocalisation
   useEffect(() => {

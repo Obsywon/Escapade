@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import UserInfo from "../components/Profile/UserInfo";
 import MenuProfile from "../components/Profile/MenuProfile";
@@ -7,16 +7,32 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { ColorScheme } from "../themes/CustomColors";
 import BasicButton from "../components/forms/BasicButton";
 import { AppNavigatorParamList } from "../App";
-import { getUserById } from "../services/userService";
+import { USER_BY_ID_QUERY, getUserById } from "../services/userService";
 import LoadingSurface from "../components/LoadingSurface";
 import { firebaseAuth } from "../services/AuthService";
 import { ActivityIndicator, Text, Surface } from "react-native-paper";
+import { useApolloClient } from "@apollo/client";
 
 export default function ProfileScreen(): JSX.Element {
   const navigation =
     useNavigation<StackNavigationProp<AppNavigatorParamList>>();
   const uid = firebaseAuth.currentUser?.uid;
 
+  
+
+  const { loading, user, error } = getUserById(uid?? "")
+  const client = useApolloClient();
+  
+  useEffect(()=>{
+    // Recharge les dernières infos du profil
+    navigation.addListener('focus', ()=>{
+      (async ()=>{
+        await client.refetchQueries({
+          include: [USER_BY_ID_QUERY]
+        })
+      })();
+    });
+  }, [navigation]);
 
   if (!uid) {
     navigation.replace("Connexion");
@@ -25,7 +41,7 @@ export default function ProfileScreen(): JSX.Element {
     )
   }
 
-  const { loading, user, error } = getUserById(uid)
+  
 
   if (error){
     return (
