@@ -13,7 +13,14 @@ namespace Escapade.Api.Schema
                 string authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"];
 
                 // Extraire le token en enlevant "Bearer " du début
-                string token = authorizationHeader.Substring("Bearer ".Length);
+                if (authorizationHeader == null || authorizationHeader.Length <= "Bearer ".Length)
+                {
+                    throw new VerifyFirebaseTokenException();
+                }
+                string token = authorizationHeader["Bearer ".Length..];
+                Console.WriteLine(token);
+
+
 
                 // Utiliser le token comme nécessaire
                 FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);

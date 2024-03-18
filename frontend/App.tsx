@@ -8,7 +8,7 @@ import { CustomTheme } from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
@@ -24,6 +24,7 @@ import EditProfileScreen from "./pages/EditProfileScreen";
 import InscriptionScreen from "./pages/InscriptionScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "./pages/ProfileScreen";
+import { setContext } from "@apollo/client/link/context";
 
 
 export type AppNavigatorParamList = {
@@ -45,7 +46,6 @@ const Stack = createStackNavigator<AppNavigatorParamList>();
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
   const [fonts, fontLoaded] = useCustomFonts();
-  const [accessLoaded, setAccessLoaded] = useState<boolean>(false);
 
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -53,32 +53,50 @@ function App(): JSX.Element {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
 
-  let client = new ApolloClient({
-    uri: env.BACKEND_APP_URI,
-    cache: new InMemoryCache(),
-  });
+  
 
   // Gère l'authentification automatique à l'application
   useEffect(() => {
     const sub = firebaseAuth.onAuthStateChanged((user) => {
-      if (user == null){ // Pas authentifié
-        setAccessLoaded(true);
+      if (user == null) { // Pas authentifié
+        setAccessToken(undefined);
         return null;
       }
       user // Authentification possible
         ?.getIdTokenResult()
         .then((accessToken) => {
-          client = initGraphQLClient(accessToken.token);
-          console.log("APP", accessToken.token);
-
-          //console.log(accessToken);
           setAccessToken(accessToken);
         })
         .catch((error) => console.error(error))
-        .finally(()=>setAccessLoaded(true));
+
     });
     return sub;
   }, []);
+
+  const httpLink = new HttpLink({
+    uri: env.BACKEND_APP_URI,
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    
+    return {
+      preserveHeaderCase: true,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${accessToken?.token}`,
+      },
+    };
+  });
+
+
+  const client = new ApolloClient({
+    uri: env.BACKEND_APP_URI,
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+  (async ()=>{
+    await client.clearStore();
+  })();
 
   // Pour la géolocalisation
   useEffect(() => {
@@ -96,13 +114,11 @@ function App(): JSX.Element {
     })();
   }, []);
 
-  if (!fontLoaded || !accessLoaded) {
+  if (!fontLoaded || !accessToken) {
     return (
-      <ApolloProvider client={client}>
-        <PaperProvider theme={CustomTheme}>
-          <LoadingSurface text="Chargement en cours..." />
-        </PaperProvider>
-      </ApolloProvider>
+      <PaperProvider theme={CustomTheme}>
+        <LoadingSurface text="Chargement en cours..." />
+      </PaperProvider>
     );
   }
 
@@ -112,43 +128,43 @@ function App(): JSX.Element {
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
-              <Stack.Navigator initialRouteName={accessToken?.token ? "Dashboard" : "Bienvenue"}
+              <Stack.Navigator initialRouteName="Bienvenue"
                 screenOptions={{
                   headerShown: false
                 }}
               >
-                <Stack.Screen name="Dashboard" component={TabNavigator} />
-                {accessToken?.token && (
+
+                {client ? (
                   <>
+                    <Stack.Screen name="Dashboard" component={TabNavigator} />
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                      options={{ title: 'Modifier le profil' }}
                     />
                     <Stack.Screen
                       name="Profil"
                       component={ProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                      options={{ title: 'Profil' }}
+                    />
+                  </>
+
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name="Bienvenue"
+                      component={BienvenueScreen}
+                    />
+                    <Stack.Screen
+                      name="Inscription"
+                      component={InscriptionScreen}
+                    />
+                    <Stack.Screen
+                      name="Connexion"
+                      component={ConnexionScreen}
                     />
                   </>
                 )}
-                <Stack.Screen
-                  name="Bienvenue"
-                  component={BienvenueScreen}
-                  options={{ title: 'Bienvenue' }}
-                />
-                <Stack.Screen
-                  name="Inscription"
-                  component={InscriptionScreen}
-                  options={{ title: 'Inscription' }}
-                />
-                <Stack.Screen
-                  name="Connexion"
-                  component={ConnexionScreen}
-                  options={{ title: 'Connexion' }}
-                />
               </Stack.Navigator>
             </MainLayout>
           </NavigationContainer>
@@ -156,7 +172,6 @@ function App(): JSX.Element {
       </PaperProvider>
     </ApolloProvider>
   );
-  
 }
 
 export default App;

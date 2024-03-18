@@ -53,7 +53,7 @@ function ConnexionScreen(): JSX.Element {
         const user = userCredentials.user;
         const token: IdTokenResult = await user.getIdTokenResult();
 
-        console.log("USER TOKEN:", token.token);
+        //console.log("USER TOKEN:", token.token);
         navigation.replace("Dashboard");
       }
       return undefined;

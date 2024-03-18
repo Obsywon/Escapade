@@ -55,7 +55,7 @@ export default function DashboardScreen(): JSX.Element {
           label="Rayon de recherche (en mètres)"
           value={searchRadius}
           onChangeText={(text: string) => setSearchRadius(text)}
-          placeholder="Ex : 500m"
+          placeholder="Ex : 500"
           keyboardType="numeric"
         />
 

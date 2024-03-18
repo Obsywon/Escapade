@@ -17,6 +17,11 @@ import { isLoading } from "expo-font";
 import ErrorText from "../forms/ErrorText";
 import { useState } from "react";
 
+import { RadioButton, SegmentedButtons } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppNavigatorParamList } from "../../App";
+
+
 type EditProfileFormProps = {
     userData: Account;
 };
@@ -24,6 +29,8 @@ type EditProfileFormProps = {
 export default function EditProfileForm({ userData }: Readonly<EditProfileFormProps>): JSX.Element {
 
     const [date, setDate] = useState<Date>(new Date(userData.birthDate));
+    const [gender, setGender] = useState<string | undefined>(userData?.gender);
+
     const {
         control,
         handleSubmit,
@@ -40,7 +47,7 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
             phoneNumber: userData?.phoneNumber,
         },
     });
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
     const [updateUser, { loading, error }] = useMutation(UPDATE_USER);
 
@@ -52,11 +59,12 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
             ...data,
             userId: userData.id,
             birthDate: date,
+            gender,
         };
 
         updateUser({
             variables: { input: user },
-            onCompleted: (data) =>{
+            onCompleted: (data) => {
                 navigation.goBack();
             },
             onError: (err) => (console.log(err.cause)),
@@ -79,6 +87,21 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
                 <BasicTextInput control={control} label="Nom" name="lastName" isRequired={true} rules={lastNameRules} />
 
                 <DatePicker date={date} setDate={setDate} label="Date de naissance" />
+                <View style={{paddingVertical: 8}}>
+                    <SegmentedButtons
+                        value={gender!}
+                        onValueChange={setGender}
+                        buttons={[
+                            {
+                                value: 'Homme',
+                                label: 'Homme',
+                            },
+                            {
+                                value: 'Femme',
+                                label: 'Femme',
+                            }]}
+                    />
+                </View>
 
                 <BasicTextInput control={control} label="Description" name="description" multiline={true} placeholder="Décrivez-vous brièvement" rules={descriptionRules} />
                 <BasicTextInput control={control} label="Ville" name="city" rules={cityRules} />
@@ -91,7 +114,7 @@ export default function EditProfileForm({ userData }: Readonly<EditProfileFormPr
                     }} />
 
 
-                <View style={styles.buttons}>
+                <View style={styles.split}>
                     <BasicButton color="rgb(200, 0, 0)" label="Annuler" onPress={() => navigation.goBack()} disabled={loading} />
                     <BasicButton label="Enregistrer" disabled={loading} loading={loading} onPress={onSubmit} />
                 </View>
@@ -115,12 +138,13 @@ const styles = StyleSheet.create({
         padding: 8,
         paddingRight: 24,
         paddingLeft: 24,
-        gap: 8,
+        
     },
-    buttons: {
+    split: {
         paddingVertical: 8,
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'space-around',
         gap: 8,
     }
 })

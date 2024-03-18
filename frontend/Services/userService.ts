@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Account, UpdateAccount } from "../types/Account";
 
-const USER_BY_ID_QUERY = gql`
+export const USER_BY_ID_QUERY = gql`
   query GetUserById($id: String!) {
     userById(id: $id) {
       id
@@ -57,7 +57,7 @@ export const UPDATE_USER = gql`
   {
     const { loading, error, data } = useQuery(USER_BY_ID_QUERY, {
       variables: { id },
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
     });
   
     return { loading, error, user: data?.userById };

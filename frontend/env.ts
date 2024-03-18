@@ -19,6 +19,7 @@ const env: Readonly<Env> = {
   //Données sur l'application
   BACKEND_APP_URI:
     "https://escapadeapi20240115214733.azurewebsites.net/graphql/",
+    //"https://localhost:7025/graphql/",
 
   //Authentification par Firebase
   FIREBASE_API_KEY: "AIzaSyCfaZTRP3qpC_XqVpZgMAEs2b10E0-j12c",

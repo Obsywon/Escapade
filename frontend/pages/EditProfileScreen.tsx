@@ -16,7 +16,7 @@ export default function EditProfileScreen({ navigation, route }: Readonly<Modifi
   const { loading, error, user } = getUserById(route.params.uid);
   const userData = user as Account;
   //userData.id = route.params.uid;
-  console.log("ACCOUNT", userData);
+  //console.log("ACCOUNT", userData);
   
 
   
