@@ -53,7 +53,7 @@ export const UPDATE_USER = gql`
 `
 
 
-/**export function getUserById (id: string) 
+export function getUserById (id: string) 
   {
     const { loading, error, data } = useQuery(USER_BY_ID_QUERY, {
       variables: { id },
@@ -63,8 +63,7 @@ export const UPDATE_USER = gql`
     return { loading, error, user: data?.userById };
   };
 
-**/
-
+/**
 export function getUserById (id: string) 
   {
     const { loading, error, data } = useQuery(USER_BY_ID_QUERY, {
@@ -75,3 +74,4 @@ export function getUserById (id: string)
   
     return { loading, error, user: data?.userById };
   };
+  **/

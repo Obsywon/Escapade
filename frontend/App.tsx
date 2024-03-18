@@ -46,7 +46,7 @@ const Stack = createStackNavigator<AppNavigatorParamList>();
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
   const [fonts, fontLoaded] = useCustomFonts();
-
+  const [accessLoaded, setAccessLoaded] = useState<boolean>(false);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -55,23 +55,24 @@ function App(): JSX.Element {
 
   
 
-  // Gère l'authentification automatique à l'application
-  useEffect(() => {
-    const sub = firebaseAuth.onAuthStateChanged((user) => {
-      if (user == null) { // Pas authentifié
-        setAccessToken(undefined);
-        return null;
-      }
-      user // Authentification possible
-        ?.getIdTokenResult()
-        .then((accessToken) => {
-          setAccessToken(accessToken);
-        })
-        .catch((error) => console.error(error))
-
-    });
-    return sub;
-  }, []);
+ // Gère l'authentification automatique à l'application
+ useEffect(() => {
+  const sub = firebaseAuth.onAuthStateChanged((user) => {
+    if (user == null){ // Pas authentifié
+      setAccessLoaded(true);
+      setAccessToken(accessToken);
+      return null;
+    }
+    user // Authentification possible
+      ?.getIdTokenResult()
+      .then((accessToken) => {
+        setAccessToken(accessToken);
+      })
+      .catch((error) => console.error(error))
+      .finally(()=>setAccessLoaded(true));
+  });
+  return sub;
+}, []);
 
   const httpLink = new HttpLink({
     uri: env.BACKEND_APP_URI,
@@ -114,7 +115,7 @@ function App(): JSX.Element {
     })();
   }, []);
 
-  if (!fontLoaded || !accessToken) {
+  if (!fontLoaded || !accessLoaded) {
     return (
       <PaperProvider theme={CustomTheme}>
         <LoadingSurface text="Chargement en cours..." />
@@ -122,19 +123,19 @@ function App(): JSX.Element {
     );
   }
 
+
   return (
     <ApolloProvider client={client}>
       <PaperProvider theme={{ ...CustomTheme, fonts }}>
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
-              <Stack.Navigator initialRouteName="Bienvenue"
+            <Stack.Navigator initialRouteName={accessToken?.token ? "Dashboard" : "Bienvenue"}
                 screenOptions={{
                   headerShown: false
                 }}
               >
-
-                {client ? (
+                {accessToken?.token ? (
                   <>
                     <Stack.Screen name="Dashboard" component={TabNavigator} />
                     <Stack.Screen
@@ -147,8 +148,19 @@ function App(): JSX.Element {
                       component={ProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
                     />
+                    <Stack.Screen
+                      name="Bienvenue"
+                      component={BienvenueScreen}
+                    />
+                    <Stack.Screen
+                      name="Inscription"
+                      component={InscriptionScreen}
+                    />
+                    <Stack.Screen
+                      name="Connexion"
+                      component={ConnexionScreen}
+                    />
                   </>
-
                 ) : (
                   <>
                     <Stack.Screen

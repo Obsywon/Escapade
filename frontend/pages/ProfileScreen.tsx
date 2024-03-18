@@ -23,7 +23,7 @@ export default function ProfileScreen(): JSX.Element {
 
   const handleLogout = async () => {
     await disconnectUserFromFirebase();
-    navigation.replace("Connexion");
+    //navigation.replace("Connexion");
   };
   
 
@@ -41,13 +41,12 @@ export default function ProfileScreen(): JSX.Element {
     });
   }, [navigation]);
 
+
   if (!uid) {
-    navigation.replace("Connexion");
     return (
       <LoadingSurface />
     )
   }
-
   
 
   if (error){
