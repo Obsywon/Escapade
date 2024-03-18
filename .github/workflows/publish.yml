@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - dev
+    paths:
+      - 'Escapade.Api/**'
 
 env:
   AZURE_WEBAPP_NAME: EscapadeApi20240115214733    # set this to your application's name
