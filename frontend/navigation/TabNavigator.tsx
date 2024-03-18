@@ -50,7 +50,7 @@ const tabs : TabElement[] = [
     label: "Favori",
     component: FavoriScreen,
     iconComponent: ({ color }: IconProps) => (
-      <Ionicons name="ios-heart" color={color} size={iconSize} />
+      <Ionicons name="heart-outline" color={color} size={iconSize} />
     ),
   },
   {

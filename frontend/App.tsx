@@ -8,7 +8,7 @@ import { CustomTheme } from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
@@ -24,6 +24,7 @@ import EditProfileScreen from "./pages/EditProfileScreen";
 import InscriptionScreen from "./pages/InscriptionScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "./pages/ProfileScreen";
+import { setContext } from "@apollo/client/link/context";
 
 
 export type AppNavigatorParamList = {
@@ -45,34 +46,57 @@ const Stack = createStackNavigator<AppNavigatorParamList>();
 function App(): JSX.Element {
   const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
   const [fonts, fontLoaded] = useCustomFonts();
-  const [accessLoaded, setAccessLoaded] = useState<boolean>(false);
 
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  let client = new ApolloClient({
-    uri: env.BACKEND_APP_URI,
-    cache: new InMemoryCache(),
-  });
+
+  
 
   // Gère l'authentification automatique à l'application
   useEffect(() => {
     const sub = firebaseAuth.onAuthStateChanged((user) => {
-
-      user
+      if (user == null) { // Pas authentifié
+        setAccessToken(undefined);
+        return null;
+      }
+      user // Authentification possible
         ?.getIdTokenResult()
         .then((accessToken) => {
-          client = initGraphQLClient(accessToken.token);
-          //console.log(accessToken);
           setAccessToken(accessToken);
-          setAccessLoaded(true);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+
     });
     return sub;
   }, []);
+
+  const httpLink = new HttpLink({
+    uri: env.BACKEND_APP_URI,
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    
+    return {
+      preserveHeaderCase: true,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${accessToken?.token}`,
+      },
+    };
+  });
+
+
+  const client = new ApolloClient({
+    uri: env.BACKEND_APP_URI,
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+  (async ()=>{
+    await client.clearStore();
+  })();
 
   // Pour la géolocalisation
   useEffect(() => {
@@ -90,13 +114,11 @@ function App(): JSX.Element {
     })();
   }, []);
 
-  if (!fontLoaded || !accessLoaded) {
+  if (!fontLoaded || !accessToken) {
     return (
-      <ApolloProvider client={client}>
-        <PaperProvider theme={CustomTheme}>
-          <LoadingSurface text="Chargement en cours..." />
-        </PaperProvider>
-      </ApolloProvider>
+      <PaperProvider theme={CustomTheme}>
+        <LoadingSurface text="Chargement en cours..." />
+      </PaperProvider>
     );
   }
 
@@ -112,7 +134,7 @@ function App(): JSX.Element {
                 }}
               >
 
-                {accessToken?.token ? (
+                {client ? (
                   <>
                     <Stack.Screen name="Dashboard" component={TabNavigator} />
                     <Stack.Screen
