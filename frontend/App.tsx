@@ -147,19 +147,7 @@ function App(): JSX.Element {
                       name="Profil"
                       component={ProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                    />
-                    <Stack.Screen
-                      name="Bienvenue"
-                      component={BienvenueScreen}
-                    />
-                    <Stack.Screen
-                      name="Inscription"
-                      component={InscriptionScreen}
-                    />
-                    <Stack.Screen
-                      name="Connexion"
-                      component={ConnexionScreen}
-                    />
+                    />                    
                   </>
                 ) : (
                   <>
