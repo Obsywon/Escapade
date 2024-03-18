@@ -11,11 +11,20 @@ import { getUserById } from "../services/userService";
 import LoadingSurface from "../components/LoadingSurface";
 import { firebaseAuth } from "../services/AuthService";
 import { ActivityIndicator, Text, Surface } from "react-native-paper";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
+
 
 export default function ProfileScreen(): JSX.Element {
-  const navigation =
-    useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+
+  const { disconnectUserFromFirebase } = useFirebaseAuth();
+
   const uid = firebaseAuth.currentUser?.uid;
+
+  const handleLogout = async () => {
+    await disconnectUserFromFirebase();
+    navigation.replace("Connexion");
+  };
 
   if (!uid) {
     navigation.replace("Connexion");
@@ -44,10 +53,17 @@ export default function ProfileScreen(): JSX.Element {
           label="Modifier le profil"
           onPress={() => navigation.push("ModifierProfil", {uid})}
           color={ColorScheme.secondary}
-          disabled={true}
+          disabled={loading}
         />
       </View>
       <MenuProfile />
+      
+      <BasicButton
+          label="Se déconnecter"
+          onPress={handleLogout}
+          color={ColorScheme.secondary}
+          disabled={loading}
+        />
     </View>
   );
 }

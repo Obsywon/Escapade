@@ -122,11 +122,11 @@ namespace Escapade.Api.Schema.Mutations
         }
 
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<User> AddNewFavoritePlaceAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string userId, string placeId, CancellationToken cancellationToken)
+        public async Task<User> AddNewFavoritePlaceAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
         {
-           //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+           var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
             Place currentPlace;
@@ -145,15 +145,13 @@ namespace Escapade.Api.Schema.Mutations
             return await userService.UpdateAsync(currentUser);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         [Error(typeof(BirthdateInvalidFormatError))]
         [Error(typeof(NameInvalidFormatError))]
-        public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor,
-            string userId, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
-
+        public async Task<User> UpdateUserAsync(IUserService userService, IHttpContextAccessor httpContextAccessor, string name, string lastName, DateTime birthDate, string gender, string city, string country, string phoneNumber, string description, CancellationToken cancellationToken)
         {
-            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             User currentUser = null;
 

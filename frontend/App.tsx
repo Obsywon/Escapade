@@ -23,6 +23,7 @@ import ConnexionScreen from "./pages/ConnexionScreen";
 import EditProfileScreen from "./pages/EditProfileScreen";
 import InscriptionScreen from "./pages/InscriptionScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import ProfileScreen from "./pages/ProfileScreen";
 
 
 export type AppNavigatorParamList = {
@@ -33,6 +34,9 @@ export type AppNavigatorParamList = {
   ModifierProfil: {
     uid: string,
   };
+  Profil: {
+    uid: string,
+  },
 };
 
 const Stack = createStackNavigator<AppNavigatorParamList>();
@@ -48,6 +52,7 @@ function App(): JSX.Element {
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+
   let client = new ApolloClient({
     uri: env.BACKEND_APP_URI,
     cache: new InMemoryCache(),
@@ -56,16 +61,21 @@ function App(): JSX.Element {
   // Gère l'authentification automatique à l'application
   useEffect(() => {
     const sub = firebaseAuth.onAuthStateChanged((user) => {
-
-      user
+      if (user == null){ // Pas authentifié
+        setAccessLoaded(true);
+        return null;
+      }
+      user // Authentification possible
         ?.getIdTokenResult()
         .then((accessToken) => {
           client = initGraphQLClient(accessToken.token);
-          console.log(accessToken);
+          console.log("APP", accessToken.token);
+
+          //console.log(accessToken);
           setAccessToken(accessToken);
-          setAccessLoaded(true);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(()=>setAccessLoaded(true));
     });
     return sub;
   }, []);
@@ -102,38 +112,43 @@ function App(): JSX.Element {
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
-              <Stack.Navigator initialRouteName="Bienvenue"
+              <Stack.Navigator initialRouteName={accessToken?.token ? "Dashboard" : "Bienvenue"}
                 screenOptions={{
                   headerShown: false
                 }}
               >
-
-                {accessToken?.token ? (
+                <Stack.Screen name="Dashboard" component={TabNavigator} />
+                {accessToken?.token && (
                   <>
-                    <Stack.Screen name="Dashboard" component={TabNavigator} />
                     <Stack.Screen
                       name="ModifierProfil"
                       component={EditProfileScreen}
                       initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                    />
-                  </>
-
-                ) : (
-                  <>
-                    <Stack.Screen
-                      name="Bienvenue"
-                      component={BienvenueScreen}
+                      options={{ title: 'Modifier le profil' }}
                     />
                     <Stack.Screen
-                      name="Inscription"
-                      component={InscriptionScreen}
-                    />
-                    <Stack.Screen
-                      name="Connexion"
-                      component={ConnexionScreen}
+                      name="Profil"
+                      component={ProfileScreen}
+                      initialParams={{ uid: firebaseAuth.currentUser?.uid }}
+                      options={{ title: 'Profil' }}
                     />
                   </>
                 )}
+                <Stack.Screen
+                  name="Bienvenue"
+                  component={BienvenueScreen}
+                  options={{ title: 'Bienvenue' }}
+                />
+                <Stack.Screen
+                  name="Inscription"
+                  component={InscriptionScreen}
+                  options={{ title: 'Inscription' }}
+                />
+                <Stack.Screen
+                  name="Connexion"
+                  component={ConnexionScreen}
+                  options={{ title: 'Connexion' }}
+                />
               </Stack.Navigator>
             </MainLayout>
           </NavigationContainer>
@@ -141,6 +156,7 @@ function App(): JSX.Element {
       </PaperProvider>
     </ApolloProvider>
   );
+  
 }
 
 export default App;

@@ -2,17 +2,18 @@
 using Escapade.Api.Models;
 using Escapade.Api.Services;
 using Escapade.Api.Services.Interfaces;
+using HotChocolate.Authorization;
 
 namespace Escapade.Api.Schema.Mutations
 {
     [ExtendObjectType(typeof(Mutation))]
     public class PostMutation
     {
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<User> UpdatePostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, string postId, string title, string description, string photo, CancellationToken cancellationToken)
+        public async Task<User> UpdatePostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string postId, string title, string description, string photo, CancellationToken cancellationToken)
         {
-            //var loggedInUserId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             // Récupérez l'utilisateur
             var user = await service.GetByIdAsync(userId);
@@ -20,14 +21,14 @@ namespace Escapade.Api.Schema.Mutations
             // Vérifiez si l'utilisateur existe
             if (user == null)
             {
-                throw new Exception(); // Gérer l'erreur si l'utilisateur n'est pas trouvé
+                throw new Exception(); 
             }
 
             // Recherchez le post dans la liste des posts de l'utilisateur
             var post = user.Posts.FirstOrDefault(p => p.Id == postId);
             if (post == null)
             {
-                throw new Exception(); // Gérer l'erreur si le post n'est pas trouvé
+                throw new Exception(); 
             }
 
             // Mettez à jour les propriétés du post
@@ -41,11 +42,11 @@ namespace Escapade.Api.Schema.Mutations
             return user;
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<User> AddPostToUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string title, string description, string userId, string placeId, CancellationToken cancellationToken)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             Post post = new Post
             {
@@ -61,11 +62,11 @@ namespace Escapade.Api.Schema.Mutations
             return await service.UpdateAsync(user);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task DeletePostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, string postId, CancellationToken cancellationToken)
+        public async Task DeletePostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string postId, CancellationToken cancellationToken)
         {
-            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             // Récupérez l'utilisateur
             var user = await service.GetByIdAsync(userId);

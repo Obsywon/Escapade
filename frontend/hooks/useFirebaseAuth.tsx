@@ -20,7 +20,6 @@ export default function useFirebaseAuth(): UseAuthContent {
 
   const disconnectUserFromFirebase = async (): Promise<void> => {
     await signOut(firebaseAuth);
-    //updateUser(null);
   };
 
 
