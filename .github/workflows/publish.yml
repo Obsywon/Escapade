@@ -30,7 +30,7 @@ jobs:
           cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           dotnet restore ${{ env.APP_SOLUTION }}
           dotnet build --configuration Release ${{ env.APP_SOLUTION }}
-          dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/build' 
+          dotnet publish -c Release ${{ env.APP_SOLUTION }} --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/build' 
           
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
