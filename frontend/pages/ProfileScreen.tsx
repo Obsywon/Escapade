@@ -21,12 +21,6 @@ export default function ProfileScreen(): JSX.Element {
 
   const uid = firebaseAuth.currentUser?.uid;
 
-  const handleLogout = async () => {
-    await disconnectUserFromFirebase();
-    //navigation.replace("Connexion");
-  };
-  
-
   const { loading, user, error } = getUserById(uid?? "")
   const client = useApolloClient();
   
@@ -81,7 +75,7 @@ export default function ProfileScreen(): JSX.Element {
       
       <BasicButton
           label="Se déconnecter"
-          onPress={handleLogout}
+          onPress={disconnectUserFromFirebase}
           color={ColorScheme.secondary}
           disabled={loading}
         />
