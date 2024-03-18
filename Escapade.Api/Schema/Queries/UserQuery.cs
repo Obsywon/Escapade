@@ -1,6 +1,7 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
+using HotChocolate.Authorization;
 
 namespace Escapade.Api.Schema.Queries
 {
@@ -8,7 +9,7 @@ namespace Escapade.Api.Schema.Queries
     public class UserQuery 
     {
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<IEnumerable<User>> GetAllUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
@@ -17,7 +18,7 @@ namespace Escapade.Api.Schema.Queries
 
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         [Error(typeof(UserIdNotFoundError))]
         public async Task<User> GetUserByIdAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string id, CancellationToken cancellation)
@@ -26,20 +27,20 @@ namespace Escapade.Api.Schema.Queries
             return await service.GetByIdAsync(id);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         [Error(typeof(UserEmailNotFoundError))]
         public async Task<User> GetUserByEmailAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string email, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetUserByEmailAsync(email);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<Place>> GetAllFavoritePlacesAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllFavoritePlacesAsync(userId);
         }
     }

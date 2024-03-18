@@ -6,9 +6,9 @@ import { Text, Surface } from "react-native-paper";
 import Logo from "../components/forms/Logo";
 import AppTitle from "../components/AppTitle";
 import { ColorScheme } from "../themes/CustomColors";
-import { AppNavigatorParamList } from "../navigation/AppNavigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorParamList } from "../App";
 
 type BienvenueScreenProps = StackNavigationProp<AppNavigatorParamList, 'Bienvenue'>
 

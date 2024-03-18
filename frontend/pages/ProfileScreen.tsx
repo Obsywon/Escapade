@@ -11,13 +11,20 @@ import { USER_BY_ID_QUERY, getUserById } from "../services/userService";
 import LoadingSurface from "../components/LoadingSurface";
 import { firebaseAuth } from "../services/AuthService";
 import { ActivityIndicator, Text, Surface } from "react-native-paper";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useApolloClient } from "@apollo/client";
 
 export default function ProfileScreen(): JSX.Element {
-  const navigation =
-    useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
+
+  const { disconnectUserFromFirebase } = useFirebaseAuth();
+
   const uid = firebaseAuth.currentUser?.uid;
 
+  const handleLogout = async () => {
+    await disconnectUserFromFirebase();
+    //navigation.replace("Connexion");
+  };
   
 
   const { loading, user, error } = getUserById(uid?? "")
@@ -34,13 +41,12 @@ export default function ProfileScreen(): JSX.Element {
     });
   }, [navigation]);
 
+
   if (!uid) {
-    navigation.replace("Connexion");
     return (
       <LoadingSurface />
     )
   }
-
   
 
   if (error){
@@ -72,6 +78,13 @@ export default function ProfileScreen(): JSX.Element {
         />
       </View>
       <MenuProfile />
+      
+      <BasicButton
+          label="Se déconnecter"
+          onPress={handleLogout}
+          color={ColorScheme.secondary}
+          disabled={loading}
+        />
     </View>
   );
 }

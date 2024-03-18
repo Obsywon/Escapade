@@ -1,6 +1,7 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
+using HotChocolate.Authorization;
 
 namespace Escapade.Api.Schema.Queries
 {
@@ -9,19 +10,19 @@ namespace Escapade.Api.Schema.Queries
     {
         #region GetFromMe & GetFromUser
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<Post>> GetAllPostByMeAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<Post>> GetAllPostByMeAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            //var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Post>)await service.GetAllPostByUserAsync(userId);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Post>> GetAllPostByUserAsync(IUserService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Post>)await service.GetAllPostByUserAsync(userId);
         }
 
@@ -29,11 +30,11 @@ namespace Escapade.Api.Schema.Queries
 
         #region GetAll & GetById
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Post>> GetAllPostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return (ICollection<Post>)await service.GetAllPostAsync();
         }
 
@@ -49,11 +50,11 @@ namespace Escapade.Api.Schema.Queries
 
         #region GetRandom
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<ICollection<Post>> GetRandomPostAsync(IUserService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetRandomPostAsync();
         }
 
