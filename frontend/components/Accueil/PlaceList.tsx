@@ -1,8 +1,7 @@
-import { View, StyleSheet, FlatList } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
-import { Place } from './PlaceType';
+import { Place } from '../../types/PlaceType';
 import PlaceItem from './PlaceItem';
-import PlaceItemBig from './PlaceItemBig';
 import { Surface, Text } from 'react-native-paper';
 
 interface PlaceListProps {
@@ -14,8 +13,8 @@ export default function PlaceList({ placeList }: Readonly<PlaceListProps>) {
     <Surface style={styles.container}>
       <Text style={styles.texteTitre}>Found {placeList ? placeList.length : 0} places</Text>
 
-      {placeList.map((item, index) => (
-      index % 4 === 0 ? <PlaceItemBig key={index} place={item} /> : <PlaceItem key={index} place={item} />
+      {placeList.map((item) => (
+       <PlaceItem key={item.name} place={item} />
     ))}
 
     </Surface>

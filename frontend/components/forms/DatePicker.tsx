@@ -12,7 +12,7 @@ interface DatePickerProps {
   label: string;
 }
 
-function DatePicker({date, setDate, label}: DatePickerProps): JSX.Element {
+export default function DatePicker({date, setDate, label}: Readonly<DatePickerProps>): JSX.Element {
   const [showDate, setShowDate] = useState<boolean>(false);
   const [today] = useState<Date>(new Date());
 
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DatePicker;
+

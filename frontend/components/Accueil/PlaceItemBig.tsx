@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet } from 'react-native'
 import React from 'react'
 
-import { Place } from './PlaceType';
+import { Place } from '../../types/PlaceType';
 import { AntDesign } from '@expo/vector-icons';
 import HorizontalLine from './HorizontalLine';
 import { ColorScheme, CustomColors } from '../../themes/CustomColors';

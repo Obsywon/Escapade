@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
-import { ColorScheme, CustomColors } from '../../themes/CustomColors';
+import { CustomColors } from '../../themes/CustomColors';
 
 export default function HorizontalLine() {
     return (

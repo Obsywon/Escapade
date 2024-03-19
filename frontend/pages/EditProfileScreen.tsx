@@ -2,24 +2,20 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { Surface, Text } from 'react-native-paper'
 import { StackScreenProps } from '@react-navigation/stack';
-import { AppNavigatorParamList } from '../App';
 import { getUserById } from '../services/userService';
 import { ColorScheme, CustomColors } from '../themes/CustomColors';
 import { Account } from '../types/Account';
 import EditProfileForm from '../components/EditProfile/EditProfileForm';
+import { AppNavigatorParamList } from '../navigation/RootNavigator';
+import { firebaseAuth } from '../services/AuthService';
 
 
 type ModifierProfilScreenProps = StackScreenProps<AppNavigatorParamList, 'ModifierProfil'>
 
 export default function EditProfileScreen({ navigation, route }: Readonly<ModifierProfilScreenProps>) :  JSX.Element {
-
-  const { loading, error, user } = getUserById(route.params.uid);
+  const uid = firebaseAuth.currentUser?.uid;
+  const { loading, error, user } = getUserById(uid ?? "");
   const userData = user as Account;
-  //userData.id = route.params.uid;
-  //console.log("ACCOUNT", userData);
-  
-
-  
 
   if (loading) {
     return (

@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, ImageSourcePropType } from "react-native";
 import React from "react";
-import { Place } from "./PlaceType";
+import { Place } from "../../types/PlaceType";
 import { AntDesign } from "@expo/vector-icons";
 import { CustomColors } from "../../themes/CustomColors";
 import { Surface, Text } from "react-native-paper";
