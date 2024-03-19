@@ -5,6 +5,7 @@ on:
     branches:
       - dev
       - main
+      - GK-workflow
     paths:
       - 'Escapade.Api/**'
 
