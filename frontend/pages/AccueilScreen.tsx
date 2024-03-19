@@ -13,7 +13,7 @@ export default function AccueilScreen(): JSX.Element {
   const [searchRadius, setSearchRadius] = useState("500"); 
   const [transportationMode, setTransportationMode] = useState("WALKING"); 
   const [numberOfPlaces, setNumberOfPlaces] = useState("5"); 
-  const { location, setLocation } = useContext<UserLocationContextType>(UserLocationContext);
+  const { location } = useContext<UserLocationContextType>(UserLocationContext);
 
   useEffect(() => {
     GetNearBySearchPlace('tourist_attraction');

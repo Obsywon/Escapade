@@ -7,7 +7,7 @@ interface AppTitleProps {
   title: string;
 }
 
-const AppTitle = ({title}: AppTitleProps) => {
+export default function AppTitle ({title}: AppTitleProps) {
   return (
     <Text variant="displayLarge" style={styles.title}>
       {title}
@@ -24,4 +24,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppTitle;

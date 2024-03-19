@@ -8,11 +8,11 @@ import AppTitle from "../components/AppTitle";
 import { ColorScheme } from "../themes/CustomColors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
-import { AppNavigatorParamList } from "../App";
+import { AppNavigatorParamList } from "../navigation/RootNavigator";
 
 type BienvenueScreenProps = StackNavigationProp<AppNavigatorParamList, 'Bienvenue'>
 
-const BienvenueScreen = () : JSX.Element => {
+export default function BienvenueScreen() : JSX.Element {
 
   const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
   
@@ -102,4 +102,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BienvenueScreen;

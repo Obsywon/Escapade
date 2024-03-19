@@ -17,7 +17,7 @@ interface PasswordInputProps {
     | undefined;
 }
 
-const PasswordInput = ({control, name, label, rules}: PasswordInputProps) => {
+export default function PasswordInput ({control, name, label, rules}: PasswordInputProps) {
   const [secured, setSecured] = useState<boolean>(true);
   function toggleSecure(): void {
     setSecured(s => !s);
@@ -104,4 +104,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PasswordInput;

@@ -9,18 +9,20 @@ import BasicButton from "../components/forms/BasicButton";
 import EmailInput from "../components/forms/EmailInput";
 import { useForm } from "react-hook-form";
 
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
+
 import { IdTokenResult, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "../services/AuthService";
-import { AppNavigatorParamList } from "../App";
+import { AppNavigatorParamList } from "../navigation/RootNavigator";
+import { StackScreenProps } from "@react-navigation/stack";
 
 type ConnexionFormData = {
   email: string;
   password: string;
 };
 
-function ConnexionScreen(): JSX.Element {
+type ConnexionScreenProps = StackScreenProps<AppNavigatorParamList, "Connexion">;
+
+export default function ConnexionScreen({ navigation }: Readonly<ConnexionScreenProps>): JSX.Element {
   const {
     control,
     handleSubmit,
@@ -33,8 +35,6 @@ function ConnexionScreen(): JSX.Element {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const navigation =
-    useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
@@ -110,4 +110,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConnexionScreen;

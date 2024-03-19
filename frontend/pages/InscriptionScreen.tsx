@@ -14,10 +14,10 @@ import {useForm} from 'react-hook-form';
 import { UserInCreation, useInscription } from '../hooks/useInscription';
 
 
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { lastNameRules, nameRules } from '../services/formRules';
-import { AppNavigatorParamList } from '../App';
+import { AppNavigatorParamList } from '../navigation/RootNavigator';
 
 type InscriptionFormData = {
   nom: string;
@@ -28,7 +28,7 @@ type InscriptionFormData = {
   verify_mdp: string;
 };
 
-
+type InscriptionScreenProps = StackScreenProps<AppNavigatorParamList, 'Inscription'>;
 
 const defaultValues: InscriptionFormData = {
   nom: '',
@@ -38,7 +38,8 @@ const defaultValues: InscriptionFormData = {
   verify_mdp: '',
 };
 
-function InscriptionScreen(): JSX.Element {
+
+export default function InscriptionScreen({navigation}: Readonly<InscriptionScreenProps>): JSX.Element {
   const [date, setDate] = useState<Date>();
   const {
     control,
@@ -50,7 +51,6 @@ function InscriptionScreen(): JSX.Element {
     defaultValues: defaultValues,
   });
 
-  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
   const password = watch('mot_de_passe');
 
@@ -156,5 +156,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default InscriptionScreen;

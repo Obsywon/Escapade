@@ -8,20 +8,6 @@ const iconSize: number = 24;
 const iconColor = ColorScheme.secondary;
 
 export default function MenuProfile() {
-    // const myCustomShare = async () => {
-    //     const shareOptions = {
-    //         message: 'Viens voir ce lieu avec l\'application Escapade. Je l\'ai déjà visité plus de 5 fois.',
-    //         url: files.appLogo,
-    //         // urls: [files.image1, files.image2]
-    //     }
-
-    //     try {
-    //         const ShareResponse = await Share.open(shareOptions);
-    //         console.log(JSON.stringify(ShareResponse));
-    //     } catch (error) {
-    //         console.log('Error => ', error);
-    //     }
-    // };
 
     return (
         <View>
@@ -36,7 +22,7 @@ export default function MenuProfile() {
                 <TouchableRipple onPress={() => { }} style={styles.menuRipple}>
                     <View style={styles.menuItem}>
                         <Icon source="share-outline" color={iconColor} size={iconSize} />
-                        <Text style={styles.menuItemText}>Pargtager avec mes amis</Text>
+                        <Text style={styles.menuItemText}>Partager avec mes amis</Text>
                     </View>
                 </TouchableRipple>
                 <TouchableRipple onPress={() => { }} style={styles.menuRipple}>

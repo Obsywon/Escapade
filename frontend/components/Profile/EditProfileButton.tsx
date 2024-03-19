@@ -2,13 +2,12 @@ import { View, StyleSheet } from 'react-native'
 import React from 'react'
 import { ColorScheme } from '../../themes/CustomColors'
 import BasicButton from '../forms/BasicButton'
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface EditProfileButtonProps {
     onPress: ()=>void;
 };
 
-export default function EditProfileButton({ onPress }: EditProfileButtonProps) {
+export default function EditProfileButton({ onPress }: Readonly<EditProfileButtonProps>) {
     return (
         <View style={{alignItems: 'center'}} >
         <View style={styles.buttonContainer}>

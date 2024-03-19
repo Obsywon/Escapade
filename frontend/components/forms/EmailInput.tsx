@@ -11,7 +11,7 @@ interface EmailInputProps {
   name: string;
 }
 
-const EmailInput = ({control, name}: EmailInputProps) => {
+export default function EmailInput ({control, name}: Readonly<EmailInputProps>) {
   const isEmailValid = (email: string): boolean => {
     return Validator.isEmail(email);
   };
@@ -72,4 +72,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmailInput;
