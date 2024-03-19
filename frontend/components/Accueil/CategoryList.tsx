@@ -7,9 +7,9 @@ interface CategoryListProps {
   setSelectedCategory: (value: string) => void;
 }
 
-const CategoryList = ({
+export default function CategoryList({
   setSelectedCategory,
-}: CategoryListProps): JSX.Element => {
+}: CategoryListProps): JSX.Element {
   const categoryList = [
     {
       id: 1,
@@ -35,21 +35,20 @@ const CategoryList = ({
     <View style={styles.container}>
       <Text style={styles.texteTitre}>Sélectionnez une catégorie</Text>
       <Surface style={styles.categories}>
-      {categoryList.map((category) => (
-        <TouchableRipple
-          onPress={() => setSelectedCategory(category.value)}
-          key={category.id}
-          style={styles.touchable}
-          borderless={false}
-        >
-          <CategoryItem category={category} />
-        </TouchableRipple>
-      ))}
+        {categoryList.map((category) => (
+          <TouchableRipple
+            onPress={() => setSelectedCategory(category.value)}
+            key={category.id}
+            style={styles.touchable}
+            borderless={false}
+          >
+            <CategoryItem category={category} />
+          </TouchableRipple>
+        ))}
       </Surface>
     </View>
   );
 };
-export default CategoryList;
 
 const styles = StyleSheet.create({
   container: {

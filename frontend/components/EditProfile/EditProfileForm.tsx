@@ -19,7 +19,7 @@ import { useState } from "react";
 
 import { RadioButton, SegmentedButtons } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AppNavigatorParamList } from "../../App";
+import { AppNavigatorParamList } from "../../navigation/RootNavigator";
 
 
 type EditProfileFormProps = {

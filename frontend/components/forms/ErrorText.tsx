@@ -6,7 +6,7 @@ interface ErrorTextProps {
   children: string | undefined;
 }
 
-const ErrorText = ({children}: ErrorTextProps) => {
+export default function ErrorText ({children}: ErrorTextProps) {
   return (
     <Text variant="bodySmall" style={styles.error}>
       {children}
@@ -22,4 +22,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ErrorText;

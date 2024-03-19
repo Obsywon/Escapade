@@ -7,7 +7,7 @@ interface MainTitleProps {
   title: string;
 }
 
-const MainTitle = ({title}: MainTitleProps) => {
+export default function MainTitle ({title}: MainTitleProps) {
   return (
     <Text variant="headlineLarge" style={styles.title}>
       {title}
@@ -24,4 +24,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainTitle;

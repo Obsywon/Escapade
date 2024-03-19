@@ -10,7 +10,7 @@ import nearByPlace from '../services/GlobaleApi';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TransportOptions, TransportationMode } from '../models/TransportationMode';
 import { TextInput, Text } from 'react-native-paper';
-import { AppNavigatorParamList } from '../App';
+import { AppNavigatorParamList } from '../navigation/RootNavigator';
 
 
 
@@ -19,7 +19,7 @@ type DashboardScreenProps =
 
 
 
-export default function DashboardScreen(): JSX.Element {
+export default function DashboardScreen({} : Readonly<DashboardScreenProps>): JSX.Element {
   
   
   const [placeList, setPlacelist] = useState([]);

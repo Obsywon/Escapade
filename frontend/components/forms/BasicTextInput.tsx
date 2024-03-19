@@ -24,7 +24,7 @@ interface BasicTextInputProps {
   numberOfLines?: number;
 }
 
-const BasicTextInput = ({
+export default function BasicTextInput ({
   control,
   name,
   label = '',
@@ -35,7 +35,7 @@ const BasicTextInput = ({
   showKeyboardOnTouch = true,
   multiline = false,
   numberOfLines = 3,
-}: BasicTextInputProps) => {
+}: BasicTextInputProps) {
   //console.log(rules);
   function handleClick(event: GestureResponderEvent): void {
     if (clickHandler != null) {
@@ -100,5 +100,3 @@ const styles = StyleSheet.create({
     color: CustomColors.inputOutline,
   },
 });
-
-export default BasicTextInput;

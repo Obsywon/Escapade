@@ -16,7 +16,7 @@ interface BasicButtonProps {
 
 let fontColor : string = 'white';
 
-const BasicButton = ({
+export default function BasicButton ({
   label = '',
   onPress,
   handleLongPress,
@@ -24,7 +24,7 @@ const BasicButton = ({
   loading = false,
   uppercase = false,
   color=ColorScheme.primary,
-}: BasicButtonProps) => {
+}: BasicButtonProps)  {
   
   fontColor = loading ? 'blue' : 'white';
 
@@ -64,4 +64,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BasicButton;

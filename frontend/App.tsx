@@ -8,96 +8,26 @@ import { CustomTheme } from "./themes/CustomTheme";
 import useCustomFonts from "./hooks/useCustomFonts";
 import LoadingSurface from "./components/LoadingSurface";
 
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./contexts/UserLocationContext";
 
-import env from "./env";
-import { firebaseAuth } from "./services/AuthService";
-import { IdTokenResult } from "firebase/auth";
-import initGraphQLClient from "./services/GraphQLService";
-import TabNavigator from "./navigation/TabNavigator";
-import BienvenueScreen from "./pages/BienvenueScreen";
-import ConnexionScreen from "./pages/ConnexionScreen";
-import EditProfileScreen from "./pages/EditProfileScreen";
-import InscriptionScreen from "./pages/InscriptionScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import ProfileScreen from "./pages/ProfileScreen";
-import { setContext } from "@apollo/client/link/context";
 
-
-export type AppNavigatorParamList = {
-  Bienvenue: undefined;
-  Inscription: undefined;
-  Connexion: undefined;
-  Dashboard: undefined;
-  ModifierProfil: {
-    uid: string,
-  };
-  Profil: {
-    uid: string,
-  },
-};
-
-const Stack = createStackNavigator<AppNavigatorParamList>();
+import useApolloToken from "./hooks/useApolloClient";
+import RootNavigator from "./navigation/RootNavigator";
 
 
 function App(): JSX.Element {
-  const [accessToken, setAccessToken] = useState<IdTokenResult | undefined>(undefined);
+  const {accessLoaded, accessToken, client} = useApolloToken();
   const [fonts, fontLoaded] = useCustomFonts();
-  const [accessLoaded, setAccessLoaded] = useState<boolean>(false);
+  
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
 
-  
-
- // Gère l'authentification automatique à l'application
- useEffect(() => {
-  const sub = firebaseAuth.onAuthStateChanged((user) => {
-    if (user == null){ // Pas authentifié
-      setAccessLoaded(true);
-      setAccessToken(accessToken);
-      return null;
-    }
-    user // Authentification possible
-      ?.getIdTokenResult()
-      .then((accessToken) => {
-        setAccessToken(accessToken);
-      })
-      .catch((error) => console.error(error))
-      .finally(()=>setAccessLoaded(true));
-  });
-  return sub;
-}, []);
-
-  const httpLink = new HttpLink({
-    uri: env.BACKEND_APP_URI,
-  });
-
-  const authLink = setContext((_, { headers }) => {
-    
-    return {
-      preserveHeaderCase: true,
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${accessToken?.token}`,
-      },
-    };
-  });
-
-
-  const client = new ApolloClient({
-    uri: env.BACKEND_APP_URI,
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
-  });
-  (async ()=>{
-    await client.clearStore();
-  })();
 
   // Pour la géolocalisation
   useEffect(() => {
@@ -130,42 +60,7 @@ function App(): JSX.Element {
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
-            <Stack.Navigator initialRouteName={accessToken?.token ? "Dashboard" : "Bienvenue"}
-                screenOptions={{
-                  headerShown: false
-                }}
-              >
-                {accessToken?.token ? (
-                  <>
-                    <Stack.Screen name="Dashboard" component={TabNavigator} />
-                    <Stack.Screen
-                      name="ModifierProfil"
-                      component={EditProfileScreen}
-                      initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                    />
-                    <Stack.Screen
-                      name="Profil"
-                      component={ProfileScreen}
-                      initialParams={{ uid: firebaseAuth.currentUser?.uid }}
-                    />                    
-                  </>
-                ) : (
-                  <>
-                    <Stack.Screen
-                      name="Bienvenue"
-                      component={BienvenueScreen}
-                    />
-                    <Stack.Screen
-                      name="Inscription"
-                      component={InscriptionScreen}
-                    />
-                    <Stack.Screen
-                      name="Connexion"
-                      component={ConnexionScreen}
-                    />
-                  </>
-                )}
-              </Stack.Navigator>
+              <RootNavigator isAuthentified={accessToken?.token != null}/>
             </MainLayout>
           </NavigationContainer>
         </UserLocationContext.Provider>

@@ -1,5 +1,5 @@
 export interface Place {
-    // Définir les propriétésd'une place
+    // Définir les propriétés d'une place
     name: string;
     address: string;
     vicinity: string;

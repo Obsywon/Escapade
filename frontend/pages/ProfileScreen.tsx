@@ -2,32 +2,36 @@ import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import UserInfo from "../components/Profile/UserInfo";
 import MenuProfile from "../components/Profile/MenuProfile";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { ColorScheme } from "../themes/CustomColors";
 import BasicButton from "../components/forms/BasicButton";
-import { AppNavigatorParamList } from "../App";
 import { USER_BY_ID_QUERY, getUserById } from "../services/userService";
 import LoadingSurface from "../components/LoadingSurface";
 import { firebaseAuth } from "../services/AuthService";
 import { ActivityIndicator, Text, Surface } from "react-native-paper";
-import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useApolloClient } from "@apollo/client";
+import { signOut } from "firebase/auth";
+import { AppNavigatorParamList } from "../navigation/RootNavigator";
 
-export default function ProfileScreen(): JSX.Element {
-  const navigation = useNavigation<StackNavigationProp<AppNavigatorParamList>>();
 
-  const { disconnectUserFromFirebase } = useFirebaseAuth();
+type ProfileScreenProps = StackScreenProps<AppNavigatorParamList, "Profil">;
+
+export default function ProfileScreen({ navigation }: Readonly<ProfileScreenProps>): JSX.Element {
+
 
   const uid = firebaseAuth.currentUser?.uid;
 
-  const { loading, user, error } = getUserById(uid?? "")
+  const { loading, user, error } = getUserById(uid ?? "")
   const client = useApolloClient();
-  
-  useEffect(()=>{
+
+  async function disconnect(): Promise<void> {
+    await signOut(firebaseAuth);
+  }
+
+  useEffect(() => {
     // Recharge les dernières infos du profil
-    navigation.addListener('focus', ()=>{
-      (async ()=>{
+    navigation.addListener('focus', () => {
+      (async () => {
         await client.refetchQueries({
           include: [USER_BY_ID_QUERY]
         })
@@ -41,9 +45,9 @@ export default function ProfileScreen(): JSX.Element {
       <LoadingSurface />
     )
   }
-  
 
-  if (error){
+
+  if (error) {
     return (
       <View>
         <Text>{error?.message}</Text>
@@ -66,19 +70,20 @@ export default function ProfileScreen(): JSX.Element {
       <View style={styles.buttonContainer}>
         <BasicButton
           label="Modifier le profil"
-          onPress={() => navigation.push("ModifierProfil", {uid})}
+          onPress={() => navigation.push("ModifierProfil")}
           color={ColorScheme.secondary}
           disabled={loading}
         />
       </View>
       <MenuProfile />
-      
-      <BasicButton
+      <View style={styles.buttonContainer}>
+        <BasicButton
           label="Se déconnecter"
-          onPress={disconnectUserFromFirebase}
+          onPress={disconnect}
           color={ColorScheme.secondary}
           disabled={loading}
         />
+      </View>
     </View>
   );
 }
