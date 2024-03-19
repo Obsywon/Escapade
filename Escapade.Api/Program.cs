@@ -30,7 +30,7 @@ var firebaseApp = FirebaseApp.Create(new AppOptions
 builder.Services.AddSingleton(firebaseApp);
 builder.Services.AddFirebaseAuthentication();
 
-// Lire la configuration CosmoDb depuis le fichier appsettings.json
+//  Lire la configuration CosmoDb depuis le fichier appsettings.json
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json")
