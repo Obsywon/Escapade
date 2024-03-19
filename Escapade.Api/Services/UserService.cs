@@ -17,7 +17,6 @@ namespace Escapade.Api.Services
         {
             try
             {
-                // Vérifiez si l'email existe déjà dans votre système
                 var user = await _repository.GetByConditionAsync(x => x.Email == email);
 
                 if (user != null)
