@@ -1,0 +1,48 @@
+name: .NET Core CI
+
+on:
+  push:
+    branches:
+      - refactor-from-dev
+    paths:
+      - 'Escapade.Api/**'
+
+env:
+  AZURE_WEBAPP_NAME: EscapadeApi20240115214733
+  AZURE_WEBAPP_PACKAGE_PATH: 'Escapade.Api'
+  DOTNET_VERSION: '6.0.x'
+  APP_SOLUTION: 'Escapade.sln'
+  COSMO_DATABASE_NAME: ${{ secrets.COSMO_DATABASE_NAME }}
+  COSMO_ACCOUNT_KEY: ${{ secrets.COSMO_ACCOUNT_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@main
+      
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+      
+      # Run dotnet build and publish
+      - name: dotnet build and publish
+        run: |
+          pwd
+          ls
+          cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          dotnet restore ${{ env.APP_SOLUTION }}
+          dotnet build --configuration Release ${{ env.APP_SOLUTION }}
+          dotnet publish -c Release ${{ env.APP_SOLUTION }} --property:PublishDir='build' 
+          
+      # Deploy to Azure Web apps
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
+        uses: azure/webapps-deploy@v3
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/build'
