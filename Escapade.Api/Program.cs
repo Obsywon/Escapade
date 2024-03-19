@@ -8,6 +8,7 @@ using Escapade.Api.Services.Interfaces;
 using FirebaseAdmin;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Path = System.IO.Path;
 
@@ -16,6 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Lire la configuration Firebase depuis le fichier firebase-config.json
 var firebaseConfigPath = Path.Combine(builder.Environment.ContentRootPath, "firebase-config.json");
 var firebaseConfig = File.ReadAllText(firebaseConfigPath);
+
+var accountKey = builder.Configuration["CosmoDb:accountKey"];
+var databaseName = builder.Configuration["CosmoDb:databaseName"];
 
 // Configure Firebase
 var firebaseApp = FirebaseApp.Create(new AppOptions
@@ -32,8 +36,9 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-string databaseName = configuration.GetValue<string>("CosmosDb:DatabaseName");
+
 string connectionString = configuration.GetValue<string>("CosmosDb:ConnectionString");
+connectionString += accountKey;
 
 
 // Configure CosmoDb
@@ -67,7 +72,6 @@ builder.Services
     .AddTypes()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>()
-
     .AddMutationConventions(applyToAllMutations: true)
 
     .RegisterService<IUserService>(ServiceKind.Resolver) // -- UserService
