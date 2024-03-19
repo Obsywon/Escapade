@@ -1,7 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCache, NormalizedCacheObject } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useEffect, useState } from "react";
-import env from "../env";
 import { firebaseAuth } from "../services/AuthService";
 import { IdTokenResult } from "firebase/auth";
 
@@ -37,7 +36,7 @@ export default function useApolloToken() : ApolloTokenHookReturn
     }, []);
 
     const httpLink = new HttpLink({
-        uri: env.BACKEND_APP_URI,
+        uri: process.env.EXPO_PUBLIC_BACKEND_APP_URI,
     });
 
     const authLink = setContext((_, { headers }) => {
@@ -53,7 +52,7 @@ export default function useApolloToken() : ApolloTokenHookReturn
 
 
     const client = new ApolloClient({
-        uri: env.BACKEND_APP_URI,
+        uri: process.env.EXPO_PUBLIC_BACKEND_APP_URI,
         link: authLink.concat(httpLink),
         cache: new InMemoryCache(),
     });
