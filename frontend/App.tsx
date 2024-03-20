@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, Portal } from "react-native-paper";
 import MainLayout from "./layouts/MainLayout";
 
 import { CustomTheme } from "./themes/CustomTheme";
@@ -60,7 +60,9 @@ function App(): JSX.Element {
         <UserLocationContext.Provider value={{ location, setLocation }}>
           <NavigationContainer>
             <MainLayout>
+            <Portal.Host>
               <RootNavigator isAuthentified={accessToken?.token != null}/>
+              </Portal.Host>
             </MainLayout>
           </NavigationContainer>
         </UserLocationContext.Provider>

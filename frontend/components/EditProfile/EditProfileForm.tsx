@@ -10,14 +10,12 @@ import Validator from 'validator';
 import { cityRules, countryRules, descriptionRules, lastNameRules, nameRules } from "../../services/formRules";
 import BasicButton from "../forms/BasicButton";
 import { useNavigation } from "@react-navigation/native";
-import { ColorScheme } from "../../themes/CustomColors";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../../services/userService";
-import { isLoading } from "expo-font";
 import ErrorText from "../forms/ErrorText";
 import { useState } from "react";
 
-import { RadioButton, SegmentedButtons } from "react-native-paper";
+import { SegmentedButtons } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamList } from "../../navigation/RootNavigator";
 

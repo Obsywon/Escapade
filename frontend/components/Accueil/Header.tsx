@@ -12,7 +12,7 @@ export default function Header() {
             </View>
             <View style={styles.contentContainer}>
                 <Logo style={styles.logo} />
-                <TextInput placeholder='Search' style={styles.searchbar} />
+                {/*<TextInput placeholder='Search' style={styles.searchbar} />*/}
                 <Image source={require('./../../assets/user.png')} style={styles.userImage} />
             </View>
         </View>
@@ -32,8 +32,10 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 16,
         gap: 10,
     },
     logo: {
