@@ -16,6 +16,23 @@ export const nameRules = {
     },
 }
 
+export const placeNameRules = {
+  required: true,
+  minLength: {
+    value: 3,
+    message: 'Le nom du lieu doit faire au moins 3 caractères',
+  },
+}
+
+export const placeDescriptionRules = {
+  minLength: {
+    value: 3,
+    message: 'La description du lieu doit faire au moins 3 caractères',
+  },
+}
+
+
+
 export const cityRules = {
   required: true,
     minLength: {

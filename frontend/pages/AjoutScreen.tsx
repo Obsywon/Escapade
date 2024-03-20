@@ -1,134 +1,178 @@
-import React, { useState, useContext } from 'react';
-import { Button, TextInput, View, StyleSheet, Modal } from 'react-native';
-import { Text, Checkbox } from 'react-native-paper';
+import React, { useState, useContext, useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, TextInput, Modal, Portal, Text, Card, IconButton, Chip } from 'react-native-paper'
 import { BottomTabParamList } from '../navigation/TabNavigator';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import GoogleMapView from '../components/Accueil/GoogleMapView';
-import { getAllPlace } from '../services/placeService';
+import { useMutation } from '@apollo/client';
+import { CREATE_PLACE } from '../services/placeService';
+import { useForm } from 'react-hook-form';
+
 
 type AjoutScreenProps = BottomTabScreenProps<BottomTabParamList, 'Ajout'>;
-
-interface userLocationProps {
-  userLocationContext?: UserLocationContextType;
+type LocalPlace = {
+  longitude: number,
+  latitude: number,
 }
 
 export default function AjoutScreen(): JSX.Element {
-  const [nom, setName] = useState('');
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const userLocationContext = useContext<UserLocationContextType>(UserLocationContext);
-  const [coordinates, setCoordinates] = useState([0, 0]);
-  const [localCoordinates, setLocalCoordinates] = useState(false);
-  const [coordinatesManually, setCoordinatesManually] = useState(false);
-  const [takePicture, setTakePicture] = useState(false);
-  const [uploadedPicture, setUploadedPicture] = useState(false);
+  const [coordinatesManually, setCoordinatesManually] = useState<number[] | undefined>();
+  const [useLocalCoordinates, setUseLocalCoordinates] = useState<boolean | undefined>();
+
   const [showModal, setShowModal] = useState(false);
 
-  const handleSecondMapMarkerChange = (newMarker: { latitude: number; longitude: number } | undefined) => {
-    if(newMarker)
-      setCoordinates([newMarker?.latitude,newMarker?.longitude]);
-  };
+  const [errorName, setErrorName] = useState<boolean>(false);
+  const [errorPlace, setErrorPlace] = useState<boolean>(false);
 
-  function handleLocalCoordinatesToggle() {
-    setLocalCoordinates(!localCoordinates);
-    setCoordinatesManually(false);
+  const [createPlace, { loading, error }] = useMutation(CREATE_PLACE);
+
+
+  function openModal(): void {
+    setUseLocalCoordinates(false);
+    setShowModal(true);
   }
 
-  function handleCoordinatesManuallyToggle() {
-    setCoordinatesManually(!coordinatesManually);
-    setLocalCoordinates(false);
-    setShowModal(!coordinatesManually); 
+  function handleSecondMapMarkerChange(newMarker: LocalPlace | undefined): void {
+    if (newMarker != null) setCoordinatesManually([newMarker.latitude, newMarker.longitude]);
   }
-  
 
-  function handleSubmit(): void {
-    if (localCoordinates) {
-      if (userLocationContext?.location) {
-        setCoordinates([userLocationContext.location.coords.latitude, userLocationContext.location.coords.longitude]);
-      } 
-    } 
+
+
+  async function submit(): Promise<void> {
+    let coords: number[] | undefined = undefined;
+
+    if (useLocalCoordinates) {
+      if (userLocationContext?.location?.coords != null) {
+        coords = [userLocationContext.location?.coords.latitude, userLocationContext.location?.coords.longitude];
+      }
+    } else {
+      coords = coordinatesManually;
+    }
+    setErrorName(name.length < 3)
+    setErrorPlace(coords == null);
+
+    
+
+    if (name.length < 3 || coords == null) return;
+/*
+    const newPlace = {
+      name: name,
+      description: description,
+      latitude: coords[0],
+      longitude: coords[1],
+    }
+
+    
+    createPlace({
+      variables: { input: newPlace },
+      onCompleted: (data) => {
+          console.log("COMPLETED new place: ", data);
+      },
+      onError: (err) => (console.log(err)),
+      fetchPolicy: 'no-cache',
+  });
+  */
+
 
     setName('');
-    setCoordinates([0, 0]);
+    setDescription('');
+    setCoordinatesManually(undefined);
+    setUseLocalCoordinates(undefined);
     setShowModal(false);
   }
 
+
+  const CloseButton = () => useMemo(() => <IconButton icon="close" iconColor="red" size={24} onPress={() => setShowModal(false)} />, []);
+
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Text style={styles.label}>Nom :</Text>
-      <TextInput
-        style={styles.input}
-        value={nom}
-        onChangeText={setName}
-        placeholder="Entrez le nom du lieu"
-      />
 
-      <Text style={styles.label}>Coordonnées du lieu :</Text>
+    <>
+      <Portal>
+        <Modal visible={showModal} contentContainerStyle={{ paddingHorizontal: 24, paddingVertical: 80 }}>
+          <Card mode='elevated'>
+            <Card.Title title="Sélectionner le lieu" subtitle="Taper sur la carte pour sélectionner le lieu"
+              right={CloseButton}
+            >
+            </Card.Title>
+            <Card.Content>
+              <View style={{
+                borderRadius: 8,
+                overflow: "hidden",
+                width: '100%',
+                height: '90%',
+              }}>
+                <GoogleMapView onSecondMapMarkerChange={handleSecondMapMarkerChange} />
+              </View>
+              <Button mode="contained" onPress={() => setShowModal(false)}>Fermer </Button>
+            </Card.Content>
+          </Card>
+        </Modal>
+      </Portal>
 
-      <View style={styles.checkboxContainer}>
-        <Checkbox
-          status={localCoordinates ? 'checked' : 'unchecked'}
-          onPress={handleLocalCoordinatesToggle}
+
+      <View style={styles.screen}>
+        <Text variant='displaySmall'>Ajouter un lieu</Text>
+        <TextInput
+          mode='outlined'
+          label="Nom"
+          value={name}
+          onChangeText={setName}
+          placeholder="Entrez le nom du nouveau lieu"
         />
-        <Text>Prendre les coordonnées du lieu actuel</Text>
-      </View>
 
-      <View style={styles.checkboxContainer}>
-        <Checkbox
-          status={coordinatesManually ? 'checked' : 'unchecked'}
-          onPress={handleCoordinatesManuallyToggle}
+        <TextInput
+          mode='outlined'
+          label="Description"
+          value={description}
+          onChangeText={setDescription}
+          placeholder="Descrivez le lieu (optionnel)"
+          multiline={true}
+          numberOfLines={3}
         />
-        <Text>Rajouter les coordonnées manuellement</Text>
-      </View>
 
-      <Modal visible={showModal} animationType="slide">
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Saisir les coordonnées manuellement</Text>
-          <GoogleMapView  onSecondMapMarkerChange={handleSecondMapMarkerChange}/>
-          <Button title="Fermer" onPress={() => setShowModal(false)} />
+        <Text variant='headlineSmall'>Coordonnées du lieu :</Text>
+
+        <View style={styles.buttonContainer}>
+          <Chip
+            mode='outlined'
+            onPress={() => setUseLocalCoordinates(true)}
+            showSelectedCheck={true}
+            selected={useLocalCoordinates}
+          >Utiliser votre position actuelle</Chip>
+          <Chip
+            mode='outlined'
+            showSelectedCheck={true}
+            selected={!useLocalCoordinates && coordinatesManually != null}
+            onPress={openModal}
+          >Sélectionner la position manuellement</Chip>
         </View>
-      </Modal>
+        <Button mode='contained' loading={loading} disabled={errorName || errorPlace} onPress={submit}>Soumettre</Button>
 
-      <Text style={styles.label}>Photo du lieu :</Text>
-      <View style={styles.checkboxContainer}>
-        <Checkbox
-          status={takePicture ? 'checked' : 'unchecked'}
-          onPress={() => setTakePicture(!takePicture)}
-        />
-        <Text>Prendre une photo avec la caméra</Text>
       </View>
-
-      <View style={styles.checkboxContainer}>
-        <Checkbox
-          status={uploadedPicture ? 'checked' : 'unchecked'}
-          onPress={() => setUploadedPicture(!uploadedPicture)}
-        />
-        <Text>Télécharger une photo</Text>
-      </View>
-
-      <Button title="Soumettre" onPress={handleSubmit} />
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     padding: 20,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 15,
-    padding: 10,
+    gap: 24
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
+    gap: 8,
   },
+  buttonContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 8,
+    justifyContent: 'center'
+  }
 });
