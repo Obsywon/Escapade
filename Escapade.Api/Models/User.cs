@@ -42,7 +42,7 @@ namespace Escapade.Api.Models
         public ICollection<Post>? Posts { get; set; } = new List<Post>();
 
         [JsonProperty(PropertyName = "PlacesAddedByUser")]
-        public ICollection<PlaceAddedByUser>? PlacesAddedByUser { get; set; } = new List<PlaceAddedByUser>();
+        public ICollection<Place>? PlacesAddedByUser { get; set; } = new List<Place>();
 
         [JsonProperty(PropertyName = "FavoritesPlaces")]
         public ICollection<FavoritePlace>? FavoritePlaces { get; set; } = new List<FavoritePlace>();

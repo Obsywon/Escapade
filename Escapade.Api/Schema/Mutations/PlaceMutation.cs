@@ -33,10 +33,11 @@ namespace Escapade.Api.Schema.Mutations
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<Place> CreatePlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string name, string description, double latitude, double longitude, CancellationToken cancellationToken)
         {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
+            var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             Place place = new Place
             {
+                UserId = userId,
                 Name = name,
                 Description = description,
             };

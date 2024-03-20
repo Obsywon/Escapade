@@ -54,11 +54,6 @@ namespace Escapade.Api.Schema.Mutations
             // Récupérer l'ID Firebase de l'utilisateur nouvellement créé
             string uidString = firebaseUser.Uid;
 
-
-            // Récupérer le token Firebase associé à l'utilisateur
-            //string firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(uidString);
-
-
             // Créer un nouvel utilisateur
             User newUser = new User
             {
@@ -68,7 +63,6 @@ namespace Escapade.Api.Schema.Mutations
                 Email = email,
                 Password = password,
                 BirthDate = birthDate,
-                //Token = firebaseToken,
             };
 
             // Enregistrer l'utilisateur dans CosmoDb

@@ -9,11 +9,11 @@ namespace Escapade.Api.Services
     {
         public PlaceService(IRepositoryPlace repository) : base(repository) { }
 
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUser(string userId)
+        public async Task<ICollection<Place>> GetAllPlaceAddedByUser(string userId)
         {
             try
             {
-                return (ICollection<PlaceAddedByUser>)await (_repository as PlaceAddedByUserRepository).GetByConditionAsync(place => place.UserId == userId);
+                return (ICollection<Place>)await GetByConditionAsync(place => place.UserId == userId);
             }
             catch(Exception ex)
             {

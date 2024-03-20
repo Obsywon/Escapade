@@ -8,14 +8,14 @@ namespace Escapade.Api.Repositories
     {
         public PlaceRepository(CosmosContext dbContext) : base(dbContext) { }
 
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAllUser()
+        public async Task<ICollection<Place>> GetAllPlaceAddedByAllUser()
         {
-            return await _dbContext.Set<PlaceAddedByUser>().ToListAsync();
+            return await _dbContext.Set<Place>().ToListAsync();
         }
 
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUser(string userId)
+        public async Task<ICollection<Place>> GetAllPlaceAddedByUser(string userId)
         {
-            return await _dbContext.Set<PlaceAddedByUser>().Where(place => place.UserId == userId).ToListAsync();
+            return await _dbContext.Set<Place>().Where(place => place.UserId == userId).ToListAsync();
         }
     }
 }

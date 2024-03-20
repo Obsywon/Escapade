@@ -12,6 +12,7 @@ import { ActivityIndicator, Text, Surface } from "react-native-paper";
 import { useApolloClient } from "@apollo/client";
 import { signOut } from "firebase/auth";
 import { AppNavigatorParamList } from "../navigation/RootNavigator";
+import { getAllPlace } from "../services/placeService";
 
 
 type ProfileScreenProps = StackScreenProps<AppNavigatorParamList, "Profil">;

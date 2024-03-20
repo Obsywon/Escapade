@@ -12,8 +12,6 @@ namespace Escapade.Api
 
         public CosmosContext(DbContextOptions<CosmosContext> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
         }
 
 
@@ -25,10 +23,6 @@ namespace Escapade.Api
 
             modelBuilder.Entity<Place>()
                 .ToContainer("Places")
-                .HasPartitionKey(e => e.Id);
-
-            modelBuilder.Entity<PlaceAddedByUser>()
-                .ToContainer("Places")  
                 .HasPartitionKey(e => e.Id);
 
             modelBuilder.Entity<Journey>()
