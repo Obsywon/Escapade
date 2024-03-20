@@ -5,6 +5,7 @@ import { BottomTabParamList } from '../navigation/TabNavigator';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import GoogleMapView from '../components/Accueil/GoogleMapView';
+import { getAllPlace } from '../services/placeService';
 
 type AjoutScreenProps = BottomTabScreenProps<BottomTabParamList, 'Ajout'>;
 

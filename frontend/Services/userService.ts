@@ -1,5 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { Account, UpdateAccount } from "../types/Account";
+import { gql, useQuery } from "@apollo/client";
 
 export const USER_BY_ID_QUERY = gql`
   query GetUserById($id: String!) {

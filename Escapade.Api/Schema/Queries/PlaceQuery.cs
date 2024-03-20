@@ -27,7 +27,7 @@ namespace Escapade.Api.Schema.Queries
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
+        public async Task<ICollection<Place>> GetAllPlaceAddedByUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string userId, CancellationToken cancellation)
         {
             await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllPlaceAddedByUser(userId);
@@ -35,25 +35,10 @@ namespace Escapade.Api.Schema.Queries
 
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByMeAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
+        public async Task<ICollection<Place>> GetAllPlaceAddedByMeAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
         {
             var userId = await Utils.VerifyFirebaseToken(httpContextAccessor);
             return await service.GetAllPlaceAddedByUser(userId);
-        }
-
-        [Authorize]
-        [Error(typeof(VerifyFirebaseTokenError))]
-        public async Task<ICollection<PlaceAddedByUser>> GetAllPlaceAddedByAllUserAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, CancellationToken cancellation)
-        {
-            await Utils.VerifyFirebaseToken(httpContextAccessor);
-
-            // Récupérer toutes les places
-            var allPlaces = await service.GetAllAsync();
-
-            // Filtrer uniquement les PlaceAddedByUser
-            var placesAddedByUsers = allPlaces.OfType<PlaceAddedByUser>().ToList();
-
-            return placesAddedByUsers;
-        }
+        }    
     }
 }
