@@ -1,44 +1,73 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState, useEffect } from "react";
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { PaperProvider, Portal } from "react-native-paper";
+import MainLayout from "./layouts/MainLayout";
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { CustomTheme } from "./themes/CustomTheme";
+import useCustomFonts from "./hooks/useCustomFonts";
+import LoadingSurface from "./components/LoadingSurface";
+
+import { ApolloProvider } from "@apollo/client";
+
+import * as Location from "expo-location";
+import { UserLocationContext } from "./contexts/UserLocationContext";
+
+
+import useApolloToken from "./hooks/useApolloClient";
+import RootNavigator from "./navigation/RootNavigator";
+
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const {accessLoaded, accessToken, client} = useApolloToken();
+  const [fonts, fontLoaded] = useCustomFonts();
+  
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+
+
+  // Pour la géolocalisation
+  useEffect(() => {
+    // Localisation
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("L'accès à la localisation a été refusé.");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      // console.log(location);
+    })();
+  }, []);
+
+  if (!fontLoaded || !accessLoaded) {
+    return (
+      <PaperProvider theme={CustomTheme}>
+        <LoadingSurface text="Chargement en cours..." />
+      </PaperProvider>
+    );
+  }
+
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}
-        />
-      </ScrollView>
-    </SafeAreaView>
+    <ApolloProvider client={client}>
+      <PaperProvider theme={{ ...CustomTheme, fonts }}>
+        <UserLocationContext.Provider value={{ location, setLocation }}>
+          <NavigationContainer>
+            <MainLayout>
+            <Portal.Host>
+              <RootNavigator isAuthentified={accessToken?.token != null}/>
+              </Portal.Host>
+            </MainLayout>
+          </NavigationContainer>
+        </UserLocationContext.Provider>
+      </PaperProvider>
+    </ApolloProvider>
   );
 }
 
