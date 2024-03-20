@@ -23,6 +23,11 @@ export default function AjoutScreen(): JSX.Element {
   const [uploadedPicture, setUploadedPicture] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const handleSecondMapMarkerChange = (newMarker: { latitude: number; longitude: number } | undefined) => {
+    if(newMarker)
+      setCoordinates([newMarker?.latitude,newMarker?.longitude]);
+  };
+
   function handleLocalCoordinatesToggle() {
     setLocalCoordinates(!localCoordinates);
     setCoordinatesManually(false);
@@ -39,8 +44,8 @@ export default function AjoutScreen(): JSX.Element {
     if (localCoordinates) {
       if (userLocationContext?.location) {
         setCoordinates([userLocationContext.location.coords.latitude, userLocationContext.location.coords.longitude]);
-      }
-    }
+      } 
+    } 
 
     setName('');
     setCoordinates([0, 0]);
@@ -78,6 +83,7 @@ export default function AjoutScreen(): JSX.Element {
       <Modal visible={showModal} animationType="slide">
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Saisir les coordonnées manuellement</Text>
+          <GoogleMapView  onSecondMapMarkerChange={handleSecondMapMarkerChange}/>
           <Button title="Fermer" onPress={() => setShowModal(false)} />
         </View>
       </Modal>
