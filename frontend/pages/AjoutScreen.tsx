@@ -58,7 +58,7 @@ export default function AjoutScreen(): JSX.Element {
     
 
     if (name.length < 3 || coords == null) return;
-
+/*
     const newPlace = {
       name: name,
       description: description,
@@ -66,8 +66,7 @@ export default function AjoutScreen(): JSX.Element {
       longitude: coords[1],
     }
 
-    console.log(newPlace);
-
+    
     createPlace({
       variables: { input: newPlace },
       onCompleted: (data) => {
@@ -76,6 +75,7 @@ export default function AjoutScreen(): JSX.Element {
       onError: (err) => (console.log(err)),
       fetchPolicy: 'no-cache',
   });
+  */
 
 
     setName('');
