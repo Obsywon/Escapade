@@ -1,17 +1,18 @@
 ﻿using Escapade.Api.Exceptions;
 using Escapade.Api.Models;
 using Escapade.Api.Services.Interfaces;
+using HotChocolate.Authorization;
 
 namespace Escapade.Api.Schema.Mutations
 {
     [ExtendObjectType(typeof(Mutation))]
     public class PlaceMutation
     {
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<Place> UpdatePlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor,string placeId, string name, string description, double latitude, double longitude, CancellationToken cancellationToken)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             Place place = null;
 
@@ -28,11 +29,11 @@ namespace Escapade.Api.Schema.Mutations
             return await service.UpdateAsync(place);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<Place> CreatePlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string name, string description, double latitude, double longitude, CancellationToken cancellationToken)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             Place place = new Place
             {
@@ -51,11 +52,11 @@ namespace Escapade.Api.Schema.Mutations
             return await service.CreateAsync(place);
         }
 
-        //[Authorize]
+        [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task DeletePlaceAsync(IPlaceService service, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
         {
-            //await Utils.VerifyFirebaseToken(httpContextAccessor);
+            await Utils.VerifyFirebaseToken(httpContextAccessor);
 
             Place place = null;
 
