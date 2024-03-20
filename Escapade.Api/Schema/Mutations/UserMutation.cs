@@ -71,51 +71,6 @@ namespace Escapade.Api.Schema.Mutations
             return user;       
         }
 
-        [AllowAnonymous]
-        [Error(typeof(BadCredentialLoginError))]
-        [Error(typeof(UserEmailNotFoundError))]
-        public async Task<User> LoginUserAsync(IUserService userService, string email, string psw, CancellationToken cancellation)
-        {
-            User user = await userService.GetUserByEmailAsync(email);
-
-            using (var httpClient = new HttpClient())
-            {
-                string firebaseUri = _configuration["Firebase:Uri"];
-                string firebaseApiKey = _configuration["Firebase:ApiKey"];
-
-                string apiUrl = $"{firebaseUri}{firebaseApiKey}";
-
-                var request = new
-                {
-                    email,
-                    password=psw,
-                    returnSecureToken = true
-                };
-
-                var response = await httpClient.PostAsJsonAsync(apiUrl, request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-
-                    // Désérialiser la réponse JSON
-                    var responseObject = JsonConvert.DeserializeObject<VerifyPasswordResponse>(responseContent);
-
-                    // Accéder à la propriété idToken
-                    string idToken = responseObject.IdToken;
-
-                    user.Token = idToken;
-                    var userUpdated = await userService.UpdateAsync(user);
-
-                    return userUpdated;
-                }
-
-                throw new BadCredentialLoginException(email, psw);
-            }
-
-        }
-
-
         [Authorize]
         [Error(typeof(VerifyFirebaseTokenError))]
         public async Task<User> AddNewFavoritePlaceAsync(IUserService userService, IPlaceService placeService, IHttpContextAccessor httpContextAccessor, string placeId, CancellationToken cancellationToken)
