@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 
 import { IdTokenResult, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "../services/AuthService";
+import { firebaseAuth } from "../service/AuthService";
 import { AppNavigatorParamList } from "../navigation/RootNavigator";
 import { StackScreenProps } from "@react-navigation/stack";
 

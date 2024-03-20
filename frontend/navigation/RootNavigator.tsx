@@ -4,7 +4,7 @@ import ConnexionScreen from "../pages/ConnexionScreen";
 import EditProfileScreen from "../pages/EditProfileScreen";
 import InscriptionScreen from "../pages/InscriptionScreen";
 import ProfileScreen from "../pages/ProfileScreen";
-import { firebaseAuth } from "../services/AuthService";
+import { firebaseAuth } from "../service/AuthService";
 import TabNavigator from "./TabNavigator";
 
 export type AppNavigatorParamList = {
