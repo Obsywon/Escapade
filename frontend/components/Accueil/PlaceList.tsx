@@ -13,8 +13,13 @@ export default function PlaceList({ placeList }: Readonly<PlaceListProps>) {
     <Surface style={styles.container}>
       <Text style={styles.texteTitre}>Found {placeList ? placeList.length : 0} places</Text>
 
+<<<<<<< HEAD
       {placeList.map((item) => (
        <PlaceItem key={item.name} place={item} />
+=======
+      {placeList.map((item, index) => (
+         <PlaceItem key={index} place={item} />
+>>>>>>> 0d3a7a1 (Ajout paramètres lieu)
     ))}
 
     </Surface>
