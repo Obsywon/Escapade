@@ -6,7 +6,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import GoogleMapView from '../components/Accueil/GoogleMapView';
 import { useMutation } from '@apollo/client';
-import { CREATE_PLACE } from '../services/placeService';
+import { CREATE_PLACE } from '../service/placeService';
 import { useForm } from 'react-hook-form';
 
 

@@ -16,7 +16,7 @@ import { UserInCreation, useInscription } from '../hooks/useInscription';
 
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { lastNameRules, nameRules } from '../services/formRules';
+import { lastNameRules, nameRules } from '../service/formRules';
 import { AppNavigatorParamList } from '../navigation/RootNavigator';
 
 type InscriptionFormData = {

@@ -3,7 +3,7 @@ import { View, Dimensions, StyleSheet, Linking, TouchableOpacity } from 'react-n
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import PlaceMarker from './PlaceMarker';
-import { API_KEY } from '../../services/GlobaleApi';
+import { API_KEY } from '../../service/GlobaleApi';
 import { UserLocationContextType, UserLocationContext } from '../../contexts/UserLocationContext';
 import CustomMarkerImage from '../../assets/logo.png';
 import { TransportationMode } from '../../models/TransportationMode';

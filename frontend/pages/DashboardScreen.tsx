@@ -6,7 +6,7 @@ import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import Picker from '@ouroboros/react-native-picker';
-import nearByPlace from '../services/GlobaleApi';
+import nearByPlace from '../service/GlobaleApi';
 import { StackScreenProps } from '@react-navigation/stack';
 import { TransportOptions, TransportationMode } from '../models/TransportationMode';
 import { TextInput, Text } from 'react-native-paper';

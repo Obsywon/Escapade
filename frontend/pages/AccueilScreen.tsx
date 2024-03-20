@@ -6,8 +6,8 @@ import CategoryList from '../components/Accueil/CategoryList';
 import PlaceList from '../components/Accueil/PlaceList';
 import { UserLocationContextType, UserLocationContext } from '../contexts/UserLocationContext';
 import Picker from '@ouroboros/react-native-picker';
-import nearByPlace from '../services/GlobaleApi';
-import { getAllPlace } from '../services/placeService';
+import nearByPlace from '../service/GlobaleApi';
+import { getAllPlace } from '../service/placeService';
 
 export default function AccueilScreen(): JSX.Element {
   const [placeList, setPlacelist] = useState([]);

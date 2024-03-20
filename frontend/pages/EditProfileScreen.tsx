@@ -2,12 +2,12 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { Surface, Text } from 'react-native-paper'
 import { StackScreenProps } from '@react-navigation/stack';
-import { getUserById } from '../services/userService';
+import { getUserById } from '../service/userService';
 import { ColorScheme, CustomColors } from '../themes/CustomColors';
 import { Account } from '../types/Account';
 import EditProfileForm from '../components/EditProfile/EditProfileForm';
 import { AppNavigatorParamList } from '../navigation/RootNavigator';
-import { firebaseAuth } from '../services/AuthService';
+import { firebaseAuth } from '../service/AuthService';
 
 
 type ModifierProfilScreenProps = StackScreenProps<AppNavigatorParamList, 'ModifierProfil'>

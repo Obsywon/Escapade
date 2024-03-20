@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCache, NormalizedCacheObject } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useEffect, useState } from "react";
-import { firebaseAuth } from "../services/AuthService";
+import { firebaseAuth } from "../service/AuthService";
 import { IdTokenResult } from "firebase/auth";
 
 

@@ -7,11 +7,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import DatePicker from "../forms/DatePicker";
 import BasicTextInput from "../forms/BasicTextInput";
 import Validator from 'validator';
-import { cityRules, countryRules, descriptionRules, lastNameRules, nameRules } from "../../services/formRules";
+import { cityRules, countryRules, descriptionRules, lastNameRules, nameRules } from "../../service/formRules";
 import BasicButton from "../forms/BasicButton";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
-import { UPDATE_USER } from "../../services/userService";
+import { UPDATE_USER } from "../../service/userService";
 import ErrorText from "../forms/ErrorText";
 import { useState } from "react";
 
