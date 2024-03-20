@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Escapade",
+    "slug": "escapade",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,8 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
         "googleServicesFile": "./google-services.json",
-        "package": "com.escapade.findplace",
-        "googleMapsApiKey": "AIzaSyAABNPGkjDak4g3bd2_BxB1SVo0omURGck"
+        "package": "com.escapade.findplace"
       }
     },
     "web": {
@@ -33,7 +32,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow Escapade to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Autoriser Escapade à accéder à votre localisation."
         }
       ]
     ]
