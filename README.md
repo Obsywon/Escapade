@@ -1,7 +1,8 @@
 ## EscapadeM2
 
 ### Description
-EscapadeM2 est une application mobile développée dans le cadre d'un projet universitaire. L'objectif principal de l'application est de fournir aux utilisateurs une plateforme pour découvrir et partager des destinations de voyage intéressantes, des activités et des conseils.
+EscapadeM2 est une application mobile conçue dans le cadre d'un projet universitaire. Son objectif principal est d'offrir aux utilisateurs une plateforme intuitive pour explorer et partager des destinations de voyage captivantes. De manière complémentaire, l'application vise à simplifier la planification d'itinéraires en permettant aux utilisateurs d'intégrer facilement les lieux découverts par d'autres voyageurs.
+
 
 ### Fonctionnalités principales
 - Recherche de lieux touristiques.
@@ -24,6 +25,26 @@ cd escapadeM2
 3. Accédez au répertoire du frontend.
 
 cd frontend
+
+4. Ajoutez le fichier **.env.local**
+
+Un fichier **.env** template est déjà disponible dans le projet.
+Ce fichier doit contenir ces informations :
+
+```
+EXPO_PUBLIC_BACKEND_APP_URI=
+
+
+EXPO_PUBLIC_FIREBASE_API_KEY=
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+EXPO_PUBLIC_FIREBASE_APP_ID=
+
+EXPO_PUBLIC_GOOGLE_BASE_URL=
+EXPO_PUBLIC_GOOGLE_API_KEY=
+```
 
 4. Installez les dépendances.
 
